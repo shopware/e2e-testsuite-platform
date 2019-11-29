@@ -29,5 +29,9 @@
   "engines": {
     "node": ">= 8.10.0",
     "npm": ">= 6.5.0"
+  },
+  "repository": "git://github.com/shopware/e2e-testsuite.git",
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com/"
   }
 }
