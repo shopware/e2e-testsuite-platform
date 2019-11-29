@@ -33,8 +33,6 @@ before(() => {
     cy.activateShopwareTheme();
 });
 
-console.log('Hello Moe, I\'m a message from the NPM package 👏');
-
 Cypress.Screenshot.defaults({
     capture: 'viewport'
 });

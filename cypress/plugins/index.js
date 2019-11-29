@@ -14,23 +14,6 @@
 require('@babel/register');
 const selectTestsWithGrep = require('cypress-select-tests/grep');
 
-console.log('');
-console.log('');
-console.log('');
-console.log('################################');
-console.log('');
-console.log('');
-console.log('');
-console.log('Yay, the plugins are loaded from the NPM package 🎉');
-
-console.log('');
-console.log('');
-console.log('');
-console.log('################################');
-console.log('');
-console.log('');
-console.log('');
-
 module.exports = (on, config) => {
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
