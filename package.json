@@ -2,10 +2,6 @@
   "name": "@shopware/e2e-testsuite",
   "version": "1.0.0",
   "description": "E2E Testsuite for Shopware using Cypress.js",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "e2e",
     "cypress",
@@ -14,5 +10,24 @@
     "fixtures"
   ],
   "author": "klarstil",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/register": "^7.7.4",
+    "axios": "^0.19.0",
+    "cypress": "^3.7.0",
+    "cypress-dark": "^1.7.14",
+    "cypress-file-upload": "^3.5.0",
+    "cypress-select-tests": "^1.4.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "lodash.sample": "^4.2.1",
+    "uuid": "^3.3.3"
+  },
+  "engines": {
+    "node": ">= 8.10.0",
+    "npm": ">= 6.5.0"
+  }
 }
