@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 /**
  * Activates Shopware theme for Cypress test runner
  * @memberOf Cypress.Chainable#
@@ -15,17 +16,11 @@ Cypress.Commands.add('activateShopwareTheme', () => {
         return;
     }
 
-    // TODO: Substring workaround for Cypress issue #4352, please remove asap
-    cy.readFile(themeFilename, {log: false}).then(() => {
-        $head.append(
-            `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/brands.css" integrity="sha384-i2PyM6FMpVnxjRPi0KW/xIS7hkeSznkllv+Hx/MtYDaHA5VcF0yL3KVlvzp8bWjQ" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/fontawesome.css" integrity="sha384-sri+NftO+0hcisDKgr287Y/1LVnInHJ1l+XC7+FOabmTTIK0HnE2ID+xxvJ21c5J" crossorigin="anonymous">`
-        );
-    }).then((css) => {
-        $head.append(
-            `<style type="text/css" id="cypress-shopware">\n${css}</style>`
-        );
-    });
+    $head.append(
+        `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/brands.css" integrity="sha384-i2PyM6FMpVnxjRPi0KW/xIS7hkeSznkllv+Hx/MtYDaHA5VcF0yL3KVlvzp8bWjQ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/fontawesome.css" integrity="sha384-sri+NftO+0hcisDKgr287Y/1LVnInHJ1l+XC7+FOabmTTIK0HnE2ID+xxvJ21c5J" crossorigin="anonymous">
+<link rel="stylesheet" href="https://gitcdn.xyz/repo/shopware/e2e-testsuite/master/theme/shopware.css" crossorigin="anonymous">`
+    );
 });
 
 /**
