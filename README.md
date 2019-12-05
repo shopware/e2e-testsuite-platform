@@ -1,7 +1,7 @@
-# E2E Testsuite for Shopware 6
+# E2E Platform Testsuite for Shopware 6
 
-![GitHub](https://img.shields.io/github/license/shopware/e2e-testsuite)
-![GitHub last commit](https://img.shields.io/github/last-commit/shopware/e2e-testsuite)
+![GitHub](https://img.shields.io/github/license/shopware/e2e-testsuite-platform)
+![GitHub last commit](https://img.shields.io/github/last-commit/shopware/e2e-testsuite-platform)
 
 
 This package contains the e2e test suite for Shopware 6. The test suite is built on top of [Cypress](https://github.com/cypress-io/cypress).
@@ -34,13 +34,13 @@ Inside the `Resources/app/<enviroment>/test/e2e` folder, please run `npm init -y
 Now install this package using the following command:
 
 ```bash
-npm install --save @shopware/e2e-testsuite#master
+npm install --save @shopware/e2e-testsuite-platform#master
 ```
 
 Next up, please create a new file `e2e/cypress/plugins/index.js` with the following content:
 
 ```js
-require('@shopware/e2e-testsuite/cypress/plugins');
+require('@shopware/e2e-testsuite-platform/cypress/plugins');
 
 module.exports = () => {};
 ```
@@ -49,7 +49,7 @@ Last but not least, create a new file `e2e/cypress/support/index.js` with the fo
 
 ```js
 // Require test suite commons
-require('@shopware/e2e-testsuite/cypress/support');
+require('@shopware/e2e-testsuite-platform/cypress/support');
 ```
 
 ## Running tests
