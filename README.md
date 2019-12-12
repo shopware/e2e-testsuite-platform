@@ -50,7 +50,7 @@ Inside the `Resources/app/<environment>/test/e2e` folder, please run `npm init -
 Now install this package using the following command:
 
 ```bash
-npm install --save @shopware/e2e-testsuite-platform#master
+npm install --save github:shopware/e2e-testsuite-platform#master
 ```
 
 Next up, please create a new file `e2e/cypress/plugins/index.js` with the following content:
