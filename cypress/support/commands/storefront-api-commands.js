@@ -28,7 +28,7 @@ Cypress.Commands.add('getSalesChannelId', () => {
 });
 
 /**
- * Do Storefront Api Requests
+ * Performs Storefront Api Requests
  * @memberOf Cypress.Chainable#
  * @name storefrontApiRequest
  * @function

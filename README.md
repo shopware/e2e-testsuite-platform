@@ -221,6 +221,46 @@ cy.get('.sw-cms-sidebar__block-preview')
   .dragTo('.sw-cms-section__empty-stage');
 ```
 
+### Storefront commands
+
+#### Get the sales channel Id via Admin API
+
+```js
+cy.getSalesChannelId()
+```
+
+#### Performs Storefront Api Requests
+
+```js
+cy.storefrontApiRequest(method, endpoint, header = {}, body = {})
+```
+
+#### Returns random product with id, name and url to view product
+
+```js
+cy.getRandomProductInformationForCheckout()
+```
+
+### System commands
+
+#### Activates Shopware theme for Cypress test runner
+
+```js
+cy.activateShopwareTheme();
+```
+
+#### Cleans up any previous state by restoring database and clearing caches
+
+```js
+cy.cleanUpPreviousState();
+```
+
+#### Opens up the administration initially and waits for the "me" call to be successful
+
+```js
+cy.openInitialPage();
+```
+
 ### API commands
 
 #### Authenticate towards the Shopware API
