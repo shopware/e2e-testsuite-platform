@@ -23,7 +23,7 @@ Resources
             `-- support
 ```
 
-Inside the `Resources/app/<enviroment>/test/e2e` folder, please run `npm init -y` to create a `package.json`. It's very convinient to place a script inside the newly created `package.json` to run the tests locally. To do so, please add the following section:
+Inside the `Resources/app/<enviroment>/test/e2e` folder, please run `npm init -y` to create a `package.json`. It's very convenient to place a script inside the newly created `package.json` to run the tests locally. To do so, please add the following section:
 
 ```json
 "scripts": {
@@ -40,9 +40,7 @@ npm install --save @shopware/e2e-testsuite-platform#master
 Next up, please create a new file `e2e/cypress/plugins/index.js` with the following content:
 
 ```js
-require('@shopware/e2e-testsuite-platform/cypress/plugins');
-
-module.exports = () => {};
+module.exports = require('@shopware/e2e-testsuite-platform/cypress/plugins');
 ```
 
 Last but not least, create a new file `e2e/cypress/support/index.js` with the following content:
@@ -107,3 +105,19 @@ Administration E2E:
 ```
 
 At the bottom of the configuration file we created another job called `Administration E2E`. It extends the previously created job `.E2E` and sets up enviroment variables to modify the plugin name as well as the enviroment (administration or storefront).
+
+## Local development of the testsuite
+
+It's possible to use a local clone of the testsuite instead of the package here on Github. It opens up the ability to write new commands and / or modify the behavior the testsuite without pushing it. [`npm link`](https://docs.npmjs.com/cli/link.html) provides a convenient way for it.
+
+```bash
+git clone git@github.com:shopware/e2e-testsuite-platform.git
+cd e2e-testsuite-platform
+npm link
+
+# Switch to the e2e folder inside your project for example:
+# custom/plugins/customized-product/src/Resources/app/storefront/test/e2e
+
+npm uninstall # removes the remote copy of the package from github
+npm link @shopware/e2e-testsuite-platform
+```
