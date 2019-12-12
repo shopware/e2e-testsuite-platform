@@ -5,6 +5,17 @@
 ![David](https://img.shields.io/david/shopware/e2e-testsuite-platform)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/shopware/e2e-testsuite-platform)
 
+* [Setup for plugins](#setup-for-plugins)
+* [Writing tests](#writing-tests)
+* [Locally running tests](#locally-running-tests)
+* [Gitlab integration](#gitlab-integration)
+* [Commands](#commands)
+  + [General commands](#general-commands)
+  + [Storefront commands](#storefront-commands)
+  + [System commands](#system-commands)
+  + [API commands](#api-commands)
+* [Local development of the testsuite](#local-development-of-the-testsuite)
+
 This package contains the e2e test suite for Shopware 6. The test suite is built on top of [Cypress](https://github.com/cypress-io/cypress) as well as the following Cypress plugins:
 
 - [`cypress-select-tests`](https://github.com/bahmutov/cypress-select-tests)
