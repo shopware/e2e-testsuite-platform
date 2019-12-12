@@ -111,6 +111,148 @@ Administration E2E:
 
 At the bottom of the configuration file we created another job called `Administration E2E`. It extends the previously created job `.E2E` and sets up enviroment variables to modify the plugin name as well as the enviroment (administration or storefront).
 
+## Commands
+
+The package contains a bunch of pre-built commands for easier navigation in the administration as well as storefront using Cypress.
+
+### General commands
+
+#### Switches administration UI locale to EN_GB
+
+```js
+cy.setLocaleToEnGb()
+```
+
+#### Logs in to the Administration manually
+
+```js
+cy.login(userType)
+```
+
+#### Types in an input element and checks if the content was correctly typed
+
+```js
+cy.get('input[name="companyName"]').typeAndCheck('shopware AG');
+```
+
+#### Clears field, types in an input element and checks if the content was correctly typed
+
+```js
+cy.get('input[name="companyName"]').clearTypeAndCheck('shopware AG');
+```
+
+#### Types in a sw-select field and checks if the content was correctly typed (multi select)
+
+```js
+cy.get('.select-payment-method')
+  .typeMultiSelectAndCheck('Invoice', {
+    searchTerm: 'Invoice'
+  });
+```
+
+#### Types in an sw-select field (single select)
+
+```js
+cy.get('.sw-sales-channel-switch')
+  .typeSingleSelect('Storefront', '.sw-entity-single-select');
+```
+
+#### Types in an sw-select field and checks if the content was correctly typed (single select)
+
+```js
+cy.get('.sw-sales-channel-switch')
+  .typeSingleSelectAndCheck('Storefront', '.sw-entity-single-select');
+```
+
+#### Types in an legacy swSelect field and checks if the content was correctly typed
+
+```js
+cy.get('.sw-settings-shipping-detail__delivery-time')
+  .typeLegacySelectAndCheck(
+    '1-3 days', {
+        searchTerm: '1-3 days'
+    }
+);
+```
+
+#### Types in the global search field and verify search terms in url
+
+```js
+cy.get('.sw-search-bar__input').typeAndCheckSearchField('Ruler');
+```
+
+#### Wait for a notification to appear and check its message
+
+```js
+cy.awaitAndCheckNotification('Shipping method "Luftpost" has been deleted.');
+```
+
+#### Click context menu in order to cause a desired action
+
+```js
+cy.clickContextMenuItem(
+    '.sw-customer-list__view-action',
+    '.sw-context-button__button',
+    `.sw-data-grid__row--0`
+);
+```
+
+#### Navigate to module by clicking the corresponding main menu item
+
+```js
+cy.clickMainMenuItem({
+    targetPath: '#/sw/product/index',
+    mainMenuId: 'sw-catalogue',
+    subMenuId: 'sw-product'
+});
+```
+
+#### Click user menu to open it up
+
+```js
+cy.openUserActionMenu();
+```
+
+#### Performs a drag and drop operation
+
+```js
+cy.get('.sw-cms-sidebar__block-preview')
+  .first()
+  .dragTo('.sw-cms-section__empty-stage');
+```
+
+### API commands
+
+#### Authenticate towards the Shopware API
+
+```js
+cy.authenticate()
+```
+
+#### Logs in silently using Shopware API
+
+```js
+cy.loginViaApi()
+```
+
+#### Search for an existing entity using Shopware API at the given endpoint
+
+```js
+cy.searchViaAdminApi(data)
+```
+
+#### Handling API requests
+
+```js
+cy.requestAdminApi(method, url, requestData)
+```
+
+#### Updates an existing entity using Shopware API at the given endpoint
+
+```js
+cy.updateViaAdminApi(endpoint, id, data)
+```
+
 ## Local development of the testsuite
 
 It's possible to use a local clone of the testsuite instead of the package here on Github. It opens up the ability to write new commands and / or modify the behavior of the testsuite without pushing it to the `master` branch. [`npm link`](https://docs.npmjs.com/cli/link.html) provides a convenient way for it.
