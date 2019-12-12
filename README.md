@@ -8,12 +8,12 @@ This package contains the e2e test suite for Shopware 6. The test suite is built
 
 ## Setup for plugins
 
-Depending on your enviroment (administration or storefront) please create the following folder structure:
+Depending on your environment (administration or storefront) please create the following folder structure:
 
 ```text
 Resources
   `-- app
-    `-- administration
+    `-- <environment>
       `-- test
         `-- e2e
           `-- cypress
@@ -23,7 +23,7 @@ Resources
             `-- support
 ```
 
-Inside the `Resources/app/<enviroment>/test/e2e` folder, please run `npm init -y` to create a `package.json`. It's very convenient to place a script inside the newly created `package.json` to run the tests locally. To do so, please add the following section:
+Inside the `Resources/app/<environment>/test/e2e` folder, please run `npm init -y` to create a `package.json`. It's very convenient to place a script inside the newly created `package.json` to run the tests locally. To do so, please add the following section:
 
 ```json
 "scripts": {
@@ -50,7 +50,7 @@ Last but not least, create a new file `e2e/cypress/support/index.js` with the fo
 require('@shopware/e2e-testsuite-platform/cypress/support');
 ```
 
-## Running tests
+## Writing tests
 
 Please head over to the [Cypress documentation](https://docs.cypress.io/guides/getting-started/writing-your-first-test.html#Add-a-test-file) to get familiar with the testing framework. As please get familar with our [guide on how to write test using Cypress](https://docs.shopware.com/en/shopware-platform-dev-en/how-to/end-to-end-tests-in-plugins).
 
