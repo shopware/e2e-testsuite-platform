@@ -118,6 +118,12 @@ Administration E2E:
     variables:
         MODULE: "administration"
         PLUGINAME: "SwagCustomizedProduct"
+
+Storefront E2E:
+    extends: .E2E
+    variables:
+        MODULE: "storefront"
+        PLUGINAME: "SwagCustomizedProduct"
 ```
 
 At the bottom of the configuration file we created another job called `Administration E2E`. It extends the previously created job `.E2E` and sets up enviroment variables to modify the plugin name as well as the enviroment (administration or storefront).
