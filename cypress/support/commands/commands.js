@@ -84,7 +84,7 @@ Cypress.Commands.add('typeAndCheck', {
 });
 
 /**
- * Types in an input element and checks if the content was correctly typed
+ * Clears field, types in an input element and checks if the content was correctly typed
  * @memberOf Cypress.Chainable#
  * @name clearTypeAndCheck
  * @function
@@ -100,7 +100,7 @@ Cypress.Commands.add('clearTypeAndCheck', {
 });
 
 /**
- * Types in an swSelect field and checks if the content was correctly typed
+ * Types in a sw-select field and checks if the content was correctly typed
  * @memberOf Cypress.Chainable#
  * @name typeMultiSelectAndCheck
  * @function
@@ -158,7 +158,7 @@ Cypress.Commands.add('typeMultiSelectAndCheck', {
 });
 
 /**
- * Types in an swSelect field
+ * Types in an sw-select field
  * @memberOf Cypress.Chainable#
  * @name typeSingleSelect
  * @function
@@ -205,7 +205,7 @@ Cypress.Commands.add('typeSingleSelect', {
 });
 
 /**
- * Types in an swSelect field and checks if the content was correctly typed
+ * Types in an sw-select field and checks if the content was correctly typed
  * @memberOf Cypress.Chainable#
  * @name typeSingleSelectAndCheck
  * @function
@@ -225,7 +225,7 @@ Cypress.Commands.add('typeSingleSelectAndCheck', {
 });
 
 /**
- * Types in an legacy swSelect field and checks if the content was correctly typed
+ * Types in an legacy sw-select field and checks if the content was correctly typed
  * @memberOf Cypress.Chainable#
  * @name typeLegacySelectAndCheck
  * @function
@@ -428,7 +428,7 @@ Cypress.Commands.add('reloadListing', (reloadSelectors = {
 });
 
 /**
- * Click user menu
+ * Click user menu to open it up
  * @memberOf Cypress.Chainable#
  * @name openUserActionMenu
  * @function
