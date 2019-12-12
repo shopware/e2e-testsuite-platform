@@ -2,9 +2,14 @@
 
 ![GitHub](https://img.shields.io/github/license/shopware/e2e-testsuite-platform)
 ![GitHub last commit](https://img.shields.io/github/last-commit/shopware/e2e-testsuite-platform)
+![David](https://img.shields.io/david/shopware/e2e-testsuite-platform)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/shopware/e2e-testsuite-platform)
 
+This package contains the e2e test suite for Shopware 6. The test suite is built on top of [Cypress](https://github.com/cypress-io/cypress) as well as the following Cypress plugins:
 
-This package contains the e2e test suite for Shopware 6. The test suite is built on top of [Cypress](https://github.com/cypress-io/cypress).
+- [`cypress-select-tests`](https://github.com/bahmutov/cypress-select-tests)
+- [`cypress-log-to-output`](https://github.com/flotwig/cypress-log-to-output)
+- [`cypress-file-upload`](https://github.com/abramenal/cypress-file-upload)
 
 ## Setup for plugins
 
@@ -64,7 +69,7 @@ CYPRESS_baseUrl=<your-url> npm run open
 
 It opens up the Cypress test runner which allows you to run and debug your tests.
 
-### Gitlab integration
+## Gitlab integration
 
 In the following configuration, a new job called `.E2E` was created as a template. It installs shopware, installs the plugin, initializes the administration and storefront, sets up a testing database and executes the tests.
 
@@ -108,7 +113,7 @@ At the bottom of the configuration file we created another job called `Administr
 
 ## Local development of the testsuite
 
-It's possible to use a local clone of the testsuite instead of the package here on Github. It opens up the ability to write new commands and / or modify the behavior the testsuite without pushing it. [`npm link`](https://docs.npmjs.com/cli/link.html) provides a convenient way for it.
+It's possible to use a local clone of the testsuite instead of the package here on Github. It opens up the ability to write new commands and / or modify the behavior of the testsuite without pushing it to the `master` branch. [`npm link`](https://docs.npmjs.com/cli/link.html) provides a convenient way for it.
 
 ```bash
 git clone git@github.com:shopware/e2e-testsuite-platform.git
