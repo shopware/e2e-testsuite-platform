@@ -1,6 +1,6 @@
 {
   "name": "@shopware/e2e-testsuite-platform",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "E2E Testsuite for Shopware using Cypress.js",
   "keywords": [
     "e2e",
