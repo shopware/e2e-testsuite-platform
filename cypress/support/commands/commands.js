@@ -200,8 +200,6 @@ Cypress.Commands.add('typeSingleSelect', {
     }
 
     cy.get(`${selector} .sw-select-result-list`).should('not.exist');
-
-    return this;
 });
 
 /**
@@ -220,8 +218,6 @@ Cypress.Commands.add('typeSingleSelectAndCheck', {
     // expect the placeholder for an empty select field not be shown and search for the value
     cy.get(`${subject.selector} .sw-select__selection .is--placeholder`).should('not.exist');
     cy.get(`${subject.selector} .sw-select__selection`).contains(value);
-
-    return this;
 });
 
 /**
