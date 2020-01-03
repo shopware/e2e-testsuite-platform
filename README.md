@@ -50,20 +50,20 @@ Inside the `Resources/app/<environment>/test/e2e` folder, please run `npm init -
 Now install this package using the following command:
 
 ```bash
-npm install --save github:shopware/e2e-testsuite-platform#master
+npm install --save @shopware-ag/e2e-testsuite-platform
 ```
 
 Next up, please create a new file `e2e/cypress/plugins/index.js` with the following content:
 
 ```js
-module.exports = require('@shopware/e2e-testsuite-platform/cypress/plugins');
+module.exports = require('@shopware-ag/e2e-testsuite-platform/cypress/plugins');
 ```
 
 Last but not least, create a new file `e2e/cypress/support/index.js` with the following content:
 
 ```js
 // Require test suite commons
-require('@shopware/e2e-testsuite-platform/cypress/support');
+require('@shopware-ag/e2e-testsuite-platform/cypress/support');
 ```
 
 ## Writing tests
@@ -109,7 +109,7 @@ In the following configuration, a new job called `.E2E` was created as a templat
         - chown -R 1000:1000 .
         - docker run --name cypress -d -t --add-host="docker.vm:$(hostname -I)" -e CYPRESS_baseUrl=http://docker.vm:8000 -v $(pwd)/custom/plugins/$PLUGINAME/src/Resources/app/$MODULE/test/e2e:/e2e -v $(pwd):/app cypress/browsers:node10.11.0-chrome75
         - docker exec cypress npm clean-install --prefix /e2e
-        - forever start custom/plugins/$PLUGINAME/src/Resources/app/$MODULE/test/e2e/node_modules/@shopware/e2e-testsuite/routes/cypress.js
+        - forever start custom/plugins/$PLUGINAME/src/Resources/app/$MODULE/test/e2e/node_modules/@shopware-ag/e2e-testsuite/routes/cypress.js
         - docker exec cypress npx cypress run --project /e2e --browser chrome --config baseUrl=http://docker.vm:8000 --config numTestsKeptInMemory=0 --spec e2e/cypress/integration/**/*
         - docker rm -f cypress
 
@@ -323,5 +323,5 @@ npm link
 # custom/plugins/customized-product/src/Resources/app/storefront/test/e2e
 
 npm uninstall # removes the remote copy of the package from github
-npm link @shopware/e2e-testsuite-platform
+npm link @shopware-ag/e2e-testsuite-platform
 ```
