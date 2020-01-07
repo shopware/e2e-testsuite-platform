@@ -76,5 +76,5 @@ class CustomerFixtureService extends AdminFixtureService {
     }
 }
 
-module.exprots = CustomerFixtureService;
+module.exports = CustomerFixtureService;
 global.CustomerFixtureService = new CustomerFixtureService();

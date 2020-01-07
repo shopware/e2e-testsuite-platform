@@ -154,7 +154,6 @@ Cypress.Commands.add('typeMultiSelectAndCheck', {
     // close search results
     cy.get(`${subject.selector} ${inputCssSelector}`).type('{esc}');
     cy.get(`${subject.selector} .sw-select-result-list`).should('not.exist');
-    return this;
 });
 
 /**
@@ -261,16 +260,13 @@ Cypress.Commands.add('typeLegacySelectAndCheck', {
         // expect the placeholder for an empty select field not be shown and search for the value
         cy.get(`${subject.selector} .sw-select__placeholder`).should('not.exist');
         cy.get(`${subject.selector} .sw-select__single-selection`).contains(value);
+    } else {
+        // in multi selects we can check if the value is a selected item
+        cy.get(`${subject.selector} .sw-select__selection-item`).contains(value);
 
-        return this;
+        // close search results
+        cy.get(`${subject.selector} ${inputCssSelector}`).type('{esc}');
     }
-
-    // in multi selects we can check if the value is a selected item
-    cy.get(`${subject.selector} .sw-select__selection-item`).contains(value);
-
-    // close search results
-    cy.get(`${subject.selector} ${inputCssSelector}`).type('{esc}');
-    return this;
 });
 
 /**
@@ -438,7 +434,6 @@ Cypress.Commands.add('openUserActionMenu', () => {
             cy.get('.sw-admin-menu__logout-action').should('be.visible');
         }
     });
-    return this;
 });
 
 /**
