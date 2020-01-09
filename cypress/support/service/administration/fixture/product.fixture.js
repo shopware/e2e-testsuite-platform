@@ -2,19 +2,23 @@ const AdminFixtureService = require('../fixture.service.js');
 
 class ProductFixture extends AdminFixtureService {
     setProductFixture(userData, categoryName = 'Catalogue #1') {
-        const findManufacturerId = () => this.search('tax', {
+        const taxName = userData.taxName || '19%';
+
+        delete userData.taxName;
+
+        const findTaxId = (name) => this.search('tax', {
             field: 'name',
             type: 'equals',
-            value: '19%'
+            value: name
         });
-        const findTaxId = () => this.search('product-manufacturer', {
+        const findManufacturerId = () => this.search('product-manufacturer', {
             field: 'name',
             type: 'equals',
             value: 'shopware AG'
         });
 
-        return Promise.all([findManufacturerId(), findTaxId()])
-            .then(([tax, manufacturer]) => {
+        return Promise.all([findManufacturerId(), findTaxId(taxName)])
+            .then(([manufacturer, tax]) => {
                 return Object.assign({}, {
                     taxId: tax.id,
                     manufacturerId: manufacturer.id
