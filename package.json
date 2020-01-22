@@ -18,11 +18,12 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "7.7.5",
     "@babel/plugin-proposal-object-rest-spread": "7.7.4",
     "@babel/preset-env": "7.7.6",
     "@babel/register": "7.7.4",
-    "@babel/core": "7.7.5",
     "axios": "0.19.0",
+    "cypress": "3.8.2",
     "cypress-dark": "1.7.14",
     "cypress-file-upload": "3.5.1",
     "cypress-log-to-output": "1.0.7",
@@ -31,9 +32,6 @@
     "lodash": "4.17.15",
     "lodash.sample": "4.2.1",
     "uuid": "3.3.3"
-  },
-  "devDependencies": {
-    "cypress": "3.8.1"
   },
   "engines": {
     "node": ">= 8.10.0",
