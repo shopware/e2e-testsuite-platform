@@ -39,18 +39,26 @@ Resources
             `-- support
 ```
 
-Inside the `Resources/app/<environment>/test/e2e` folder, please run `npm init -y` to create a `package.json`. It's very convenient to place a script inside the newly created `package.json` to run the tests locally. To do so, please add the following section:
-
-```json
-"scripts": {
-   "open": "node_modules/.bin/cypress open"
-},
-```
+We do not ship the cypress as a dependency. This makes it possible to run your e2e tests with a local installation of cypress while using a pre built docker image on ci.
+Inside the `Resources/app/<environment>/test/e2e` folder, please run `npm init -y` to create a `package.json`.
 
 Now install this package using the following command:
 
 ```bash
 npm install --save @shopware-ag/e2e-testsuite-platform
+```
+
+If needed add cypress as a dev-dependency for local usage:
+
+```bash
+npm install --save-ev cypress
+```
+
+It's very convenient to place a script inside the newly created `package.json` to run the tests locally. To do so, please add the following section:
+```bash
+"scripts": {
+   "open": "cypress open"
+}
 ```
 
 Next up, please create a new file `e2e/cypress/plugins/index.js` with the following content:
