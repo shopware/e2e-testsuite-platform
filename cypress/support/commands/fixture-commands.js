@@ -8,7 +8,7 @@ const AdminSalesChannelFixture= require('../service/administration/fixture/sales
 const Fixture = require('../service/administration/fixture.service');
 
 /**
- * Search for an existing entity using Shopware API at the given endpoint
+ * Create entity using Shopware API at the given endpoint
  * @memberOf Cypress.Chainable#
  * @name createDefaultFixture
  * @function
@@ -49,7 +49,7 @@ Cypress.Commands.add('createProductFixture', (userData = {}) => {
 });
 
 /**
- * Create product fixture using Shopware API at the given endpoint
+ * Create category fixture using Shopware API at the given endpoint
  * @memberOf Cypress.Chainable#
  * @name createCategoryFixture
  * @function
@@ -66,7 +66,7 @@ Cypress.Commands.add('createCategoryFixture', (userData = {}) => {
 });
 
 /**
- * Create product fixture using Shopware API at the given endpoint
+ * Create sales channel fixture using Shopware API at the given endpoint
  * @memberOf Cypress.Chainable#
  * @name createSalesChannelFixture
  * @function
@@ -263,7 +263,7 @@ Cypress.Commands.add('createGuestOrder', (productId, userData) => {
 });
 
 /**
- * Search for an existing entity using Shopware API at the given endpoint
+ * Sets Shopware back to its initial state
  * @memberOf Cypress.Chainable#
  * @name setToInitialState
  * @function
