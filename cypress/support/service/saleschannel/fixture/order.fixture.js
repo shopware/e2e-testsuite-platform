@@ -54,6 +54,18 @@ class OrderFixtureService extends SalesChannelFixtureService {
                 console.log('err :', err);
             });
     }
+
+    setPromotionFixture(userData) {
+        return this.adminApiClient.post('/v1/promotion?_response=true', userData);
+    }
+
+    setDiscountFixture(userData, promotionId) {
+        userData.promotion_discount.payload.forEach(item => {
+            item.promotionId = promotionId;
+        });
+
+        return this.adminApiClient.post('/v1/_action/sync', userData);
+    }
 }
 
 module.exports = OrderFixtureService;
