@@ -263,6 +263,29 @@ Cypress.Commands.add('createGuestOrder', (productId, userData) => {
 });
 
 /**
+ * Create promotion fixture
+ * @memberOf Cypress.Chainable#
+ * @name createPromotionFixture
+ * @function
+ * @param {Object} [userData={}] - Options concerning creation
+ */
+Cypress.Commands.add('createPromotionFixture', (userData = {}) => {
+    const fixture = new OrderFixture();
+    let promotionId = '';
+
+    return cy.fixture('promotion').then((result) => {
+        return Cypress._.merge(result, userData);
+    }).then((data) => {
+        return fixture.setPromotionFixture(data);
+    }).then((data) => {
+        promotionId = data.id;
+        return cy.fixture('discount');
+    }).then((result) => {
+        return fixture.setDiscountFixture(result, promotionId);
+    });
+});
+
+/**
  * Sets Shopware back to its initial state
  * @memberOf Cypress.Chainable#
  * @name setToInitialState
