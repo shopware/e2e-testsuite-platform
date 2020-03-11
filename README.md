@@ -68,7 +68,7 @@ require('@shopware-ag/e2e-testsuite-platform/cypress/support');
 
 ## Writing tests
 
-Please head over to the [Cypress documentation](https://docs.cypress.io/guides/getting-started/writing-your-first-test.html#Add-a-test-file) to get familiar with the testing framework. As please get familar with our [guide on how to write test using Cypress](https://docs.shopware.com/en/shopware-platform-dev-en/how-to/end-to-end-tests-in-plugins).
+Please head over to the [Cypress documentation](https://docs.cypress.io/guides/getting-started/writing-your-first-test.html#Add-a-test-file) to get familiar with the testing framework. As please get familar with our [documentation for Cypress in Shopware](https://docs.shopware.com/en/shopware-platform-dev-en/internals/testing/end-to-end-testing) and our  [how-to guide on how to write test using Cypress](https://docs.shopware.com/en/shopware-platform-dev-en/how-to/end-to-end-tests-in-plugins).
 
 ## Locally running tests
 
