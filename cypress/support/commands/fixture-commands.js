@@ -245,6 +245,19 @@ Cypress.Commands.add('createSnippetFixture', () => {
 });
 
 /**
+ * Create order fixture (as logged-in customer)
+ * @memberOf Cypress.Chainable#
+ * @name createOrder
+ * @function
+ * @param {String} productId - ID of the product to be added to the order
+ * @param {Object} customer - Options concerning customer
+ */
+Cypress.Commands.add('createOrder', (productId, customer) => {
+    const fixture = new OrderStorefrontFixture();
+    return fixture.createOrder(productId, customer);
+});
+
+/**
  * Create guest order fixture
  * @memberOf Cypress.Chainable#
  * @name createGuestOrder

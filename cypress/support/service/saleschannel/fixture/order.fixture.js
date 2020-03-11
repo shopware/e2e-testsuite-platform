@@ -1,6 +1,38 @@
 const SalesChannelFixtureService = require('../fixture.service.js');
 
 class OrderFixtureService extends SalesChannelFixtureService {
+    createOrder(productId, customer) {
+        return this.getClientId()
+            .then((result) => {
+                this.apiClient.setAccessKey(result);
+            })
+            .then(() => {
+                return this.apiClient.post('/v1/customer/login', JSON.stringify({
+                    username: customer.username,
+                    password: customer.password
+                }));
+            })
+            .then((contextToken) => {
+                return this.apiClient.setContextToken(contextToken['sw-context-token']);
+            })
+            .then(() => {
+                return this.apiClient.post('/v1/checkout/cart');
+            })
+            .then(() => {
+                return this.apiClient.post(`/v1/checkout/cart/line-item/${productId}`, {
+                    type: 'product',
+                    referencedId: productId,
+                    stackable: true
+                });
+            })
+            .then(() => {
+                return this.apiClient.post('/v1/checkout/order');
+            })
+            .catch((err) => {
+                console.log('err :', err);
+            });
+    }
+
     createGuestOrder(productId, json) {
         let customerRawData = json;
 
