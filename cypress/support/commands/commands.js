@@ -110,10 +110,7 @@ Cypress.Commands.add('clearTypeAndCheck', {
 Cypress.Commands.add('clearTypeCheckAndEnter', {
     prevSubject: 'element'
 }, (subject, value) => {
-    cy.wrap(subject).should('be.visible');
-    cy.wrap(subject).clear();
-    cy.wrap(subject).clear(); // To make sure it's cleared
-    cy.wrap(subject).type(value).should('have.value', value);
+    cy.wrap(subject).clearTypeAndCheck(value);
     cy.wrap(subject).type('{enter}');
 });
 
