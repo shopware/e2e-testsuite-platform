@@ -100,6 +100,23 @@ Cypress.Commands.add('clearTypeAndCheck', {
 });
 
 /**
+ * Clears field, types in an input element, checks if the content was correctly typed and presses enter
+ * @memberOf Cypress.Chainable#
+ * @name clearTypeCheckAndEnter
+ * @function
+ * @param {String} value - The value to type
+ */
+Cypress.Commands.add('clearTypeCheckAndEnter', {
+    prevSubject: 'element'
+}, (subject, value) => {
+    cy.wrap(subject).should('be.visible');
+    cy.wrap(subject).clear();
+    cy.wrap(subject).clear(); // To make sure it's cleared
+    cy.wrap(subject).type(value).should('have.value', value);
+    cy.wrap(subject).type('{enter}');
+});
+
+/**
  * Types in a sw-select field and checks if the content was correctly typed
  * @memberOf Cypress.Chainable#
  * @name typeMultiSelectAndCheck
