@@ -253,7 +253,8 @@ Cypress.Commands.add('createSnippetFixture', () => {
  * @param {Object} customer - Options concerning customer
  */
 Cypress.Commands.add('createOrder', (productId, customer) => {
-    const fixture = new OrderStorefrontFixture();
+    const fixture = new OrderFixture();
+
     return fixture.createOrder(productId, customer);
 });
 
