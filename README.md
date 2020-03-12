@@ -158,6 +158,12 @@ cy.get('input[name="companyName"]').typeAndCheck('shopware AG');
 cy.get('input[name="companyName"]').clearTypeAndCheck('shopware AG');
 ```
 
+#### Clears field, types in an input element, checks if the content was correctly typed and presses enter
+
+```js
+cy.get('input[name="companyName"]').clearTypeCheckAndEnter('shopware AG');
+```
+
 #### Types in a sw-select field and checks if the content was correctly typed (multi select)
 
 ```js
