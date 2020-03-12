@@ -13,8 +13,11 @@
 
 require('@babel/register');
 const selectTestsWithGrep = require('cypress-select-tests/grep');
+const logToOutput = require('cypress-log-to-output');
 
 module.exports = (on, config) => {
+    logToOutput.install(on);
+
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
     on('file:preprocessor', selectTestsWithGrep(config));
