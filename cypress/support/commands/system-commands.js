@@ -42,7 +42,6 @@ Cypress.Commands.add('cleanUpPreviousState', () => {
         .its('body').should('eq', 'success');
 });
 
-
 /**
  * Cleans up any previous state by restoring database and clearing caches
  * @memberOf Cypress.Chainable#
@@ -60,4 +59,16 @@ Cypress.Commands.add('openInitialPage', (url) => {
         expect(xhr).to.have.property('status', 200);
     });
     cy.get('.sw-desktop').should('be.visible');
+});
+
+/**
+ * Switches administration UI locale to EN_GB
+ * @memberOf Cypress.Chainable#
+ * @name setLocaleToEnGb
+ * @function
+ */
+Cypress.Commands.add('setLocaleToEnGb', () => {
+    return cy.window().then((win) => {
+        win.localStorage.setItem('sw-admin-locale', Cypress.env('locale'));
+    });
 });

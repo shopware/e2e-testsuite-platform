@@ -26,18 +26,6 @@
 require('cypress-file-upload');
 
 /**
- * Switches administration UI locale to EN_GB
- * @memberOf Cypress.Chainable#
- * @name setLocaleToEnGb
- * @function
- */
-Cypress.Commands.add('setLocaleToEnGb', () => {
-    return cy.window().then((win) => {
-        win.localStorage.setItem('sw-admin-locale', Cypress.env('locale'));
-    });
-});
-
-/**
  * Logs in to the Administration manually
  * @memberOf Cypress.Chainable#
  * @name login
@@ -81,6 +69,19 @@ Cypress.Commands.add('typeAndCheck', {
 }, (subject, value) => {
     cy.wrap(subject).should('be.visible');
     cy.wrap(subject).type(value).should('have.value', value);
+});
+
+/**
+ * Types in an input element and checks if the content was correctly typed (Storefront version)
+ * @memberOf Cypress.Chainable#
+ * @name typeAndCheck
+ * @function
+ * @param {String} value - The value to type
+ */
+Cypress.Commands.add('typeAndCheckStorefront', {
+    prevSubject: 'element'
+}, (subject, value) => {
+    cy.wrap(subject).type(value).invoke('val').should('eq', value);
 });
 
 /**
@@ -291,8 +292,6 @@ Cypress.Commands.add('assertRowWithLabelContains', {
             cy.get(`${columnSelector} > .sw-data-grid__cell-content`).contains(columnValue)
         });
 });
-
-
 
 /**
  * Types in the global search field and verify search terms in url

@@ -52,4 +52,4 @@ module.exports = class SalesChannelApiService extends ApiService {
     setContextToken(contextId) {
         this.contextToken = contextId;
     }
-}
+};
