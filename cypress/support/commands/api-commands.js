@@ -35,9 +35,10 @@ Cypress.Commands.add('authenticate', () => {
 Cypress.Commands.add('loginViaApi', () => {
     return cy.authenticate().then((result) => {
         return cy.window().then((win) => {
-            win.localStorage.setItem('bearerAuth', JSON.stringify(result));
+            cy.setCookie('bearerAuth', JSON.stringify(result));
+
             // Return bearer token
-            return win.localStorage.getItem('bearerAuth');
+            return cy.getCookie('bearerAuth');
         });
     });
 });
