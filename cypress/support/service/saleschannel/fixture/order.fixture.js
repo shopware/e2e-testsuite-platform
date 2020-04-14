@@ -7,7 +7,7 @@ class OrderFixtureService extends SalesChannelFixtureService {
                 this.apiClient.setAccessKey(result);
             })
             .then(() => {
-                return this.apiClient.post('/v1/customer/login', JSON.stringify({
+                return this.apiClient.post('/v*/customer/login', JSON.stringify({
                     username: customer.username,
                     password: customer.password
                 }));
@@ -16,17 +16,17 @@ class OrderFixtureService extends SalesChannelFixtureService {
                 return this.apiClient.setContextToken(contextToken['sw-context-token']);
             })
             .then(() => {
-                return this.apiClient.post('/v1/checkout/cart');
+                return this.apiClient.post('/v*/checkout/cart');
             })
             .then(() => {
-                return this.apiClient.post(`/v1/checkout/cart/line-item/${productId}`, {
+                return this.apiClient.post(`/v*/checkout/cart/line-item/${productId}`, {
                     type: 'product',
                     referencedId: productId,
                     stackable: true
                 });
             })
             .then(() => {
-                return this.apiClient.post('/v1/checkout/order');
+                return this.apiClient.post('/v*/checkout/order');
             })
             .catch((err) => {
                 console.log('err :', err);
@@ -70,17 +70,17 @@ class OrderFixtureService extends SalesChannelFixtureService {
                 return this.apiClient.setContextToken(this.createUuid().replace(/-/g, ''));
             })
             .then(() => {
-                return this.apiClient.post('/v1/checkout/cart');
+                return this.apiClient.post('/v*/checkout/cart');
             })
             .then(() => {
-                return this.apiClient.post(`/v1/checkout/cart/line-item/${productId}`, {
+                return this.apiClient.post(`/v*/checkout/cart/line-item/${productId}`, {
                     type: 'product',
                     referencedId: productId,
                     stackable: true
                 });
             })
             .then(() => {
-                return this.apiClient.post('/v1/checkout/guest-order', customerRawData);
+                return this.apiClient.post('/v*/checkout/guest-order', customerRawData);
             })
             .catch((err) => {
                 console.log('err :', err);
@@ -88,7 +88,7 @@ class OrderFixtureService extends SalesChannelFixtureService {
     }
 
     setPromotionFixture(userData) {
-        return this.adminApiClient.post('/v1/promotion?_response=true', userData);
+        return this.adminApiClient.post('/v*/promotion?_response=true', userData);
     }
 
     setDiscountFixture(userData, promotionId) {
@@ -96,7 +96,7 @@ class OrderFixtureService extends SalesChannelFixtureService {
             item.promotionId = promotionId;
         });
 
-        return this.adminApiClient.post('/v1/_action/sync', userData);
+        return this.adminApiClient.post('/v*/_action/sync', userData);
     }
 }
 

@@ -66,7 +66,7 @@ module.exports = class AdminApiService extends ApiService {
     }
 
     clearCache() {
-        return super.clearCache('/v1/_action/cache');
+        return super.clearCache('/v*/_action/cache');
     }
 
     loginToAdministration() {
