@@ -133,7 +133,7 @@ Cypress.Commands.add('typeMultiSelectAndCheck', {
     // Request we want to wait for later
     cy.server();
     cy.route({
-        url: '/api/v1/search/*',
+        url: '/api/v*/search/*',
         method: 'post'
     }).as('filteredResultCall');
 
@@ -321,7 +321,7 @@ Cypress.Commands.add('typeAndCheckSearchField', {
     // Request we want to wait for later
     cy.server();
     cy.route({
-        url: '/api/v1/search/**',
+        url: '/api/v*/search/**',
         method: 'post'
     }).as('searchResultCall');
 
