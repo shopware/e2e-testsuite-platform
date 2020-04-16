@@ -19,7 +19,7 @@ class SnippetFixtureService extends AdminFixtureService {
 
         const snippetData = this.snippetFixture;
 
-        return this.apiClient.post('/v*/search/language?response=true', {
+        return this.apiClient.post('/**/search/language?response=true', {
             filter: [{
                 field: 'name',
                 type: 'equals',
@@ -28,7 +28,7 @@ class SnippetFixtureService extends AdminFixtureService {
         }).then((data) => {
             languageId = data.id;
         }).then(() => {
-            return this.apiClient.post('/v*/search/snippet-set?response=true', {
+            return this.apiClient.post('/**/search/snippet-set?response=true', {
                 filter: [{
                     field: 'name',
                     type: 'equals',
@@ -45,7 +45,7 @@ class SnippetFixtureService extends AdminFixtureService {
                 }, snippetData);
             })
             .then((finalSnippetData) => {
-                return this.apiClient.post('/v*/snippet?_response=true', finalSnippetData, userData);
+                return this.apiClient.post('/**/snippet?_response=true', finalSnippetData, userData);
             });
     }
 }
