@@ -27,7 +27,7 @@ class SalesChannelFixtureService {
     }
 
     getClientId(salesChannelName = 'Storefront') {
-        return this.adminApiClient.post('/**/search/sales-channel?response=true', {
+        return this.adminApiClient.post('/v*/search/sales-channel?response=true', {
             filter: [{
                 field: 'name',
                 type: 'equals',
