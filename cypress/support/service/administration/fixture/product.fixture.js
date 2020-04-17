@@ -24,7 +24,7 @@ class ProductFixture extends AdminFixtureService {
                     manufacturerId: manufacturer.id
                 }, userData);
             }).then((finalProductData) => {
-                return this.apiClient.post('/v*/product?_response=true', finalProductData);
+                return this.apiClient.post('/v1/product?_response=true', finalProductData);
             }).then((result) => {
                 return this.setProductVisible(userData.name, categoryName);
             });
@@ -34,7 +34,7 @@ class ProductFixture extends AdminFixtureService {
         let salesChannelId = '';
         let productId = '';
 
-        return this.apiClient.post('/v*/search/sales-channel?response=true', {
+        return this.apiClient.post('/v1/search/sales-channel?response=true', {
             filter: [{
                 field: 'name',
                 type: 'equals',
@@ -43,7 +43,7 @@ class ProductFixture extends AdminFixtureService {
         }).then((data) => {
             salesChannelId = data.id;
 
-            return this.apiClient.post('/v*/search/product?response=true', {
+            return this.apiClient.post('/v1/search/product?response=true', {
                 filter: [{
                     field: 'name',
                     type: 'equals',
@@ -53,7 +53,7 @@ class ProductFixture extends AdminFixtureService {
         }).then((data) => {
             productId = data.id;
         }).then(() => {
-            return this.apiClient.post('/v*/search/category?response=true', {
+            return this.apiClient.post('/v1/search/category?response=true', {
                 filter: [{
                     field: 'name',
                     type: 'equals',

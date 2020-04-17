@@ -71,7 +71,7 @@ class CustomerFixtureService extends AdminFixtureService {
                 return this.mergeFixtureWithData(finalCustomerRawData, finalAddressRawData);
             })
             .then((finalCustomerData) => {
-                return this.apiClient.post('/v*/customer?_response=true', finalCustomerData);
+                return this.apiClient.post('/v1/customer?_response=true', finalCustomerData);
             });
     }
 }
