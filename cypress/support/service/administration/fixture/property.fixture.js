@@ -18,7 +18,7 @@ class PropertyFixtureService extends AdminFixtureService {
 
         const finalData = this.mergeFixtureWithData(propertyJson, userData);
 
-        return this.apiClient.post('/v1/property-group?_response=true', finalData);
+        return this.apiClient.post(`/${Cypress.env('apiVersion')}/property-group?_response=true`, finalData);
     }
 }
 module.exports = PropertyFixtureService;

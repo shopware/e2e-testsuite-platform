@@ -75,7 +75,7 @@ class AdminSalesChannelFixture extends AdminFixtureService {
                 navigationCategoryId: navigationCategory.id
             }, userData);
         }).then((finalChannelData) => {
-            return this.apiClient.post('/v1/sales-channel?_response=true', finalChannelData);
+            return this.apiClient.post(`/${Cypress.env('apiVersion')}/sales-channel?_response=true`, finalChannelData);
         });
     }
 
