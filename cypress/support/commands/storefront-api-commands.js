@@ -1,4 +1,21 @@
 const sample = require('lodash.sample');
+const uuid = require('uuid/v4');
+
+/**
+ * Sends a POST using the admin api to the server
+ * @memberOf Cypress.Chainable#
+ * @name createViaAdminApi
+ * @function
+ */
+Cypress.Commands.add('createViaAdminApi', (data) => {
+    return cy.requestAdminApi(
+        'POST',
+        `${Cypress.env('apiPath')}/${data.endpoint}?response=true`,
+        data
+    ).then((responseData) => {
+        return responseData;
+    });
+});
 
 /**
  * Get the sales channel Id via Admin API
