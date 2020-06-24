@@ -16,5 +16,15 @@
   "reporterOptions": {
     "mochaFile": "./../app/build/artifacts/e2e/my-test-output-[hash].xml",
     "toConsole": true
+  },
+  "env": {
+    "apiVersion": "v1",
+    "user": "admin",
+    "pass": "shopware",
+    "salesChannelName": "Storefront",
+    "admin": "/admin",
+    "locale": "en-GB",
+    "projectRoot": "/app",
+    "localUsage": false
   }
 }
