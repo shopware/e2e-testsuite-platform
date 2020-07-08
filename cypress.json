@@ -19,6 +19,7 @@
   },
   "env": {
     "apiVersion": "v1",
+    "apiPath": "**/api/v*",
     "user": "admin",
     "pass": "shopware",
     "salesChannelName": "Storefront",

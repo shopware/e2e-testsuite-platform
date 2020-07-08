@@ -309,7 +309,7 @@ Cypress.Commands.add('setToInitialState', () => {
     return cy.log('Cleaning, please wait a little bit.').then(() => {
         return cy.cleanUpPreviousState();
     }).then(() => {
-        return cy.clearCacheAdminApi('DELETE', `api/${Cypress.env('apiVersion')}/_action/cache`);
+        return cy.clearCacheAdminApi('DELETE', `${Cypress.env('apiPath')}/_action/cache`);
     }).then(() => {
         return cy.setLocaleToEnGb();
     });

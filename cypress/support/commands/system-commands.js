@@ -51,7 +51,7 @@ Cypress.Commands.add('cleanUpPreviousState', () => {
 Cypress.Commands.add('openInitialPage', (url) => {
     // Request we want to wait for later
     cy.server();
-    cy.route('/api/**/_info/me').as('meCall');
+    cy.route(`${Cypress.env('apiPath')}/_info/me`).as('meCall');
 
 
     cy.visit(url);
