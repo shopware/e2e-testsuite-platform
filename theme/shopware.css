@@ -68,13 +68,14 @@
 /* Styling of pending state */
 .reporter .stats li.pending,
 .reporter .runnable.runnable-pending > .runnable-wrapper .runnable-state,
-.reporter .runnable.runnable-pending > .runnable-wrapper .runnable-title {
+.reporter .runnable.test.runnable-pending .runnable-title,
+.reporter .runnable.test.runnable-pending .runnable-state {
     color: #b46fff;
 }
 
-.reporter .runnable.test.runnable-pending > .runnable-wrapper,
-.reporter .runnable.suite.runnable-pending > div > .runnable-wrapper {
-    border-left: 10px solid #b46fff;
+.reporter .runnable.runnable-pending > div > .runnable-wrapper,
+.reporter .runnable.runnable-ppending > div > .runnable-instruments {
+    border-left: 5px solid #b46fff;
 }
 
 .reporter .command-name-assert.command-state-pending .command-method span,
