@@ -1,7 +1,7 @@
 const AdminFixtureService = require('../fixture.service.js');
 
 class ProductFixture extends AdminFixtureService {
-    setProductFixture(userData, categoryName = 'Catalogue #1') {
+    setProductFixture(userData, categoryName = 'Home') {
         const taxName = userData.taxName || 'Standard rate';
 
         delete userData.taxName;
