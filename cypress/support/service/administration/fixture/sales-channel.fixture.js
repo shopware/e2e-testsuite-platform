@@ -41,7 +41,7 @@ class AdminSalesChannelFixture extends AdminFixtureService {
         const findNavigationCategoryId = () => this.search('category', {
             field: 'name',
             type: 'equals',
-            value: 'Catalogue #1'
+            value: 'Home'
         });
 
         // Resolve promises
