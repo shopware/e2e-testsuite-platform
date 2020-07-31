@@ -85,7 +85,7 @@ Cypress.Commands.add('searchViaAdminApi', (data) => {
 });
 
 /**
- * Handling API requests
+ * Handling Admin API requests
  * @memberOf Cypress.Chainable#
  * @name requestAdminApi
  * @function
@@ -127,7 +127,7 @@ Cypress.Commands.add('requestAdminApi', (method, url, requestData = {}) => {
 });
 
 /**
- * Handling API requests
+ * Clearing cache via API
  * @memberOf Cypress.Chainable#
  * @name clearCacheAdminApi
  * @function
@@ -155,7 +155,7 @@ Cypress.Commands.add('clearCacheAdminApi', (method, url) => {
  * @param {Object} data - Necessary data for the API request
  */
 Cypress.Commands.add('updateViaAdminApi', (endpoint, id, data) => {
-    return cy.requestAdminApi('PATCH', `${Cypress.env('apiPath')}/${endpoint}/${id}`, data).then((responseData) => {
+    return cy.requestAdminApi('PATCH', `api/${endpoint}/${id}`, data).then((responseData) => {
         return responseData;
     });
 });

@@ -23,7 +23,7 @@ Cypress.Commands.add('activateShopwareTheme', () => {
  * @name cleanUpPreviousState
  * @function
  */
-Cypress.Commands.add('cleanUpPreviousState', () => {
+Cypress.Commands.add('legacyCleanUpPreviousState', () => {
     if (Cypress.env('localUsage')) {
         return cy.exec(`${Cypress.env('projectRoot')}/psh.phar e2e:restore-db`)
             .its('stdout').should('contain', 'All commands successfully executed!');
@@ -38,6 +38,21 @@ Cypress.Commands.add('cleanUpPreviousState', () => {
 /**
  * Cleans up any previous state by restoring database and clearing caches
  * @memberOf Cypress.Chainable#
+ * @name cleanUpPreviousState
+ * @function
+ */
+Cypress.Commands.add('cleanUpPreviousState', (orig) => {
+    if (Cypress.env('localUsage')) {
+        return cy.exec(`${Cypress.env('shopwareRoot')}/bin/console e2e:restore-db`)
+            .its('code').should('eq', 0);
+    }
+
+    return orig();
+});
+
+/**
+ * Cleans up any previous state by restoring database and clearing caches
+ * @memberOf Cypress.Chainable#
  * @name openInitialPage
  * @function
  */
@@ -45,7 +60,7 @@ Cypress.Commands.add('openInitialPage', (url) => {
     // Request we want to wait for later
     cy.intercept(`${Cypress.env('apiPath')}/_info/me`).as('meCall');
 
-
+    cy.log('All preparation done!');
     cy.visit(url);
     cy.wait('@meCall')
         .its('response.statusCode').should('equal', 200);
@@ -65,7 +80,7 @@ Cypress.Commands.add('setLocale', (locale = Cypress.env('locale')) => {
 });
 
 /**
- * Switches administration UI locale to EN_GB
+ * Switches administration UI locale to en_GB
  * @memberOf Cypress.Chainable#
  * @name setLocaleToEnGb
  * @function
@@ -74,3 +89,104 @@ Cypress.Commands.add('setLocaleToEnGb', () => {
     return cy.window().then((win) => cy.setLocale('en-GB'));
 });
 
+// WaitUntil command is from https://www.npmjs.com/package/cypress-wait-until
+const logCommand = ({ options, originalOptions }) => {
+    if (options.log) {
+        options.logger({
+            name: options.description,
+            message: options.customMessage,
+            consoleProps: () => originalOptions
+        });
+    }
+};
+const logCommandCheck = ({ result, options, originalOptions }) => {
+    if (!options.log || !options.verbose) return;
+
+    const message = [result];
+    if (options.customCheckMessage) {
+        message.unshift(options.customCheckMessage);
+    }
+    options.logger({
+        name: options.description,
+        message,
+        consoleProps: () => originalOptions
+    });
+};
+
+const waitUntil = (subject, checkFunction, originalOptions = {}) => {
+    if (!(checkFunction instanceof Function)) {
+        throw new Error("`checkFunction` parameter should be a function. Found: " + checkFunction);
+    }
+
+    const defaultOptions = {
+        // base options
+        interval: 200,
+        timeout: 5000,
+        errorMsg: "Timed out retrying",
+
+        // log options
+        description: "waitUntil",
+        log: true,
+        customMessage: undefined,
+        logger: Cypress.log,
+        verbose: false,
+        customCheckMessage: undefined
+    };
+    const options = { ...defaultOptions, ...originalOptions };
+
+    // filter out a falsy passed "customMessage" value
+    options.customMessage = [options.customMessage, originalOptions].filter(Boolean);
+
+    let retries = Math.floor(options.timeout / options.interval);
+
+    logCommand({ options, originalOptions });
+
+    const check = result => {
+        logCommandCheck({ result, options, originalOptions });
+        if (result) {
+            return result;
+        }
+        if (retries < 1) {
+            throw new Error(options.errorMsg);
+        }
+        cy.wait(options.interval, { log: false }).then(() => {
+            retries--;
+            return resolveValue();
+        });
+    };
+
+    const resolveValue = () => {
+        const result = checkFunction(subject);
+
+        const isAPromise = Boolean(result && result.then);
+        if (isAPromise) {
+            return result.then(check);
+        } else {
+            return check(result);
+        }
+    };
+
+    return resolveValue();
+};
+
+/**
+ * Extend Cypress waiting capabilities to wait for (almost everything)
+ * @memberOf Cypress.Chainable#
+ * @name setLocaleToEnGb
+ * @function
+ */
+Cypress.Commands.add('waitUntil', { prevSubject: 'optional' }, waitUntil);
+
+/**
+ * Changes CSS styling of element. Useful for visual testing. Be aware you'll influence the test using this.
+ * @memberOf Cypress.Chainable#
+ * @name changeElementStyling
+ * @function
+ * @param {String} selector - API endpoint for the request
+ * @param {String} imageStyle - API endpoint for the request
+ */
+Cypress.Commands.add('changeElementStyling', (selector, imageStyle) => {
+    cy.get(selector)
+        .invoke('attr', 'style', imageStyle)
+        .should('have.attr', 'style', imageStyle);
+});
