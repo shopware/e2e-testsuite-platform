@@ -306,11 +306,10 @@ Cypress.Commands.add('createPromotionFixture', (userData = {}) => {
  * @name createNewsletterRecipientFixture
  * @function
  */
-Cypress.Commands.add('createNewsletterRecipientFixture', (userData = {}) => {
+Cypress.Commands.add('createNewsletterRecipientFixture', (customer) => {
     const fixture = new NewsletterRecipientFixture()
 
-    cy.createCustomerFixture(userData);
-    return fixture.setNewsletterRecipientFixture();
+    return fixture.setNewsletterRecipientFixture(customer);
 
 });
 
