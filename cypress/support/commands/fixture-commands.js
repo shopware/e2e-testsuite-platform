@@ -1,5 +1,6 @@
 const ProductFixture = require('../service/administration/fixture/product.fixture');
 const CustomerFixture = require('../service/administration/fixture/customer.fixture');
+const NewsletterRecipientFixture = require('../service/administration/fixture/newsletter-recipient.fixture');
 const CategoryFixture = require('../service/administration/fixture/category.fixture');
 const ShippingFixture = require('../service/administration/fixture/shipping.fixture');
 const CmsFixture = require('../service/administration/fixture/cms.fixture');
@@ -298,6 +299,21 @@ Cypress.Commands.add('createPromotionFixture', (userData = {}) => {
         return fixture.setDiscountFixture(result, promotionId);
     });
 });
+
+/**
+ * Create newsletter recipient fixture
+ * @memberOf Cypress.Chainable#
+ * @name createNewsletterRecipientFixture
+ * @function
+ */
+Cypress.Commands.add('createNewsletterRecipientFixture', (userData = {}) => {
+    const fixture = new NewsletterRecipientFixture()
+
+    cy.createCustomerFixture(userData);
+    return fixture.setNewsletterRecipientFixture();
+
+});
+
 
 /**
  * Sets Shopware back to its initial state
