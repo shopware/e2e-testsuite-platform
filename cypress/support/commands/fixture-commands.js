@@ -2,6 +2,7 @@ const ProductFixture = require('../service/administration/fixture/product.fixtur
 const CustomerFixture = require('../service/administration/fixture/customer.fixture');
 const CategoryFixture = require('../service/administration/fixture/category.fixture');
 const ShippingFixture = require('../service/administration/fixture/shipping.fixture');
+const PaymentMethodFixture = require('../service/administration/fixture/payment-method.fixture');
 const CmsFixture = require('../service/administration/fixture/cms.fixture');
 const OrderFixture = require('../service/saleschannel/fixture/order.fixture');
 const AdminSalesChannelFixture= require('../service/administration/fixture/sales-channel.fixture');
@@ -201,6 +202,23 @@ Cypress.Commands.add('createShippingFixture', (userData) => {
         return Cypress._.merge(result, userData);
     }).then((data) => {
         return fixture.setShippingFixture(data);
+    });
+});
+
+/**
+ * Create payment method fixture using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name createPaymentMethodFixture
+ * @function
+ * @param {Object} [options={}] - Options concerning creation
+ */
+Cypress.Commands.add('createPaymentMethodFixture', (userData) => {
+    const fixture = new PaymentMethodFixture();
+
+    return cy.fixture('payment-method').then((result) => {
+        return Cypress._.merge(result, userData);
+    }).then((data) => {
+        return fixture.setPaymentMethodFixture(data);
     });
 });
 
