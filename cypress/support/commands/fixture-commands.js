@@ -3,6 +3,7 @@ const CustomerFixture = require('../service/administration/fixture/customer.fixt
 const CategoryFixture = require('../service/administration/fixture/category.fixture');
 const ShippingFixture = require('../service/administration/fixture/shipping.fixture');
 const PaymentMethodFixture = require('../service/administration/fixture/payment-method.fixture');
+const NewsletterRecipientFixture = require('../service/administration/fixture/newsletter-recipient.fixture');
 const CmsFixture = require('../service/administration/fixture/cms.fixture');
 const OrderFixture = require('../service/saleschannel/fixture/order.fixture');
 const AdminSalesChannelFixture= require('../service/administration/fixture/sales-channel.fixture');
@@ -219,6 +220,23 @@ Cypress.Commands.add('createPaymentMethodFixture', (userData) => {
         return Cypress._.merge(result, userData);
     }).then((data) => {
         return fixture.setPaymentMethodFixture(data);
+    });
+});
+
+/**
+ * Create newsletter recipient fixture
+ * @memberOf Cypress.Chainable#
+ * @name createNewsletterRecipientFixture
+ * @function
+ * @param {Object} [options={}] - Options concerning creation
+ */
+Cypress.Commands.add('createNewsletterRecipientFixture', (recipient) => {
+    const fixture = new NewsletterRecipientFixture();
+
+    return cy.fixture('customer').then((result) => {
+        return Cypress._.merge(result, recipient);
+    }).then((recipientData) => {
+        return fixture.setNewsletterRecipientFixture(recipientData);
     });
 });
 
