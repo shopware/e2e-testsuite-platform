@@ -406,3 +406,64 @@ Cypress.Commands.add('setProductFixtureVisibility', (productName, categoryName) 
         });
     });
 });
+
+/**
+ * Set a customer group using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name setCustomerGroup
+ * @function
+ * @param {String} endpoint - API endpoint for the request
+ * @param {Object} [options={}] - Options concerning deletion
+ */
+Cypress.Commands.add('setCustomerGroup', (customerNumber, customerGroupData) => {
+    let customer = '';
+
+    return cy.fixture('customer-group').then((json) => {
+        return cy.createViaAdminApi({
+            endpoint: 'customer-group',
+            data: customerGroupData
+        });
+    }).then(() => {
+        return cy.searchViaAdminApi({
+            endpoint: 'customer',
+            data: {
+                field: 'customerNumber',
+                value: customerNumber
+            }
+        });
+    }).then((result) => {
+        customer = result;
+
+        return cy.searchViaAdminApi({
+            endpoint: 'customer-group',
+            data: {
+                field: 'name',
+                value: customerGroupData.name
+            }
+        });
+    }).then((result) => {
+        return cy.updateViaAdminApi('customer', customer.id, {
+            data: {
+                groupId: result.id
+            }
+        })
+    });
+});
+
+/**
+ * Set a rule using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name createRuleFixture
+ * @function
+ * @param {String} endpoint - API endpoint for the request
+ * @param {Object} [options={}] - Options concerning deletion
+ */
+Cypress.Commands.add('createRuleFixture', (userData, shippingMethodName = 'Standard') => {
+    const fixture = new RuleBuilderFixture();
+
+    return cy.fixture('rule-builder-shipping-payment.json').then((result) => {
+        return Cypress._.merge(result, userData);
+    }).then((data) => {
+        return fixture.setRuleFixture(data, shippingMethodName);
+    })
+});

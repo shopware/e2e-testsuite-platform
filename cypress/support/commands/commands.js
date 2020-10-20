@@ -308,33 +308,6 @@ Cypress.Commands.add('assertRowWithLabelContains', {
 });
 
 /**
- * Types in the global search field and verify search terms in url
- * @memberOf Cypress.Chainable#
- * @name typeAndCheckSearchField
- * @function
- * @param {String} value - The value to type
- */
-Cypress.Commands.add('typeAndCheckSearchField', {
-    prevSubject: 'element'
-}, (subject, value) => {
-
-    // Request we want to wait for later
-    cy.server();
-    cy.route({
-        url: `${Cypress.env('apiPath')}/search/**`,
-        method: 'post'
-    }).as('searchResultCall');
-
-    cy.wrap(subject).type(value).should('have.value', value);
-
-    cy.wait('@searchResultCall').then((xhr) => {
-        expect(xhr).to.have.property('status', 200);
-
-        cy.url().should('include', encodeURI(value));
-    });
-});
-
-/**
  * Wait for a notification to appear and check its message
  * @memberOf Cypress.Chainable#
  * @name awaitAndCheckNotification
@@ -506,4 +479,30 @@ Cypress.Commands.add('dragTo', { prevSubject: 'element' }, (subject, targetEl) =
         .trigger('mousemove', 'center')
         .should('have.class', 'is--valid-drop')
         .trigger('mouseup');
+});
+
+/**
+ * Types in an input element and checks if the content was correctly typed, tailored for Storefront
+ * @memberOf Cypress.Chainable#
+ * @name typeAndCheck
+ * @function
+ * @param {String} value - The value to type
+ */
+Cypress.Commands.add('typeAndCheckStorefront', {
+    prevSubject: 'element'
+}, (subject, value) => {
+    cy.wrap(subject).type(value).invoke('val').should('eq', value);
+});
+
+/**
+ * Selects an option in an select element
+ * @memberOf Cypress.Chainable#
+ * @name typeAndCheck
+ * @function
+ * @param {String} value - The value to type
+ */
+Cypress.Commands.add('typeAndSelect', {
+    prevSubject: 'element'
+}, (subject, value) => {
+    cy.wrap(subject).select(value);
 });
