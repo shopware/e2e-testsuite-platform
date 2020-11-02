@@ -7,22 +7,24 @@ class OrderFixtureService extends SalesChannelFixtureService {
                 this.apiClient.setAccessKey(result);
             })
             .then(() => {
-                return this.apiClient.post(`/${Cypress.env('apiVersion')}/customer/login`, JSON.stringify({
+                return this.apiClient.post(`/${Cypress.env('apiVersion')}/account/login`, JSON.stringify({
                     username: customer.username,
                     password: customer.password
                 }));
             })
-            .then((contextToken) => {
-                return this.apiClient.setContextToken(contextToken['sw-context-token']);
+            .then((response) => {
+                return this.apiClient.setContextToken(response.data['contextToken']);
             })
             .then(() => {
-                return this.apiClient.post(`/${Cypress.env('apiVersion')}/checkout/cart`);
-            })
-            .then(() => {
-                return this.apiClient.post(`/${Cypress.env('apiVersion')}/checkout/cart/line-item/${productId}`, {
-                    type: 'product',
-                    referencedId: productId,
-                    stackable: true
+                return this.apiClient.post(`/${Cypress.env('apiVersion')}/checkout/cart/line-item`, {
+                    items: [
+                        {
+                            id: productId,
+                            type: 'product',
+                            referencedId: productId,
+                            stackable: true
+                        }
+                    ]
                 });
             })
             .then(() => {
@@ -35,6 +37,7 @@ class OrderFixtureService extends SalesChannelFixtureService {
 
     createGuestOrder(productId, json) {
         let customerRawData = json;
+        customerRawData.guest = true;
 
         const findSalutationId = () => this.search('salutation', {
             field: 'displayName',
@@ -70,17 +73,27 @@ class OrderFixtureService extends SalesChannelFixtureService {
                 return this.apiClient.setContextToken(this.createUuid().replace(/-/g, ''));
             })
             .then(() => {
-                return this.apiClient.post(`/${Cypress.env('apiVersion')}/checkout/cart`);
-            })
-            .then(() => {
-                return this.apiClient.post(`/${Cypress.env('apiVersion')}/checkout/cart/line-item/${productId}`, {
-                    type: 'product',
-                    referencedId: productId,
-                    stackable: true
+                return this.apiClient.post(`/${Cypress.env('apiVersion')}/checkout/cart/line-item`, {
+                    items: [
+                        {
+                            id: productId,
+                            type: 'product',
+                            referencedId: productId,
+                            stackable: true
+                        }
+                    ]
                 });
             })
             .then(() => {
-                return this.apiClient.post(`/${Cypress.env('apiVersion')}/checkout/guest-order`, customerRawData);
+                return this.apiClient.get(`/${Cypress.env('apiVersion')}/context`);
+            })
+            .then((response) => {
+                customerRawData.storefrontUrl = response.data.salesChannel.domains[0].url;
+                return this.apiClient.post(`/${Cypress.env('apiVersion')}/account/register`, customerRawData);
+            })
+            .then((response) => {
+                this.apiClient.setContextToken(response.headers['sw-context-token']);
+                return this.apiClient.post(`/${Cypress.env('apiVersion')}/checkout/order`);
             })
             .catch((err) => {
                 console.log('err :', err);
