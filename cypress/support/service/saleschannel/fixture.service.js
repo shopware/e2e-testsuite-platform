@@ -1,12 +1,12 @@
 const _ = require('lodash');
 const uuid = require('uuid/v4');
-const SalesChannelApiService = require('./sales-channel-api.service');
+const StoreApiService = require('./store-api.service');
 const AdminApiService = require('../administration/admin-api.service');
 const AdminFixtureService = require('../administration/fixture.service.js');
 
 class SalesChannelFixtureService {
     constructor() {
-        this.apiClient = new SalesChannelApiService(process.env.APP_URL);
+        this.apiClient = new StoreApiService(process.env.APP_URL);
         this.adminApiClient = new AdminApiService(process.env.APP_URL);
     }
 
