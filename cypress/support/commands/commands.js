@@ -507,3 +507,58 @@ Cypress.Commands.add('dragTo', { prevSubject: 'element' }, (subject, targetEl) =
         .should('have.class', 'is--valid-drop')
         .trigger('mouseup');
 });
+
+/**
+ * @name featureIsActive
+ * @function
+ * @param {window} win - Browser window object
+ * @param {string} feature - The feature name
+ * @return {boolean}
+ */
+function featureIsActive(win, feature) {
+    if (win !== undefined && win.Shopware !== undefined && win.Shopware.Feature !== undefined) {
+        return win.Shopware.Feature.isActive(feature);
+    }
+
+    return false;
+}
+
+/**
+ * Sorts a listing via clicking on name column
+ * @memberOf Cypress.Chainable#
+ * @name skipOnFeature
+ * @function
+ * @param {String} feature - Skip the test if feature is active
+ * @param {() => void} cb - Optional, run the given callback if the condition passes
+ */
+Cypress.Commands.add('skipOnFeature', (feature, cb) => {
+    cy.window().then((win) => {
+        const featureIsActive = featureIsActive(win, feature);
+
+        if (featureIsActive) {
+            cy.log(`Skipping test because feature flag '${feature}' is activated.`);
+        }
+
+        cy.skipOn(featureIsActive, cb);
+    });
+});
+
+/**
+ * Sorts a listing via clicking on name column
+ * @memberOf Cypress.Chainable#
+ * @name onlyOnFeature
+ * @function
+ * @param {String} feature - Skip test if feature is inactive
+ * @param {() => void} cb - Optional, run the given callback if the condition passes
+ */
+Cypress.Commands.add('onlyOnFeature', (feature, cb) => {
+    cy.window().then((win) => {
+        const featureIsActive = featureIsActive(win, feature);
+
+        if (featureIsActive) {
+            cy.log(`Running test because feature flag '${feature}' is activated.`);
+        }
+
+        cy.onlyOn(featureIsActive(win, feature), cb);
+    });
+});

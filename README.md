@@ -244,6 +244,18 @@ cy.get('.sw-cms-sidebar__block-preview')
   .dragTo('.sw-cms-section__empty-stage');
 ```
 
+### Skip test if a feature is not activated
+
+```js
+cy.onlyOnFeature('FEATURE_NEXT_101')
+```
+
+### Skip test if a feature is activated
+
+```js
+cy.skipOnFeature('FEATURE_NEXT_101')
+```
+
 ### Storefront commands
 
 #### Get the sales channel Id via Admin API
