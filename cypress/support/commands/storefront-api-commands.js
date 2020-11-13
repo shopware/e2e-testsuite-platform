@@ -65,7 +65,7 @@ Cypress.Commands.add('storefrontApiRequest', (method, endpoint, header = {}, bod
                 ...body
             },
             method: method,
-            url: `/sales-channel-api/${Cypress.env('apiVersion')}/${endpoint}`
+            url: `/store-api/${Cypress.env('apiVersion')}/${endpoint}`
         };
 
         return cy.request(requestConfig).then((result) => {
@@ -82,7 +82,7 @@ Cypress.Commands.add('storefrontApiRequest', (method, endpoint, header = {}, bod
  */
 Cypress.Commands.add('getRandomProductInformationForCheckout', () => {
     return cy.storefrontApiRequest('GET', 'product').then((result) => {
-        const randomProduct = sample(result);
+        const randomProduct = sample(result.elements);
 
         return {
             id: randomProduct.id,

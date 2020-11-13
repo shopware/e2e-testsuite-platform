@@ -1,6 +1,6 @@
 const ApiService = require('../api.service');
 
-module.exports = class SalesChannelApiService extends ApiService {
+module.exports = class StoreApiService extends ApiService {
     constructor() {
         super();
         this.accessKey = '';
@@ -8,7 +8,7 @@ module.exports = class SalesChannelApiService extends ApiService {
     }
 
     getBasicPath() {
-        return `${Cypress.config('baseUrl')}/sales-channel-api`;
+        return `${Cypress.config('baseUrl')}/store-api`;
     }
 
     /**
@@ -34,10 +34,7 @@ module.exports = class SalesChannelApiService extends ApiService {
         };
 
         return this.client.request(requestConfig).then((response) => {
-            if (Array.isArray(response.data.data) && response.data.data.length === 1) {
-                return response.data[0];
-            }
-            return response.data;
+            return response;
         }).catch(({ response }) => {
             if (response.data && response.data.errors) {
                 console.log(response.data.errors);
