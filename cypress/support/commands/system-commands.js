@@ -68,7 +68,7 @@ Cypress.Commands.add('openInitialPage', (url) => {
  * @function
  */
 Cypress.Commands.add('setLocale', (locale = Cypress.env('locale')) => {
-    cy.window().then((win) => {
+    return cy.window().then((win) => {
         win.localStorage.setItem('sw-admin-locale', locale)
     });
 });
@@ -80,6 +80,6 @@ Cypress.Commands.add('setLocale', (locale = Cypress.env('locale')) => {
  * @function
  */
 Cypress.Commands.add('setLocaleToEnGb', () => {
-    cy.window().then((win) => cy.setLocale('en-GB'));
+    return cy.window().then((win) => cy.setLocale('en-GB'));
 });
 
