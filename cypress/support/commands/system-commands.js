@@ -62,14 +62,16 @@ Cypress.Commands.add('openInitialPage', (url) => {
 });
 
 /**
- * Switches administration UI locale to locale in env
+ * Switches administration UI locale
  * @memberOf Cypress.Chainable#
  * @name setLocale
  * @function
  */
-Cypress.Commands.add('setLocale', () => cy.window().then((win) => {
-    win.localStorage.setItem('sw-admin-locale', Cypress.env('locale'));
-}));
+Cypress.Commands.add('setLocale', (locale = Cypress.env('locale')) =>
+    cy.window().then((win) => {
+        win.localStorage.setItem('sw-admin-locale', locale);
+    })
+);
 
 /**
  * Switches administration UI locale to EN_GB
@@ -78,5 +80,5 @@ Cypress.Commands.add('setLocale', () => cy.window().then((win) => {
  * @function
  */
 Cypress.Commands.add('setLocaleToEnGb', () => cy.window().then((win) => {
-    win.localStorage.setItem('sw-admin-locale', 'en-GB');
+    cy.setLocale('en-GB');
 }));
