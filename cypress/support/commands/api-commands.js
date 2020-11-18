@@ -14,8 +14,8 @@ Cypress.Commands.add('authenticate', () => {
             grant_type: Cypress.env('grant') ? Cypress.env('grant') : 'password',
             client_id: Cypress.env('client_id') ? Cypress.env('client_id') : 'administration',
             scopes: Cypress.env('scope') ? Cypress.env('scope') : 'write',
-            username: Cypress.env('username') ? Cypress.env('user') : 'admin',
-            password: Cypress.env('password') ? Cypress.env('pass') : 'shopware'
+            username: Cypress.env('username') || Cypress.env('user') || 'admin',
+            password: Cypress.env('password') || Cypress.env('pass') || 'shopware'
         }
     ).then((responseData) => {
         return {
