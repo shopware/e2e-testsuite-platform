@@ -7,14 +7,14 @@ class AdminFixtureService {
     }
 
     create(endpoint, rawData) {
-        return this.apiClient.post(`/${Cypress.env('apiVersion')}/${endpoint}?response=true`, rawData);
+        return this.apiClient.post(`/${endpoint}?response=true`, rawData);
     }
 
     update(userData) {
         if (!userData.id) {
             throw new Error('Update fixtures must always contain an id');
         }
-        return this.apiClient.patch(`/${Cypress.env('apiVersion')}/${userData.type}/${userData.id}`, userData.data);
+        return this.apiClient.patch(`/${userData.type}/${userData.id}`, userData.data);
     }
 
     authenticate() {
@@ -22,7 +22,7 @@ class AdminFixtureService {
     }
 
     search(type, filter) {
-        return this.apiClient.post(`/${Cypress.env('apiVersion')}/search/${type}?response=true`, {
+        return this.apiClient.post(`/search/${type}?response=true`, {
             filter: [{
                 field: filter.field ? filter.field : 'name',
                 type: 'equals',
@@ -40,7 +40,7 @@ class AdminFixtureService {
     }
 
     clearCache() {
-        return this.apiClient.delete(`/${Cypress.env('apiVersion')}/_action/cache`).catch((err) => {
+        return this.apiClient.delete(`/_action/cache`).catch((err) => {
             console.log('Cache could not be cleared')
         });
     }

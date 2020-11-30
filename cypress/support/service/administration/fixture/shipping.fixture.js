@@ -20,7 +20,7 @@ class ShippingFixtureService extends AdminFixtureService {
                 deliveryTimeId: deliveryTime.id
             });
         }).then((finalShippingData) => {
-            return this.apiClient.post(`/${Cypress.env('apiVersion')}/shipping-method?_response=true`, finalShippingData);
+            return this.apiClient.post(`/shipping-method?_response=true`, finalShippingData);
         });
     }
 }

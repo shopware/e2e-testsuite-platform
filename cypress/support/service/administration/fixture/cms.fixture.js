@@ -1,7 +1,7 @@
 const AdminFixtureService = require('../fixture.service.js');
 class CmsFixtureService extends AdminFixtureService {
     setCmsPageFixture(userData) {
-        return this.apiClient.post(`/${Cypress.env('apiVersion')}/cms-page?_response=true`, userData);
+        return this.apiClient.post(`/cms-page?_response=true`, userData);
     }
 }
 
