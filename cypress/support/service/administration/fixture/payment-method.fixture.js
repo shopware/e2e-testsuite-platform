@@ -29,7 +29,7 @@ class PaymentMethodFixture extends AdminFixtureService {
                 });
             })
             .then(() => {
-                return this.apiClient.post(`/${Cypress.env('apiVersion')}/payment-method/?response=true`, finalPaymentMethodData);
+                return this.apiClient.post(`/payment-method/?response=true`, finalPaymentMethodData);
             });
     }
 }
