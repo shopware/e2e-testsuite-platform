@@ -75,7 +75,7 @@ class AdminSalesChannelFixture extends AdminFixtureService {
                 navigationCategoryId: navigationCategory.id
             }, userData);
         }).then((finalChannelData) => {
-            return this.apiClient.post(`/sales-channel?_response=true`, finalChannelData);
+            return this.apiClient.post('/sales-channel?_response=true', finalChannelData);
         });
     }
 

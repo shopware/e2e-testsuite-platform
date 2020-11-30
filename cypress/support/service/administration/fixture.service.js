@@ -40,7 +40,7 @@ class AdminFixtureService {
     }
 
     clearCache() {
-        return this.apiClient.delete(`/_action/cache`).catch((err) => {
+        return this.apiClient.delete('/_action/cache').catch((err) => {
             console.log('Cache could not be cleared')
         });
     }
