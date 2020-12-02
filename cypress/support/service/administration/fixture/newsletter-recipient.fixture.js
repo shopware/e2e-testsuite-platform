@@ -17,7 +17,7 @@ class NewsletterRecipientFixture extends SalesChannelFixtureService {
                     storefrontUrl: `${Cypress.config('baseUrl')}`
                 }, recipientData);
 
-                return this.apiClient.post(`/${Cypress.env('apiVersion')}/newsletter/subscribe?response=true`, finalRecipientData);
+                return this.apiClient.post(`/newsletter/subscribe?response=true`, finalRecipientData);
             });
     }
 }

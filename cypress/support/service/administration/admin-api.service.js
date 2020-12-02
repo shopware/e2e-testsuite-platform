@@ -66,7 +66,7 @@ module.exports = class AdminApiService extends ApiService {
     }
 
     clearCache() {
-        return super.clearCache(`/${Cypress.env('apiVersion')}/_action/cache`);
+        return super.clearCache(`/_action/cache`);
     }
 
     loginToAdministration() {

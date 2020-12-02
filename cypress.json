@@ -18,8 +18,7 @@
     "toConsole": true
   },
   "env": {
-    "apiVersion": "v1",
-    "apiPath": "**/api/v*",
+    "apiPath": "**/api/*",
     "user": "admin",
     "pass": "shopware",
     "salesChannelName": "Storefront",
