@@ -666,7 +666,7 @@ Cypress.Commands.add("skipOnFeature", (feature, cb) => {
             );
         }
 
-        cy.skipOn(featureIsActive, cb);
+        cy.skipOn(isActive, cb);
     });
 });
 
@@ -688,6 +688,6 @@ Cypress.Commands.add("onlyOnFeature", (feature, cb) => {
             );
         }
 
-        cy.onlyOn(featureIsActive, cb);
+        cy.onlyOn(isActive, cb);
     });
 });
