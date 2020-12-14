@@ -2,6 +2,8 @@
 const _ = require('lodash');
 const uuid = require('uuid/v4');
 
+require('@cypress/skip-test/support');
+
 // Import commands.js
 require('./commands/commands');
 
