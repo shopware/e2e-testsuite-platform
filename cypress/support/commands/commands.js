@@ -460,15 +460,20 @@ Cypress.Commands.add(
         menuButtonSelector,
         menuOpenSelector,
         scope = null,
-        menuButtonText = ""
+        menuButtonText = "",
+        force = false
     ) => {
         const contextMenuCssSelector = ".sw-context-menu";
         const activeContextButtonCssSelector = ".is--active";
 
         if (scope != null) {
             cy.get(scope).should("be.visible");
-            cy.get(`${scope} ${menuOpenSelector}`).should("be.visible");
-            cy.get(`${scope} ${menuOpenSelector}`).click({ force: true });
+
+            if(!force) {
+                cy.get(`${scope} ${menuOpenSelector}`).should('be.visible');
+            }
+
+            cy.get(`${scope} ${menuOpenSelector}`).click({ force });
 
             if (scope.includes("row")) {
                 cy.get(
@@ -478,7 +483,7 @@ Cypress.Commands.add(
         } else {
             cy.get(menuOpenSelector)
                 .should("be.visible")
-                .click({ force: true });
+                .click({ force });
         }
 
         cy.get(contextMenuCssSelector).should("be.visible");
