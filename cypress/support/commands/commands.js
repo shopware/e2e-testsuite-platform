@@ -467,6 +467,7 @@ Cypress.Commands.add(
 
         if (scope != null) {
             cy.get(scope).should("be.visible");
+            cy.get(`${scope} ${menuOpenSelector}`).should("be.visible");
             cy.get(`${scope} ${menuOpenSelector}`).click({ force: true });
 
             if (scope.includes("row")) {
