@@ -43,14 +43,12 @@ Cypress.Commands.add('cleanUpPreviousState', () => {
  */
 Cypress.Commands.add('openInitialPage', (url) => {
     // Request we want to wait for later
-    cy.server();
-    cy.route(`${Cypress.env('apiPath')}/_info/me`).as('meCall');
+    cy.intercept(`${Cypress.env('apiPath')}/_info/me`).as('meCall');
 
 
     cy.visit(url);
-    cy.wait('@meCall').then((xhr) => {
-        expect(xhr).to.have.property('status', 200);
-    });
+    cy.wait('@meCall')
+        .its('response.statusCode').should('equal', 200);
     cy.get('.sw-desktop').should('be.visible');
 });
 
