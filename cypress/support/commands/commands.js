@@ -149,12 +149,11 @@ Cypress.Commands.add(
         const searchTerm = options.searchTerm || value;
         const position = options.position || 0;
 
-        // Request we want to wait for later
-        cy.server();
-        cy.route({
-            url: `${Cypress.env("apiPath")}/search/*`,
-            method: "post",
-        }).as("filteredResultCall");
+    // Request we want to wait for later
+    cy.intercept({
+        url: `${Cypress.env('apiPath')}/search/*`,
+        method: 'post'
+    }).as('filteredResultCall');
 
         cy.wrap(subject).should("be.visible");
 
@@ -454,28 +453,23 @@ Cypress.Commands.add(
  * @function
  * @param {String} value - The value to type
  */
-Cypress.Commands.add(
-    "typeAndCheckSearchField",
-    {
-        prevSubject: "element",
-    },
-    (subject, value) => {
-        // Request we want to wait for later
-        cy.server();
-        cy.route({
-            url: `${Cypress.env("apiPath")}/search/**`,
-            method: "post",
-        }).as("searchResultCall");
+Cypress.Commands.add('typeAndCheckSearchField', {
+    prevSubject: 'element'
+}, (subject, value) => {
+
+    // Request we want to wait for later
+    cy.intercept({
+        url: `${Cypress.env('apiPath')}/search/**`,
+        method: 'post'
+    }).as('searchResultCall');
 
         cy.wrap(subject).type(value).should("have.value", value);
 
-        cy.wait("@searchResultCall").then((xhr) => {
-            expect(xhr).to.have.property("status", 200);
 
-            cy.url().should("include", encodeURI(value));
-        });
-    }
-);
+    cy.wait('@searchResultCall')
+        .its('response.statusCode').should('equal', 200);
+    cy.url().should('include', encodeURI(value));
+});
 
 /**
  * Wait for a notification to appear and check its message
