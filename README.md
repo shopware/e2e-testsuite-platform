@@ -216,7 +216,7 @@ cy.awaitAndCheckNotification('Shipping method "Luftpost" has been deleted.');
 cy.clickContextMenuItem(
     '.sw-customer-list__view-action',
     '.sw-context-button__button',
-    `.sw-data-grid__row--0`
+    '.sw-data-grid__row--0'
 );
 ```
 
