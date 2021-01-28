@@ -32,29 +32,29 @@ require("cypress-file-upload");
  * @function
  * @param {Object} userType - The type of the user logging in
  */
-Cypress.Commands.add("login", (userType) => {
+Cypress.Commands.add('login', (userType) => {
     const types = {
         admin: {
-            name: "admin",
-            pass: "shopware",
+            name: 'admin',
+            pass: 'shopware',
         },
     };
 
     const user = types[userType];
 
-    cy.visit("/admin");
+    cy.visit('/admin');
 
-    cy.contains("Username");
+    cy.contains('Username');
     cy.contains("Password");
 
-    cy.get("#sw-field--username")
+    cy.get('#sw-field--username')
         .type(user.name)
-        .should("have.value", user.name);
-    cy.get("#sw-field--password")
+        .should('have.value', user.name);
+    cy.get('#sw-field--password')
         .type(user.pass)
-        .should("have.value", user.pass);
-    cy.get(".sw-login-login").submit();
-    cy.contains("Dashboard");
+        .should('have.value', user.pass);
+    cy.get('.sw-login-login').submit();
+    cy.contains('Dashboard');
 });
 
 /**
@@ -65,13 +65,13 @@ Cypress.Commands.add("login", (userType) => {
  * @param {String} value - The value to type
  */
 Cypress.Commands.add(
-    "typeAndCheck",
+    'typeAndCheck',
     {
-        prevSubject: "element",
+        prevSubject: 'element',
     },
     (subject, value) => {
-        cy.wrap(subject).should("be.visible");
-        cy.wrap(subject).type(value).should("have.value", value);
+        cy.wrap(subject).should('be.visible');
+        cy.wrap(subject).type(value).should('have.value', value);
     }
 );
 
@@ -83,12 +83,12 @@ Cypress.Commands.add(
  * @param {String} value - The value to type
  */
 Cypress.Commands.add(
-    "typeAndCheckStorefront",
+    'typeAndCheckStorefront',
     {
-        prevSubject: "element",
+        prevSubject: 'element',
     },
     (subject, value) => {
-        cy.wrap(subject).type(value).invoke("val").should("eq", value);
+        cy.wrap(subject).type(value).invoke('val').should('eq', value);
     }
 );
 
@@ -100,15 +100,15 @@ Cypress.Commands.add(
  * @param {String} value - The value to type
  */
 Cypress.Commands.add(
-    "clearTypeAndCheck",
+   'clearTypeAndCheck',
     {
-        prevSubject: "element",
+        prevSubject: 'element',
     },
     (subject, value) => {
-        cy.wrap(subject).should("be.visible");
+        cy.wrap(subject).should('be.visible');
         cy.wrap(subject).clear();
         cy.wrap(subject).clear(); // To make sure it's cleared
-        cy.wrap(subject).type(value).should("have.value", value);
+        cy.wrap(subject).type(value).should('have.value', value);
     }
 );
 
@@ -120,13 +120,13 @@ Cypress.Commands.add(
  * @param {String} value - The value to type
  */
 Cypress.Commands.add(
-    "clearTypeCheckAndEnter",
+    'clearTypeCheckAndEnter',
     {
-        prevSubject: "element",
+        prevSubject:'element',
     },
     (subject, value) => {
         cy.wrap(subject).clearTypeAndCheck(value);
-        cy.wrap(subject).type("{enter}");
+        cy.wrap(subject).type('{enter}');
     }
 );
 
@@ -139,13 +139,13 @@ Cypress.Commands.add(
  * @param {Object} [options={}] - Options concerning swSelect usage
  */
 Cypress.Commands.add(
-    "typeMultiSelectAndCheck",
+    'typeMultiSelectAndCheck',
     {
-        prevSubject: "element",
+        prevSubject: 'element',
     },
     (subject, value, options = {}) => {
-        const resultPrefix = ".sw-select";
-        const inputCssSelector = ".sw-select-selection-list__input";
+        const resultPrefix = '.sw-select';
+        const inputCssSelector = '.sw-select-selection-list__input';
         const searchTerm = options.searchTerm || value;
         const position = options.position || 0;
 
@@ -155,26 +155,26 @@ Cypress.Commands.add(
         method: 'post'
     }).as('filteredResultCall');
 
-        cy.wrap(subject).should("be.visible");
+        cy.wrap(subject).should('be.visible');
 
         // type in the search term if available
         if (options.searchTerm) {
             cy.get(`${subject.selector} ${inputCssSelector}`).type(searchTerm);
             cy.get(`${subject.selector} ${inputCssSelector}`).should(
-                "have.value",
+                'have.value',
                 searchTerm
             );
 
-            cy.wait("@filteredResultCall").then(() => {
+            cy.wait('@filteredResultCall').then(() => {
                 cy.get(`${resultPrefix}-option--${position}`).should(
-                    "be.visible"
+                    'be.visible'
                 );
 
-                cy.wait("@filteredResultCall").then(() => {
-                    cy.get(".sw-loader__element").should("not.exist");
+                cy.wait('@filteredResultCall').then(() => {
+                    cy.get('.sw-loader__element').should('not.exist');
                 });
             });
-            cy.get(`${resultPrefix}-option--${position}`).should("be.visible");
+            cy.get(`${resultPrefix}-option--${position}`).should('be.visible');
             cy.get(
                 `${resultPrefix}-option--${position} .sw-highlight-text__highlight`
             ).contains(value);
@@ -185,8 +185,8 @@ Cypress.Commands.add(
             });
         } else {
             cy.wrap(subject).click();
-            cy.get(".sw-select-result").should("be.visible");
-            cy.contains(".sw-select-result", value).click();
+            cy.get('.sw-select-result').should('be.visible');
+            cy.contains('.sw-select-result', value).click();
         }
 
         // in multi selects we can check if the value is the selected item
@@ -195,9 +195,9 @@ Cypress.Commands.add(
         ).contains(value);
 
         // close search results
-        cy.get(`${subject.selector} ${inputCssSelector}`).type("{esc}");
+        cy.get(`${subject.selector} ${inputCssSelector}`).type('{esc}');
         cy.get(`${subject.selector} .sw-select-result-list`).should(
-            "not.exist"
+            'not.exist'
         );
     }
 );
@@ -275,37 +275,37 @@ Cypress.Commands.add(
  * @param {String} selector - selector of the element
  */
 Cypress.Commands.add(
-    "typeSingleSelect",
+    'typeSingleSelect',
     {
-        prevSubject: "element",
+        prevSubject: 'element',
     },
     (subject, value, selector) => {
-        const resultPrefix = ".sw-select";
+        const resultPrefix = '.sw-select';
         const inputCssSelector = `.sw-select__selection input`;
 
-        cy.wrap(subject).should("be.visible");
+        cy.wrap(subject).should('be.visible');
         cy.wrap(subject).click();
 
         // type in the search term if available
         if (value) {
-            cy.get(".sw-select-result-list").should("be.visible");
+            cy.get('.sw-select-result-list').should('be.visible');
             cy.get(`${selector} ${inputCssSelector}`).clear();
             cy.get(`${selector} ${inputCssSelector}`).type(value);
             cy.get(`${selector} ${inputCssSelector}`).should(
-                "have.value",
+                'have.value',
                 value
             );
 
             // Wait the debounce time for the search to begin
             cy.wait(500);
 
-            cy.get(`${selector}.sw-loader__element`).should("not.exist");
+            cy.get(`${selector}.sw-loader__element`).should('not.exist');
 
-            cy.get(`${selector} .is--disabled`).should("not.exist");
+            cy.get(`${selector} .is--disabled`).should('not.exist');
 
-            cy.get(".sw-select-result__result-item-text").should("be.visible");
+            cy.get('.sw-select-result__result-item-text').should('be.visible');
 
-            cy.get(".sw-select-result__result-item-text")
+            cy.get('.sw-select-result__result-item-text')
                 .contains(value)
                 .click({ force: true });
         } else {
@@ -313,7 +313,7 @@ Cypress.Commands.add(
             cy.get(`${resultPrefix}-option--0`).click({ force: true });
         }
 
-        cy.get(`${selector} .sw-select-result-list`).should("not.exist");
+        cy.get(`${selector} .sw-select-result-list`).should('not.exist');
     }
 );
 
@@ -326,9 +326,9 @@ Cypress.Commands.add(
  * @param {String} selector - Options concerning swSelect usage
  */
 Cypress.Commands.add(
-    "typeSingleSelectAndCheck",
+    'typeSingleSelectAndCheck',
     {
-        prevSubject: "element",
+        prevSubject: 'element',
     },
     (subject, value, selector) => {
         cy.get(subject).typeSingleSelect(value, selector);
@@ -350,26 +350,26 @@ Cypress.Commands.add(
  * @param {Object} options - Options concerning swSelect usage
  */
 Cypress.Commands.add(
-    "typeLegacySelectAndCheck",
+    'typeLegacySelectAndCheck',
     {
-        prevSubject: "element",
+        prevSubject: '"element",'
     },
     (subject, value, options) => {
         const inputCssSelector = options.isMulti
-            ? ".sw-select__input"
-            : ".sw-select__input-single";
+            ? '.sw-select__input'
+            : '.sw-select__input-single';
 
-        cy.wrap(subject).should("be.visible");
+        cy.wrap(subject).should('be.visible');
 
         if (options.clearField && options.isMulti) {
             cy.get(`${subject.selector} .sw-label__dismiss`).click();
-            cy.get(`${subject.selector} ${".sw-label"}`).should("not.exist");
+            cy.get(`${subject.selector} ${".sw-label"}`).should('not.exist');
         }
 
         if (!options.isMulti) {
             // open results list
             cy.wrap(subject).click();
-            cy.get(".sw-select__results").should("be.visible");
+            cy.get('.sw-select__results').should('be.visible');
         }
 
         // type in the search term if available
@@ -379,10 +379,10 @@ Cypress.Commands.add(
             );
             cy.get(
                 `${subject.selector} .sw-select__indicators .sw-loader`
-            ).should("not.exist");
-            cy.get(".sw-select__results").should("be.visible");
+            ).should('not.exist');
+            cy.get('.sw-select__results').should('be.visible');
             cy.get(
-                ".sw-select-option--0 .sw-select-option__result-item-text"
+                '.sw-select-option--0 .sw-select-option__result-item-text'
             ).contains(value);
         }
 
@@ -392,7 +392,7 @@ Cypress.Commands.add(
         if (!options.isMulti) {
             // expect the placeholder for an empty select field not be shown and search for the value
             cy.get(`${subject.selector} .sw-select__placeholder`).should(
-                "not.exist"
+                'not.exist'
             );
             cy.get(`${subject.selector} .sw-select__single-selection`).contains(
                 value
@@ -420,16 +420,16 @@ Cypress.Commands.add(
  * @param {String} [labelColumnSelector] - Selector to select the label row
  */
 Cypress.Commands.add(
-    "assertRowWithLabelContains",
+    'assertRowWithLabelContains',
     {
-        prevSubject: "element",
+        prevSubject: 'element',
     },
     (
         subject,
         columnValue,
         columnSelector,
         labelColumnValue,
-        labelColumnSelector = ".sw-data-grid__cell--label"
+        labelColumnSelector = '.sw-data-grid__cell--label'
     ) => {
         subject
             .children()
@@ -463,7 +463,7 @@ Cypress.Commands.add('typeAndCheckSearchField', {
         method: 'post'
     }).as('searchResultCall');
 
-        cy.wrap(subject).type(value).should("have.value", value);
+        cy.wrap(subject).type(value).should('have.value', value);
 
 
     cy.wait('@searchResultCall')
@@ -480,7 +480,7 @@ Cypress.Commands.add('typeAndCheckSearchField', {
  * @param {Object}  [options={}] - Options concerning the notification
  */
 Cypress.Commands.add(
-    "awaitAndCheckNotification",
+    'awaitAndCheckNotification',
     (
         message,
         options = {
@@ -491,13 +491,13 @@ Cypress.Commands.add(
         const notification = `.sw-notifications__notification--${options.position}`;
 
         cy.get(`${notification} .sw-alert__message`)
-            .should("be.visible")
+            .should('be.visible')
             .contains(message);
 
         if (options.collapse) {
             cy.get(`${notification} .sw-alert__close`)
                 .click()
-                .should("not.exist");
+                .should('not.exist');
         }
     }
 );
@@ -513,7 +513,7 @@ Cypress.Commands.add(
  * @param {String} [menuButtonText=null] - Text of the menu button
  */
 Cypress.Commands.add(
-    "clickContextMenuItem",
+    'clickContextMenuItem',
     (
         menuButtonSelector,
         menuOpenSelector,
@@ -521,11 +521,11 @@ Cypress.Commands.add(
         menuButtonText = "",
         force = false
     ) => {
-        const contextMenuCssSelector = ".sw-context-menu";
-        const activeContextButtonCssSelector = ".is--active";
+        const contextMenuCssSelector = '.sw-context-menu';
+        const activeContextButtonCssSelector = '.is--active';
 
         if (scope != null) {
-            cy.get(scope).should("be.visible");
+            cy.get(scope).should('be.visible');
 
             if(!force) {
                 cy.get(`${scope} ${menuOpenSelector}`).should('be.visible');
@@ -533,24 +533,24 @@ Cypress.Commands.add(
 
             cy.get(`${scope} ${menuOpenSelector}`).click({ force });
 
-            if (scope.includes("row")) {
+            if (scope.includes('row')) {
                 cy.get(
                     `${menuOpenSelector}${activeContextButtonCssSelector}`
-                ).should("be.visible");
+                ).should('be.visible');
             }
         } else {
             cy.get(menuOpenSelector)
-                .should("be.visible")
+                .should('be.visible')
                 .click({ force });
         }
 
-        cy.get(contextMenuCssSelector).should("be.visible");
+        cy.get(contextMenuCssSelector).should('be.visible');
         let element = cy.get(menuButtonSelector);
         if (menuButtonText !== "") {
             element = element.contains(menuButtonText);
         }
         element.click();
-        cy.get(contextMenuCssSelector).should("not.exist");
+        cy.get(contextMenuCssSelector).should('not.exist');
     }
 );
 
@@ -565,12 +565,12 @@ Cypress.Commands.add(
  * @param {String} [obj.subMenuId=null] - Id of the sub menu item
  */
 Cypress.Commands.add(
-    "clickMainMenuItem",
+    'clickMainMenuItem',
     ({ targetPath, mainMenuId, subMenuId = null }) => {
         const finalMenuItem = `.sw-admin-menu__item--${mainMenuId}`;
 
-        cy.get(".sw-admin-menu")
-            .should("be.visible")
+        cy.get('.sw-admin-menu')
+            .should('be.visible')
             .then(() => {
                 if (subMenuId) {
                     cy.get(finalMenuItem).click();
@@ -579,10 +579,10 @@ Cypress.Commands.add(
                     ).should("be.visible");
                     cy.get(`.${subMenuId}`).click();
                 } else {
-                    cy.get(finalMenuItem).should("be.visible").click();
+                    cy.get(finalMenuItem).should('be.visible').click();
                 }
             });
-        cy.url().should("include", targetPath);
+        cy.url().should('include', targetPath);
     }
 );
 
@@ -596,17 +596,17 @@ Cypress.Commands.add(
  * @param {String} reloadSelectors.loadingIndicatorSelector - The message to look for
  */
 Cypress.Commands.add(
-    "reloadListing",
+    'reloadListing',
     (
         reloadSelectors = {
             reloadButtonSelector:
-                ".sw-sidebar-navigation-item .icon--default-arrow-360-left",
-            loadingIndicatorSelector: "sw-data-grid-skeleton",
+                '.sw-sidebar-navigation-item .icon--default-arrow-360-left',
+            loadingIndicatorSelector: 'sw-data-grid-skeleton',
         }
     ) => {
-        cy.get(reloadSelectors.reloadButtonSelector).should("be.visible");
+        cy.get(reloadSelectors.reloadButtonSelector).should('be.visible');
         cy.get(reloadSelectors.reloadButtonSelector).click();
-        cy.get(reloadSelectors.loadingIndicatorSelector).should("not.exist");
+        cy.get(reloadSelectors.loadingIndicatorSelector).should('not.exist');
     }
 );
 
@@ -616,13 +616,13 @@ Cypress.Commands.add(
  * @name openUserActionMenu
  * @function
  */
-Cypress.Commands.add("openUserActionMenu", () => {
-    cy.get(".sw-admin-menu__user-actions-toggle").should("be.visible");
+Cypress.Commands.add('openUserActionMenu', () => {
+    cy.get('.sw-admin-menu__user-actions-toggle').should('be.visible');
 
-    cy.get(".sw-admin-menu__user-actions-indicator").then(($btn) => {
-        if ($btn.hasClass("icon--small-arrow-medium-up")) {
-            cy.get(".sw-admin-menu__user-actions-toggle").click();
-            cy.get(".sw-admin-menu__logout-action").should("be.visible");
+    cy.get('.sw-admin-menu__user-actions-indicator').then(($btn) => {
+        if ($btn.hasClass('icon--small-arrow-medium-up')) {
+            cy.get('.sw-admin-menu__user-actions-toggle').click();
+            cy.get('.sw-admin-menu__logout-action').should('be.visible');
         }
     });
 });
@@ -636,19 +636,19 @@ Cypress.Commands.add("openUserActionMenu", () => {
  * @param {String} selector - Field selector
  */
 Cypress.Commands.add(
-    "fillAndCheckDateField",
+    'fillAndCheckDateField',
     {
-        prevSubject: "element",
+        prevSubject: 'element',
     },
     (subject, value, selector) => {
         // Get selector for both fields
-        cy.get(subject).should("be.visible");
+        cy.get(subject).should('be.visible');
 
         const hiddenDateFieldSelector = `${selector} .flatpickr-input:nth-of-type(1)`;
         const visibleDateFieldSelector = `${selector} .flatpickr-input.form-control`;
 
-        cy.get(hiddenDateFieldSelector).should("exist");
-        cy.get(visibleDateFieldSelector).should("be.visible");
+        cy.get(hiddenDateFieldSelector).should('exist');
+        cy.get(visibleDateFieldSelector).should('be.visible');
 
         // Set hidden ISO date
         const dateParts = value.split(" ");
@@ -666,7 +666,7 @@ Cypress.Commands.add(
 
         // Set visible date
         cy.get(visibleDateFieldSelector).type(value);
-        cy.get(visibleDateFieldSelector).type("{enter}");
+        cy.get(visibleDateFieldSelector).type('{enter}');
     }
 );
 
@@ -679,17 +679,17 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add(
     "dragTo",
-    { prevSubject: "element" },
+    { prevSubject: 'element' },
     (subject, targetEl) => {
         cy.wrap(subject).trigger("mousedown", { buttons: 1 });
 
-        cy.get(".is--dragging").should("be.visible");
+        cy.get('.is--dragging').should('be.visible');
         cy.get(targetEl)
-            .should("be.visible")
-            .trigger("mouseenter")
-            .trigger("mousemove", "center")
-            .should("have.class", "is--valid-drop")
-            .trigger("mouseup");
+            .should('be.visible')
+            .trigger('mouseenter')
+            .trigger('mousemove', 'center')
+            .should('have.class', 'is--valid-drop')
+            .trigger('mouseup');
     }
 );
 
@@ -713,14 +713,14 @@ function featureIsActive(win, feature) {
 }
 
 /**
- * Sorts a listing via clicking on name column
+ * Skip test on active feature
  * @memberOf Cypress.Chainable#
  * @name skipOnFeature
  * @function
  * @param {String} feature - Skip the test if feature is active
  * @param {() => void} cb - Optional, run the given callback if the condition passes
  */
-Cypress.Commands.add("skipOnFeature", (feature, cb) => {
+Cypress.Commands.add('skipOnFeature', (feature, cb) => {
     cy.window().then((win) => {
         const isActive = featureIsActive(win, feature);
 
@@ -735,14 +735,14 @@ Cypress.Commands.add("skipOnFeature", (feature, cb) => {
 });
 
 /**
- * Sorts a listing via clicking on name column
+ * Skip test on inactive feature
  * @memberOf Cypress.Chainable#
  * @name onlyOnFeature
  * @function
  * @param {String} feature - Skip test if feature is inactive
  * @param {() => void} cb - Optional, run the given callback if the condition passes
  */
-Cypress.Commands.add("onlyOnFeature", (feature, cb) => {
+Cypress.Commands.add('onlyOnFeature', (feature, cb) => {
     cy.window().then((win) => {
         const isActive = featureIsActive(win, feature);
 
