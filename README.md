@@ -216,7 +216,7 @@ cy.awaitAndCheckNotification('Shipping method "Luftpost" has been deleted.');
 cy.clickContextMenuItem(
     '.sw-customer-list__view-action',
     '.sw-context-button__button',
-    `.sw-data-grid__row--0`
+    '.sw-data-grid__row--0'
 );
 ```
 
@@ -242,6 +242,18 @@ cy.openUserActionMenu();
 cy.get('.sw-cms-sidebar__block-preview')
   .first()
   .dragTo('.sw-cms-section__empty-stage');
+```
+
+### Skip test if a feature is not activated
+
+```js
+cy.onlyOnFeature('FEATURE_NEXT_101')
+```
+
+### Skip test if a feature is activated
+
+```js
+cy.skipOnFeature('FEATURE_NEXT_101')
 ```
 
 ### Storefront commands
