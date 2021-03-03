@@ -173,6 +173,13 @@ cy.get('.select-payment-method')
   });
 ```
 
+#### Types multiple values in a sw-multi-select field and checks if the content was set correctly (multi select)
+
+```js
+cy.get('.select-payment-method')
+  .typeMultiSelectAndCheckMultiple(['Invoice', 'Paid in advance', 'Cash on delivery']);
+```
+
 #### Types in an sw-select field (single select)
 
 ```js
