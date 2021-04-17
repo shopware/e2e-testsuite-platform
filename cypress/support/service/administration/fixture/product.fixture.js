@@ -58,7 +58,8 @@ class ProductFixture extends AdminFixtureService {
                     field: 'name',
                     type: 'equals',
                     value: categoryName
-                }]
+                }],
+                limit: 1
             })
         }).then((result) => {
             return this.update({
