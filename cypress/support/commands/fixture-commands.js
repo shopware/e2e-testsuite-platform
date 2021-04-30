@@ -6,6 +6,7 @@ const PaymentMethodFixture = require('../service/administration/fixture/payment-
 const NewsletterRecipientFixture = require('../service/administration/fixture/newsletter-recipient.fixture');
 const CmsFixture = require('../service/administration/fixture/cms.fixture');
 const OrderFixture = require('../service/saleschannel/fixture/order.fixture');
+const OrderAdminFixture = require('../service/administration/fixture/order.fixture');
 const AdminSalesChannelFixture= require('../service/administration/fixture/sales-channel.fixture');
 const Fixture = require('../service/administration/fixture.service');
 
@@ -309,6 +310,23 @@ Cypress.Commands.add('createGuestOrder', (productId, userData) => {
         return Cypress._.merge(result, userData);
     }).then((data) => {
         return fixture.createGuestOrder(productId, data);
+    });
+});
+
+/**
+ * Create guest order fixture via admin api
+ * @memberOf Cypress.Chainable#
+ * @name createAdminOrder
+ * @function
+ * @param {Object} userData - Data proved for this order to be created
+ */
+Cypress.Commands.add('createAdminOrder', (userData) => {
+    const fixture = new OrderAdminFixture();
+
+    return cy.fixture('order').then((result) => {
+        return Cypress._.merge(result, userData);
+    }).then((data) => {
+        return fixture.setOrderFixture(data);
     });
 });
 
