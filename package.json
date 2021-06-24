@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/core": "7.7.5",
-    "@babel/plugin-proposal-object-rest-spread": "7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.14.7",
     "@babel/preset-env": "7.7.6",
     "@babel/register": "7.7.4",
     "@cypress/skip-test": "^2.5.0",
