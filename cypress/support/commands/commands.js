@@ -100,7 +100,7 @@ Cypress.Commands.add(
  * @param {String} value - The value to type
  */
 Cypress.Commands.add(
-   'clearTypeAndCheck',
+    'clearTypeAndCheck',
     {
         prevSubject: 'element',
     },
@@ -122,7 +122,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
     'clearTypeCheckAndEnter',
     {
-        prevSubject:'element',
+        prevSubject: 'element',
     },
     (subject, value) => {
         cy.wrap(subject).clearTypeAndCheck(value);
@@ -149,11 +149,11 @@ Cypress.Commands.add(
         const searchTerm = options.searchTerm || value;
         const position = options.position || 0;
 
-    // Request we want to wait for later
-    cy.intercept({
-        url: `${Cypress.env('apiPath')}/search/*`,
-        method: 'post'
-    }).as('filteredResultCall');
+        // Request we want to wait for later
+        cy.intercept({
+            url: `${Cypress.env('apiPath')}/search/*`,
+            method: 'post'
+        }).as('filteredResultCall');
 
         cy.wrap(subject).should('be.visible');
 
@@ -307,10 +307,10 @@ Cypress.Commands.add(
 
             cy.get('.sw-select-result__result-item-text')
                 .contains(value)
-                .click({ force: true });
+                .click({force: true});
         } else {
             // Select the first element
-            cy.get(`${resultPrefix}-option--0`).click({ force: true });
+            cy.get(`${resultPrefix}-option--0`).click({force: true});
         }
 
         cy.get(`${selector} .sw-select-result-list`).should('not.exist');
@@ -456,15 +456,13 @@ Cypress.Commands.add(
 Cypress.Commands.add('typeAndCheckSearchField', {
     prevSubject: 'element'
 }, (subject, value) => {
-
     // Request we want to wait for later
     cy.intercept({
         url: `${Cypress.env('apiPath')}/search/**`,
         method: 'post'
     }).as('searchResultCall');
 
-        cy.wrap(subject).type(value).should('have.value', value);
-
+    cy.wrap(subject).type(value).should('have.value', value);
 
     cy.wait('@searchResultCall')
         .its('response.statusCode').should('equal', 200);
@@ -527,11 +525,11 @@ Cypress.Commands.add(
         if (scope != null) {
             cy.get(scope).should('be.visible');
 
-            if(!force) {
+            if (!force) {
                 cy.get(`${scope} ${menuOpenSelector}`).should('be.visible');
             }
 
-            cy.get(`${scope} ${menuOpenSelector}`).click({ force });
+            cy.get(`${scope} ${menuOpenSelector}`).click({force});
 
             if (scope.includes('row')) {
                 cy.get(
@@ -541,7 +539,7 @@ Cypress.Commands.add(
         } else {
             cy.get(menuOpenSelector)
                 .should('be.visible')
-                .click({ force });
+                .click({force});
         }
 
         cy.get(contextMenuCssSelector).should('be.visible');
@@ -566,7 +564,7 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add(
     'clickMainMenuItem',
-    ({ targetPath, mainMenuId, subMenuId = null }) => {
+    ({targetPath, mainMenuId, subMenuId = null}) => {
         const finalMenuItem = `.sw-admin-menu__item--${mainMenuId}`;
 
         cy.get('.sw-admin-menu')
@@ -679,9 +677,9 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add(
     "dragTo",
-    { prevSubject: 'element' },
+    {prevSubject: 'element'},
     (subject, targetEl) => {
-        cy.wrap(subject).trigger("mousedown", { buttons: 1 });
+        cy.wrap(subject).trigger("mousedown", {buttons: 1});
 
         cy.get('.is--dragging').should('be.visible');
         cy.get(targetEl)
