@@ -1,5 +1,5 @@
 const sample = require('lodash.sample');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 
 /**
  * Sends a POST using the admin api to the server

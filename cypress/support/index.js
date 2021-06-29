@@ -1,6 +1,6 @@
 // Import general dependencies
 const _ = require('lodash');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 
 require('@cypress/skip-test/support');
 
