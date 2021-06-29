@@ -1,5 +1,5 @@
 const AdminFixtureService = require('../fixture.service.js');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 
 class OrderFixture extends AdminFixtureService {
     setOrderFixture(userData = {}) {
