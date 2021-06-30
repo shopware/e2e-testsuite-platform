@@ -2,7 +2,8 @@
 const _ = require('lodash');
 const { v4: uuid } = require('uuid');
 
-require('@cypress/skip-test/support');
+// Load and register the grep feature
+require('cypress-grep')();
 
 // Import commands.js
 require('./commands/commands');
@@ -30,5 +31,5 @@ before(() => {
 });
 
 Cypress.Screenshot.defaults({
-    capture: 'viewport'
+    capture: 'viewport',
 });
