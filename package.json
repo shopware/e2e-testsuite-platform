@@ -22,7 +22,7 @@
     "@cypress/skip-test": "^2.6.1",
     "axios": "^0.21.1",
     "cypress-file-upload": "^5.0.8",
-    "cypress-select-tests": "^1.7.1",
+    "cypress-grep": "^2.5.2",
     "lodash": "^4.17.21",
     "lodash.sample": "4.2.1",
     "uuid": "8.3.2"
