@@ -15,22 +15,22 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "7.7.5",
-    "@babel/plugin-proposal-object-rest-spread": "7.7.4",
-    "@babel/preset-env": "7.7.6",
-    "@babel/register": "7.7.4",
-    "@cypress/skip-test": "^2.5.0",
-    "axios": "0.19.0",
-    "cypress-dark": "^1.7.14",
-    "cypress-file-upload": "^3.5.1",
-    "cypress-log-to-output": "^1.0.8",
-    "cypress-select-tests": "^1.4.1",
-    "lodash": "4.17.19",
+    "@babel/core": "7.14.8",
+    "@babel/plugin-proposal-object-rest-spread": "7.14.7",
+    "@babel/preset-env": "7.14.9",
+    "@babel/register": "7.14.5",
+    "@cypress/skip-test": "^2.6.1",
+    "axios": "0.21.1",
+    "cypress-dark": "^1.8.0",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-log-to-output": "^1.1.2",
+    "cypress-select-tests": "^1.7.1",
+    "lodash": "4.17.21",
     "lodash.sample": "4.2.1",
-    "uuid": "3.3.3"
+    "uuid": "8.3.2"
   },
   "peerDependencies": {
-    "cypress": "5.6.0"
+    "cypress": "7.6.0"
   },
   "engines": {
     "node": ">= 8.10.0",
