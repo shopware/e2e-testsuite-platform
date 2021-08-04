@@ -21,7 +21,6 @@
     "@babel/register": "7.14.5",
     "@cypress/skip-test": "^2.6.1",
     "axios": "0.21.1",
-    "cypress-dark": "^1.8.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-log-to-output": "^1.1.2",
     "cypress-select-tests": "^1.7.1",
