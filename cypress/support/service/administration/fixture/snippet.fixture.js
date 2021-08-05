@@ -1,8 +1,8 @@
 const AdminFixtureService = require('../fixture.service.js');
 
 class SnippetFixtureService extends AdminFixtureService {
-    constructor() {
-        super();
+    constructor(authInformation) {
+        super(authInformation);
         this.snippetFixture = this.loadJson('snippet.json');
     }
 
