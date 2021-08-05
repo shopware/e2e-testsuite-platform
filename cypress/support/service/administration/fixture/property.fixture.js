@@ -1,8 +1,8 @@
 const AdminFixtureService = require('../fixture.service.js');
 
 class PropertyFixtureService extends AdminFixtureService {
-    constructor() {
-        super();
+    constructor(authInformation) {
+        super(authInformation);
 
         this.propertyFixture = this.loadJson('property-group.json');
     }

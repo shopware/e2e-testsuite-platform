@@ -2,8 +2,8 @@ const _ = require('lodash');
 const uuid = require('uuid/v4');
 const AdminApiService = require('./admin-api.service');
 class AdminFixtureService {
-    constructor() {
-        this.apiClient = new AdminApiService();
+    constructor(authInformation) {
+        this.apiClient = new AdminApiService(authInformation);
     }
 
     create(endpoint, rawData) {

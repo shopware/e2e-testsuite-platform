@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 module.exports = class ApiService {
-    constructor() {
-        this.authInformation = {};
+    constructor(authInformation) {
+        this.authInformation = authInformation || {};
         this.basePath = '';
 
         this.client = axios.create({

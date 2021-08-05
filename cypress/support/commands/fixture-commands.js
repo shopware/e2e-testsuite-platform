@@ -19,17 +19,19 @@ const Fixture = require('../service/administration/fixture.service');
  * @param {Object} [options={}] - Options concerning deletion
  */
 Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => {
-    const fixture = new Fixture();
-    let finalRawData = {};
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new Fixture(authInformation);
+        let finalRawData = {};
 
-    if (!jsonPath) {
-        jsonPath = endpoint;
-    }
+        if (!jsonPath) {
+            jsonPath = endpoint;
+        }
 
-    return cy.fixture(jsonPath).then((json) => {
-        finalRawData = Cypress._.merge(json, data);
+        return cy.fixture(jsonPath).then((json) => {
+            finalRawData = Cypress._.merge(json, data);
 
-        return fixture.create(endpoint, finalRawData);
+            return fixture.create(endpoint, finalRawData);
+        });
     });
 });
 
@@ -42,12 +44,14 @@ Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => 
  * @param {Object} [options={}] - Options concerning creation
  */
 Cypress.Commands.add('createProductFixture', (userData = {}) => {
-    const fixture = new ProductFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new ProductFixture(authInformation);
 
-    return cy.fixture('product').then((result) => {
-        return Cypress._.merge(result, userData);
-    }).then((data) => {
-        return fixture.setProductFixture(data);
+        return cy.fixture('product').then((result) => {
+            return Cypress._.merge(result, userData);
+        }).then((data) => {
+            return fixture.setProductFixture(data);
+        });
     });
 });
 
@@ -59,12 +63,14 @@ Cypress.Commands.add('createProductFixture', (userData = {}) => {
  * @param {object} [userData={}] - Additional category data
  */
 Cypress.Commands.add('createCategoryFixture', (userData = {}) => {
-    const fixture = new CategoryFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new CategoryFixture(authInformation);
 
-    return cy.fixture('category').then((result) => {
-        return Cypress._.merge(result, userData);
-    }).then((data) => {
-        return fixture.setCategoryFixture(data);
+        return cy.fixture('category').then((result) => {
+            return Cypress._.merge(result, userData);
+        }).then((data) => {
+            return fixture.setCategoryFixture(data);
+        });
     });
 });
 
@@ -77,12 +83,14 @@ Cypress.Commands.add('createCategoryFixture', (userData = {}) => {
  * @param {Object} [options={}] - Options concerning creation
  */
 Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {
-    const fixture = new AdminSalesChannelFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new AdminSalesChannelFixture(authInformation);
 
-    return cy.fixture('product').then((result) => {
-        return Cypress._.merge(result, userData);
-    }).then((data) => {
-        return fixture.setSalesChannelFixture(data);
+        return cy.fixture('product').then((result) => {
+            return Cypress._.merge(result, userData);
+        }).then((data) => {
+            return fixture.setSalesChannelFixture(data);
+        });
     });
 });
 
@@ -94,8 +102,10 @@ Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {
  * @param {String} [salesChannelName=Storefront] - Options concerning creation
  */
 Cypress.Commands.add('setSalesChannelDomain', (salesChannelName = 'Storefront') => {
-    const fixture = new AdminSalesChannelFixture();
-    return fixture.setSalesChannelDomain(salesChannelName)
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new AdminSalesChannelFixture(authInformation);
+        return fixture.setSalesChannelDomain(salesChannelName)
+    });
 });
 
 /**
@@ -106,14 +116,16 @@ Cypress.Commands.add('setSalesChannelDomain', (salesChannelName = 'Storefront') 
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createCustomerFixture', (userData = {}) => {
-    const fixture = new CustomerFixture();
-    let customerJson = null;
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new CustomerFixture(authInformation);
+        let customerJson = null;
 
-    return cy.fixture('customer').then((result) => {
-        customerJson = Cypress._.merge(result, userData);
-        return cy.fixture('customer-address');
-    }).then((data) => {
-        return fixture.setCustomerFixture(customerJson, data);
+        return cy.fixture('customer').then((result) => {
+            customerJson = Cypress._.merge(result, userData);
+            return cy.fixture('customer-address');
+        }).then((data) => {
+            return fixture.setCustomerFixture(customerJson, data);
+        });
     });
 });
 
@@ -125,18 +137,20 @@ Cypress.Commands.add('createCustomerFixture', (userData = {}) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createCmsFixture', (userData = {}) => {
-    const fixture = new CmsFixture();
-    let pageJson = null;
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new CmsFixture(authInformation);
+        let pageJson = null;
 
-    return cy.fixture('cms-page').then((data) => {
-        pageJson = data;
-        return cy.fixture('cms-section')
-    }).then((data) => {
-        return Cypress._.merge(pageJson, {
-            sections: [data]
+        return cy.fixture('cms-page').then((data) => {
+            pageJson = data;
+            return cy.fixture('cms-section')
+        }).then((data) => {
+            return Cypress._.merge(pageJson, {
+                sections: [data]
+            });
+        }).then((data) => {
+            return fixture.setCmsPageFixture(data);
         });
-    }).then((data) => {
-        return fixture.setCmsPageFixture(data);
     });
 });
 
@@ -149,15 +163,17 @@ Cypress.Commands.add('createCmsFixture', (userData = {}) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createPropertyFixture', (options, userData) => {
-    let json = {};
-    const fixture = new Fixture();
+    return cy.authenticate().then((authInformation) => {
+        let json = {};
+        const fixture = new Fixture(authInformation);
 
-    return cy.fixture('property-group').then((result) => {
-        json = Cypress._.merge(result, options);
-    }).then(() => {
-        return Cypress._.merge(json, userData);
-    }).then((result) => {
-        return fixture.create('property-group', result);
+        return cy.fixture('property-group').then((result) => {
+            json = Cypress._.merge(result, options);
+        }).then(() => {
+            return Cypress._.merge(json, userData);
+        }).then((result) => {
+            return fixture.create('property-group', result);
+        });
     });
 });
 
@@ -168,25 +184,27 @@ Cypress.Commands.add('createPropertyFixture', (options, userData) => {
  * @function
  */
 Cypress.Commands.add('createLanguageFixture', () => {
-    let json = {};
-    const fixture = new Fixture();
+    return cy.authenticate().then((authInformation) => {
+        let json = {};
+        const fixture = new Fixture(authInformation);
 
-    return cy.fixture('language').then((result) => {
-        json = result;
+        return cy.fixture('language').then((result) => {
+            json = result;
 
-        return fixture.search('locale', {
-            field: 'code',
-            type: 'equals',
-            value: 'en-PH'
+            return fixture.search('locale', {
+                field: 'code',
+                type: 'equals',
+                value: 'en-PH'
+            });
+        }).then((result) => {
+            return {
+                name: json.name,
+                localeId: result.id,
+                parentId: json.parentId
+            };
+        }).then((result) => {
+            return fixture.create('language', result);
         });
-    }).then((result) => {
-        return {
-            name: json.name,
-            localeId: result.id,
-            parentId: json.parentId
-        };
-    }).then((result) => {
-        return fixture.create('language', result);
     });
 });
 
@@ -198,12 +216,14 @@ Cypress.Commands.add('createLanguageFixture', () => {
  * @param {Object} [options={}] - Options concerning creation
  */
 Cypress.Commands.add('createShippingFixture', (userData) => {
-    const fixture = new ShippingFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new ShippingFixture(authInformation);
 
-    return cy.fixture('shipping-method').then((result) => {
-        return Cypress._.merge(result, userData);
-    }).then((data) => {
-        return fixture.setShippingFixture(data);
+        return cy.fixture('shipping-method').then((result) => {
+            return Cypress._.merge(result, userData);
+        }).then((data) => {
+            return fixture.setShippingFixture(data);
+        });
     });
 });
 
@@ -215,12 +235,14 @@ Cypress.Commands.add('createShippingFixture', (userData) => {
  * @param {Object} [options={}] - Options concerning creation
  */
 Cypress.Commands.add('createPaymentMethodFixture', (userData) => {
-    const fixture = new PaymentMethodFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new PaymentMethodFixture(authInformation);
 
-    return cy.fixture('payment-method').then((result) => {
-        return Cypress._.merge(result, userData);
-    }).then((data) => {
-        return fixture.setPaymentMethodFixture(data);
+        return cy.fixture('payment-method').then((result) => {
+            return Cypress._.merge(result, userData);
+        }).then((data) => {
+            return fixture.setPaymentMethodFixture(data);
+        });
     });
 });
 
@@ -232,12 +254,14 @@ Cypress.Commands.add('createPaymentMethodFixture', (userData) => {
  * @param {Object} [options={}] - Options concerning creation
  */
 Cypress.Commands.add('createNewsletterRecipientFixture', (recipient) => {
-    const fixture = new NewsletterRecipientFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new NewsletterRecipientFixture(authInformation);
 
-    return cy.fixture('customer').then((result) => {
-        return Cypress._.merge(result, recipient);
-    }).then((recipientData) => {
-        return fixture.setNewsletterRecipientFixture(recipientData);
+        return cy.fixture('customer').then((result) => {
+            return Cypress._.merge(result, recipient);
+        }).then((recipientData) => {
+            return fixture.setNewsletterRecipientFixture(recipientData);
+        });
     });
 });
 
@@ -249,36 +273,38 @@ Cypress.Commands.add('createNewsletterRecipientFixture', (recipient) => {
  * @param {Object} [options={}] - Options concerning creation
  */
 Cypress.Commands.add('createSnippetFixture', () => {
-    let json = {};
-    const fixture = new Fixture();
+    return cy.authenticate().then((authInformation) => {
+        let json = {};
+        const fixture = new Fixture(authInformation);
 
-    const findLanguageId = () => fixture.search('language', {
-        type: 'equals',
-        value: 'English'
-    });
-    const findSetId = () => fixture.search('snippet-set', {
-        type: 'equals',
-        value: 'BASE en-GB'
-    });
-
-    return cy.fixture('snippet')
-        .then((result) => {
-            json = result;
-
-            return Promise.all([
-                findLanguageId(),
-                findSetId()
-            ])
-        })
-        .then(([language, set]) => {
-            return Cypress._.merge(json, {
-                languageId: language.id,
-                setId: set.id
-            });
-        })
-        .then((result) => {
-            return fixture.create('snippet', result);
+        const findLanguageId = () => fixture.search('language', {
+            type: 'equals',
+            value: 'English'
         });
+        const findSetId = () => fixture.search('snippet-set', {
+            type: 'equals',
+            value: 'BASE en-GB'
+        });
+
+        return cy.fixture('snippet')
+            .then((result) => {
+                json = result;
+
+                return Promise.all([
+                    findLanguageId(),
+                    findSetId()
+                ])
+            })
+            .then(([language, set]) => {
+                return Cypress._.merge(json, {
+                    languageId: language.id,
+                    setId: set.id
+                });
+            })
+            .then((result) => {
+                return fixture.create('snippet', result);
+            });
+    });
 });
 
 /**
@@ -290,9 +316,11 @@ Cypress.Commands.add('createSnippetFixture', () => {
  * @param {Object} customer - Options concerning customer
  */
 Cypress.Commands.add('createOrder', (productId, customer) => {
-    const fixture = new OrderFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new OrderFixture(authInformation);
 
-    return fixture.createOrder(productId, customer);
+        return fixture.createOrder(productId, customer);
+    });
 });
 
 /**
@@ -304,12 +332,14 @@ Cypress.Commands.add('createOrder', (productId, customer) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createGuestOrder', (productId, userData) => {
-    const fixture = new OrderFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new OrderFixture(authInformation);
 
-    return cy.fixture('storefront-customer').then((result) => {
-        return Cypress._.merge(result, userData);
-    }).then((data) => {
-        return fixture.createGuestOrder(productId, data);
+        return cy.fixture('storefront-customer').then((result) => {
+            return Cypress._.merge(result, userData);
+        }).then((data) => {
+            return fixture.createGuestOrder(productId, data);
+        });
     });
 });
 
@@ -321,12 +351,14 @@ Cypress.Commands.add('createGuestOrder', (productId, userData) => {
  * @param {Object} userData - Data proved for this order to be created
  */
 Cypress.Commands.add('createAdminOrder', (userData) => {
-    const fixture = new OrderAdminFixture();
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new OrderAdminFixture(authInformation);
 
-    return cy.fixture('order').then((result) => {
-        return Cypress._.merge(result, userData);
-    }).then((data) => {
-        return fixture.setOrderFixture(data);
+        return cy.fixture('order').then((result) => {
+            return Cypress._.merge(result, userData);
+        }).then((data) => {
+            return fixture.setOrderFixture(data);
+        });
     });
 });
 
@@ -338,18 +370,20 @@ Cypress.Commands.add('createAdminOrder', (userData) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createPromotionFixture', (userData = {}) => {
-    const fixture = new OrderFixture();
-    let promotionId = '';
+    return cy.authenticate().then((authInformation) => {
+        const fixture = new OrderFixture(authInformation);
+        let promotionId = '';
 
-    return cy.fixture('promotion').then((result) => {
-        return Cypress._.merge(result, userData);
-    }).then((data) => {
-        return fixture.setPromotionFixture(data);
-    }).then((data) => {
-        promotionId = data.id;
-        return cy.fixture('discount');
-    }).then((result) => {
-        return fixture.setDiscountFixture(result, promotionId);
+        return cy.fixture('promotion').then((result) => {
+            return Cypress._.merge(result, userData);
+        }).then((data) => {
+            return fixture.setPromotionFixture(data);
+        }).then((data) => {
+            promotionId = data.id;
+            return cy.fixture('discount');
+        }).then((result) => {
+            return fixture.setDiscountFixture(result, promotionId);
+        });
     });
 });
 
