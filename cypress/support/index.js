@@ -19,12 +19,6 @@ require('./commands/storefront-api-commands');
 // Import fixture commands.js
 require('./commands/system-commands');
 
-// Import themes:
-if (Cypress.config('useDarkTheme')) {
-    require('cypress-dark');
-    require('cypress-dark/src/halloween');
-}
-
 Cypress.on('uncaught:exception', (err, runnable) => {
     // returning false here prevents Cypress from
     // failing the test
