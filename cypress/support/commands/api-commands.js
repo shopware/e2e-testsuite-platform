@@ -31,9 +31,13 @@ Cypress.Commands.add('authenticate', () => {
 
             cy.log('request /api/oauth/token')
 
-            // cookie should expire before the token is expired
-            return cy.setCookie('_apiAuth', JSON.stringify(result), { expiry: result.expiry - 10})
-                .then(() => result)
+            // auth token needs to have at least x seconds of lifetime left
+            const minimumLifetime = Cypress.env('minAuthTokenLifetime') || 60;
+            return cy.setCookie(
+                '_apiAuth',
+                JSON.stringify(result),
+                { expiry: result.expiry - minimumLifetime}
+            ).then(() => result)
         });
     })
 });
@@ -46,8 +50,15 @@ Cypress.Commands.add('authenticate', () => {
  */
 Cypress.Commands.add('loginViaApi', () => {
     return cy.authenticate().then((result) => {
-        // cookie should expire before the token is invalid
-        cy.setCookie('bearerAuth', JSON.stringify(result), { expiry: result.expiry - 5});
+        // we do not need to expire this because the refresh token is valid for a week and this cookie is not persisted
+        cy.setCookie(
+            'bearerAuth',
+            JSON.stringify(result),
+            {
+                path: Cypress.env('admin'),
+                sameSite: "strict"
+            }
+        );
 
         // Return bearer token
         return cy.getCookie('bearerAuth');
