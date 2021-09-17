@@ -5,9 +5,9 @@ const AdminApiService = require('../administration/admin-api.service');
 const AdminFixtureService = require('../administration/fixture.service.js');
 
 class SalesChannelFixtureService {
-    constructor() {
+    constructor(adminApiAuthInformation) {
         this.apiClient = new StoreApiService(process.env.APP_URL);
-        this.adminApiClient = new AdminApiService(process.env.APP_URL);
+        this.adminApiClient = new AdminApiService(adminApiAuthInformation);
     }
 
     createUuid() {

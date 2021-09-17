@@ -15,6 +15,10 @@ module.exports = class AdminApiService extends ApiService {
      * @returns {Object}
      */
     loginByUserName(username = 'admin', password = 'shopware') {
+        if (this.authInformation && this.authInformation.access_token) {
+            return Promise.resolve(this.authInformation);
+        }
+
         return this.client.post('/oauth/token', {
             grant_type: 'password',
             client_id: 'administration',
