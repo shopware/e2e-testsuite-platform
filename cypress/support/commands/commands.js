@@ -131,7 +131,7 @@ Cypress.Commands.add(
 );
 
 /**
- * Types in a sw-select field and checks if the content was correctly typed
+ * Types in a sw-multiselect field and checks if the content was correctly typed
  * @memberOf Cypress.Chainable#
  * @name typeMultiSelectAndCheck
  * @function
@@ -267,7 +267,7 @@ Cypress.Commands.add(
 );
 
 /**
- * Types in an sw-select field
+ * Types in an sw-singleselect field
  * @memberOf Cypress.Chainable#
  * @name typeSingleSelect
  * @function
@@ -318,7 +318,7 @@ Cypress.Commands.add(
 );
 
 /**
- * Types in an sw-select field and checks if the content was correctly typed
+ * Types in an sw-singleselect field and checks if the content was correctly typed
  * @memberOf Cypress.Chainable#
  * @name typeSingleSelectAndCheck
  * @function
@@ -454,12 +454,12 @@ Cypress.Commands.add(
  * @param {String} value - The value to type
  */
 Cypress.Commands.add('typeAndCheckSearchField', {
-    prevSubject: 'element'
+    prevSubject: 'element',
 }, (subject, value) => {
     // Request we want to wait for later
     cy.intercept({
         url: `${Cypress.env('apiPath')}/search/**`,
-        method: 'post'
+        method: 'post',
     }).as('searchResultCall');
 
     cy.wrap(subject).type(value).should('have.value', value);
@@ -555,7 +555,7 @@ Cypress.Commands.add(
 /**
  * Navigate to module by clicking the corresponding main menu item
  * @memberOf Cypress.Chainable#
- * @name clickMainMenuItem
+ * @name legacyClickMainMenuItem
  * @function
  * @param {Object} obj - Menu options
  * @param {String} obj.targetPath - The url the user should end with
@@ -563,7 +563,7 @@ Cypress.Commands.add(
  * @param {String} [obj.subMenuId=null] - Id of the sub menu item
  */
 Cypress.Commands.add(
-    'clickMainMenuItem',
+    'legacyClickMainMenuItem',
     ({targetPath, mainMenuId, subMenuId = null}) => {
         const finalMenuItem = `.sw-admin-menu__item--${mainMenuId}`;
 
@@ -752,4 +752,276 @@ Cypress.Commands.add('onlyOnFeature', (feature, cb) => {
 
         cy.onlyOn(isActive, cb);
     });
+});
+
+/**
+ * Types in an input element and checks if the content was correctly typed, tailored for Storefront
+ * @memberOf Cypress.Chainable#
+ * @name typeAndCheck
+ * @function
+ * @param {String} value - The value to type
+ */
+Cypress.Commands.add('typeAndCheckStorefront', {
+    prevSubject: 'element'
+}, (subject, value) => {
+    cy.wrap(subject).type(value).invoke('val').should('eq', value);
+});
+
+/**
+ * Selects an option in an select element
+ * @memberOf Cypress.Chainable#
+ * @name typeAndCheck
+ * @function
+ * @param {String} value - The value to type
+ */
+Cypress.Commands.add('typeAndSelect', {
+    prevSubject: 'element'
+}, (subject, value) => {
+    cy.wrap(subject).select(value);
+});
+
+/**
+ * Sorts a listing via clicking on name column
+ * @memberOf Cypress.Chainable#
+ * @name sortAndCheckListingAscViaColumn
+ * @function
+ * @param {String} columnTitle - Title of the column to sort with
+ * @param {String} firstEntry - String of the first entry to be in listing after sorting
+ * @param {String} [rowZeroSelector = .sw-data-grid__row--0]  - Column to be checked
+ */
+Cypress.Commands.add('sortAndCheckListingAscViaColumn', (
+    columnTitle,
+    firstEntry,
+    rowZeroSelector = '.sw-data-grid__row--0',
+) => {
+    // Sort listing
+    cy.contains('.sw-data-grid__cell-content', columnTitle).should('be.visible');
+    cy.contains('.sw-data-grid__cell-content', columnTitle).click();
+
+    // Assertions to make sure listing is loaded
+    cy.get('.sw-data-grid__skeleton').should('not.exist');
+    cy.get('.sw-loader').should('not.exist');
+
+    // Assertions to make sure sorting was applied
+    cy.get('.sw-data-grid__sort-indicator').should('be.visible');
+    cy.get('.icon--small-arrow-small-down').should('not.exist');
+    cy.get('.icon--small-arrow-small-up').should('be.visible');
+    cy.get(rowZeroSelector).should('be.visible');
+    cy.contains(rowZeroSelector, firstEntry).should('be.visible');
+});
+
+/**
+ * Test whether the searchTerm, sorting, page and limit get applied to the URL and the listing
+ * @memberOf Cypress.Chainable#
+ * @name testListing
+ * @function
+ * @param {String} searchTerm - the searchTerm for witch should be searched for
+ * @param {Object} sorting - the sorting to be checked
+ * @param {Number} sorting.location - the column in wich the number is
+ * @param {String} sorting.text - the text in the column header
+ * @param {String} sorting.propertyName - the 'technical' name for the column
+ * @param {('ASC'|'DESC')} sorting.sortDirection - the sort direction
+ * @param {Number} page - the page to be checked
+ * @param {Number} limit - the limit to be checked
+ * @param {boolean} changesUrl - whether changing the sorting or page updates the URL
+
+ */
+Cypress.Commands.add('testListing', ({ searchTerm, sorting = {
+    location: undefined,
+    text: undefined,
+    propertyName: undefined,
+    sortDirection: undefined,
+}, page, limit, changesUrl = true }) => {
+    cy.get('.sw-loader').should('not.exist');
+    cy.get('.sw-data-grid__skeleton').should('not.exist');
+
+    // check search term if supplied
+    if (searchTerm) {
+        cy.url().should('contain', `term=${searchTerm}`);
+        cy.get('.sw-search-bar__input').should('have.value', searchTerm);
+    }
+
+    // determine what icon class should be displayed
+    let iconClass;
+    switch (sorting.sortDirection) {
+        case 'ASC':
+            iconClass = '.icon--small-arrow-small-up';
+            break;
+        case 'DESC':
+            iconClass = '.icon--small-arrow-small-down';
+            break;
+        default:
+            throw new Error(`${sorting.sortDirection} is not a valid sorting direction`);
+    }
+
+    if (changesUrl) {
+        cy.url().should('contain', `sortBy=${sorting.propertyName}`);
+        cy.url().should('contain', `sortDirection=${sorting.sortDirection}`);
+        cy.url().should('contain', `page=${page}`);
+        cy.url().should('contain', `limit=${limit}`);
+    }
+
+    // check sorting
+    cy.get(`.sw-data-grid__cell--${sorting.location} > .sw-data-grid__cell-content`).contains(sorting.text);
+    cy.get(`.sw-data-grid__cell--${sorting.location} > .sw-data-grid__cell-content`).get(iconClass)
+        .should('be.visible');
+
+    // check page
+    cy.get(`:nth-child(${page}) > .sw-pagination__list-button`).should('have.class', 'is-active');
+
+    // check limit
+    cy.get('#perPage').contains(limit);
+    // here we have to add 1 because the <th> has the same class
+    cy.get('.sw-data-grid__row').should('have.length', (limit + 1));
+});
+
+/**
+ * Types in a sw-multi-select field all the specified values and checks if the content was correctly set.
+ * @memberOf Cypress.Chainable#
+ * @name typeMultiSelectAndCheckMultiple
+ * @function
+ * @param {String[]} values - Desired values of the element
+ */
+Cypress.Commands.add(
+    'typeMultiSelectAndCheckMultiple',
+    {
+        prevSubject: 'element',
+    },
+    (subject, values) => {
+        // Request we want to wait for later
+        cy.server();
+        cy.route({
+            url: `${Cypress.env('apiPath')}/search/*`,
+            method: 'post',
+        }).as('filteredResultCall');
+
+        cy.wrap(subject)
+            .scrollIntoView() // try to make it visible so it does not error out if it is not in view
+            .should('be.visible');
+
+        // type in each value and select it
+        for (let i = 0; i < values.length; i += 1) {
+            cy.get(`${subject.selector} .sw-select-selection-list__input`)
+                .clear()
+                .type(values[i])
+                .should(
+                    'have.value',
+                    values[i],
+                );
+
+            // wait for the first request (which happens on opening / clicking in the input
+            cy.wait('@filteredResultCall').then(() => {
+                // wait for the second request (which happens on stop typing with the actual search)
+                cy.wait('@filteredResultCall').then(() => {
+                    cy.get('.sw-loader__element').should('not.exist');
+                });
+            });
+
+            // select the value
+            cy.contains('.sw-select-result-list__content .sw-select-result', values[i])
+                .should('be.visible')
+                .click();
+        }
+
+        // close search results
+        cy.get(`${subject.selector} .sw-select-selection-list__input`).type('{esc}');
+        cy.get(`${subject.selector} .sw-select-result-list`).should(
+            'not.exist',
+        );
+
+        // check if all values are selected
+        for (let i = 0; i < values.length; i += 1) {
+            cy.get(`${subject.selector} .sw-select-selection-list`)
+                .should('contain', values[i]);
+        }
+
+        // return same element as the one this command works on so it can be chained with other commands.
+        // otherwise it will return the last element which is in this case a '.sw-select-selection-list' element.
+        cy.wrap(subject);
+    },
+);
+
+/**
+ * Get an element which is attached correctly
+ * @memberOf Cypress.Chainable#
+ * @name typeMultiSelectAndCheckMultiple
+ * @function
+ * @param {String} selector - Desired values of the element
+ */
+Cypress.Commands.add('getAttached', selector => {
+    const getElement = typeof selector === 'function' ? selector : $d => $d.find(selector);
+    let $el = null;
+
+    return cy.document().should($d => {
+        $el = getElement(Cypress.$($d));
+
+        // eslint-disable-next-line no-unused-expressions
+        expect(Cypress.dom.isDetached($el)).to.be.false;
+    }).then(() => cy.wrap($el));
+});
+
+/**
+ * Navigate to module by clicking the corresponding main menu item
+ * @memberOf Cypress.Chainable#
+ * @name clickMainMenuItem
+ * @function
+ * @param {Object} obj - Menu options
+ * @param {String} obj.targetPath - The url the user should end with
+ * @param {String} obj.mainMenuId - Id of the Main Menu item
+ * @param {String} [obj.subMenuId=null] - Id of the sub menu item
+ */
+Cypress.Commands.add(
+    'clickMainMenuItem',
+    ({ targetPath, mainMenuId, subMenuId = null }) => {
+        const finalMenuItem = `.sw-admin-menu__item--${mainMenuId}`;
+
+        cy.get('.sw-loader').should('not.exist');
+        cy.get('.sw-admin-menu')
+            .should('be.visible')
+            .then(() => {
+                if (subMenuId) {
+                    cy.get(finalMenuItem).click();
+                    cy.get(`.sw-admin-menu__item--${mainMenuId} .router-link-active`).should('be.visible');
+                    cy.get(`.sw-admin-menu__navigation-list-item .${subMenuId}`).should('be.visible')
+                        .then($el => Cypress.dom.isDetached($el));
+                    cy.log(`Element ${subMenuId} is detached.`);
+                    cy.get(`.sw-admin-menu__navigation-list-item .${subMenuId}`).should('be.visible')
+                        .then($el => Cypress.dom.isAttached($el));
+                    cy.log(`Element ${subMenuId} is now attached to the DOM.`);
+
+                    // the admin menu sometimes replaces the dom element. So we wait for some time
+                    cy.wait(500);
+                    cy.get(`.sw-admin-menu__item--${mainMenuId} .sw-admin-menu__navigation-list-item.${subMenuId}`)
+                        .should('be.visible');
+
+                    cy.get(`.sw-admin-menu__item--${mainMenuId} .sw-admin-menu__navigation-list-item.${subMenuId}`)
+                        .click();
+                } else {
+                    cy.get(finalMenuItem).should('be.visible').click();
+                }
+            });
+        cy.url().should('include', targetPath);
+    },
+);
+
+/**
+ * Ensures Shopware's modals are fully loaded
+ * @memberOf Cypress.Chainable#
+ * @name handleModalSnapshot
+ * @param {String} title - Modal title
+ * @function
+ */
+Cypress.Commands.add('handleModalSnapshot', (title) => {
+    cy.contains('.sw-modal__header', title).should('be.visible');
+
+    cy.get('.sw-modal').should('be.visible').then(() => {
+        cy.get('.sw-modal-fade-enter-active').should('not.exist');
+        cy.get('.sw-modal-fade-enter').should('not.exist');
+    }).then(() => {
+        cy.get('.sw-modal-fade-leave-active').should('not.exist');
+        cy.get('.sw-modal-fade-leave-to').should('not.exist');
+    })
+        .then(() => {
+            cy.get('.sw-modal').should('have.css', 'opacity', '1');
+        });
 });

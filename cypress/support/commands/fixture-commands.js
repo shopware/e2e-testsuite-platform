@@ -8,6 +8,7 @@ const CmsFixture = require('../service/administration/fixture/cms.fixture');
 const OrderFixture = require('../service/saleschannel/fixture/order.fixture');
 const OrderAdminFixture = require('../service/administration/fixture/order.fixture');
 const AdminSalesChannelFixture= require('../service/administration/fixture/sales-channel.fixture');
+const RuleBuilderFixture = require('../service/fixture/rule-builder.fixture');
 const Fixture = require('../service/administration/fixture.service');
 
 /**
@@ -16,7 +17,7 @@ const Fixture = require('../service/administration/fixture.service');
  * @name createDefaultFixture
  * @function
  * @param {String} endpoint - API endpoint for the request
- * @param {Object} [options={}] - Options concerning deletion
+ * @param {Object} [data={}] - Options concerning fixture
  */
 Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => {
     return cy.authenticate().then((authInformation) => {
@@ -41,7 +42,7 @@ Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => 
  * @name createProductFixture
  * @function
  * @param {String} endpoint - API endpoint for the request
- * @param {Object} [options={}] - Options concerning creation
+ * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createProductFixture', (userData = {}) => {
     return cy.authenticate().then((authInformation) => {
@@ -80,7 +81,7 @@ Cypress.Commands.add('createCategoryFixture', (userData = {}) => {
  * @name createSalesChannelFixture
  * @function
  * @param {String} endpoint - API endpoint for the request
- * @param {Object} [options={}] - Options concerning creation
+ * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {
     return cy.authenticate().then((authInformation) => {
@@ -99,7 +100,7 @@ Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {
  * @memberOf Cypress.Chainable#
  * @name setSalesChannelDomain
  * @function
- * @param {String} [salesChannelName=Storefront] - Options concerning creation
+ * @param {String} [salesChannelName=Storefront] - Name of the sales channel to work on
  */
 Cypress.Commands.add('setSalesChannelDomain', (salesChannelName = 'Storefront') => {
     return cy.authenticate().then((authInformation) => {
@@ -162,7 +163,7 @@ Cypress.Commands.add('createCmsFixture', (userData = {}) => {
  * @param {Object} [options={}] - Options concerning creation
  * @param {Object} [userData={}] - Options concerning creation
  */
-Cypress.Commands.add('createPropertyFixture', (options, userData) => {
+Cypress.Commands.add('createPropertyFixture', (options = {}, userData = {}) => {
     return cy.authenticate().then((authInformation) => {
         let json = {};
         const fixture = new Fixture(authInformation);
@@ -213,9 +214,9 @@ Cypress.Commands.add('createLanguageFixture', () => {
  * @memberOf Cypress.Chainable#
  * @name createShippingFixture
  * @function
- * @param {Object} [options={}] - Options concerning creation
+ * @param {Object} [userData={}] - Options concerning creation
  */
-Cypress.Commands.add('createShippingFixture', (userData) => {
+Cypress.Commands.add('createShippingFixture', (userData = {}) => {
     return cy.authenticate().then((authInformation) => {
         const fixture = new ShippingFixture(authInformation);
 
@@ -232,9 +233,9 @@ Cypress.Commands.add('createShippingFixture', (userData) => {
  * @memberOf Cypress.Chainable#
  * @name createPaymentMethodFixture
  * @function
- * @param {Object} [options={}] - Options concerning creation
+ * @param {Object} [userData={}] - Options concerning creation
  */
-Cypress.Commands.add('createPaymentMethodFixture', (userData) => {
+Cypress.Commands.add('createPaymentMethodFixture', (userData = {}) => {
     return cy.authenticate().then((authInformation) => {
         const fixture = new PaymentMethodFixture(authInformation);
 
@@ -251,9 +252,9 @@ Cypress.Commands.add('createPaymentMethodFixture', (userData) => {
  * @memberOf Cypress.Chainable#
  * @name createNewsletterRecipientFixture
  * @function
- * @param {Object} [options={}] - Options concerning creation
+ * @param {Object} [recipient={}] - Options concerning creation
  */
-Cypress.Commands.add('createNewsletterRecipientFixture', (recipient) => {
+Cypress.Commands.add('createNewsletterRecipientFixture', (recipient = {}) => {
     return cy.authenticate().then((authInformation) => {
         const fixture = new NewsletterRecipientFixture(authInformation);
 
@@ -313,9 +314,9 @@ Cypress.Commands.add('createSnippetFixture', () => {
  * @name createOrder
  * @function
  * @param {String} productId - ID of the product to be added to the order
- * @param {Object} customer - Options concerning customer
+ * @param {Object} [customer={}] - Options concerning customer
  */
-Cypress.Commands.add('createOrder', (productId, customer) => {
+Cypress.Commands.add('createOrder', (productId, customer = {}) => {
     return cy.authenticate().then((authInformation) => {
         const fixture = new OrderFixture(authInformation);
 
@@ -331,7 +332,7 @@ Cypress.Commands.add('createOrder', (productId, customer) => {
  * @param {String} productId - Options concerning creation
  * @param {Object} [userData={}] - Options concerning creation
  */
-Cypress.Commands.add('createGuestOrder', (productId, userData) => {
+Cypress.Commands.add('createGuestOrder', (productId, userData = {}) => {
     return cy.authenticate().then((authInformation) => {
         const fixture = new OrderFixture(authInformation);
 
@@ -348,9 +349,9 @@ Cypress.Commands.add('createGuestOrder', (productId, userData) => {
  * @memberOf Cypress.Chainable#
  * @name createAdminOrder
  * @function
- * @param {Object} userData - Data proved for this order to be created
+ * @param {Object} [userData={}] - Data proved for this order to be created
  */
-Cypress.Commands.add('createAdminOrder', (userData) => {
+Cypress.Commands.add('createAdminOrder', (userData = {}) => {
     return cy.authenticate().then((authInformation) => {
         const fixture = new OrderAdminFixture(authInformation);
 
@@ -456,5 +457,355 @@ Cypress.Commands.add('setProductFixtureVisibility', (productName, categoryName) 
                 }]
             }
         });
+    });
+});
+
+/**
+ * Set a customer group using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name setCustomerGroup
+ * @function
+ * @param {String} endpoint - API endpoint for the request
+ * @param {Object} [options={}] - Options concerning deletion
+ */
+Cypress.Commands.add('setCustomerGroup', (customerNumber, customerGroupData) => {
+    let customer = '';
+
+    return cy.fixture('customer-group').then((json) => {
+        return cy.createViaAdminApi({
+            endpoint: 'customer-group',
+            data: customerGroupData
+        });
+    }).then(() => {
+        return cy.searchViaAdminApi({
+            endpoint: 'customer',
+            data: {
+                field: 'customerNumber',
+                value: customerNumber
+            }
+        });
+    }).then((result) => {
+        customer = result;
+
+        return cy.searchViaAdminApi({
+            endpoint: 'customer-group',
+            data: {
+                field: 'name',
+                value: customerGroupData.name
+            }
+        });
+    }).then((result) => {
+        return cy.updateViaAdminApi('customer', customer.id, {
+            data: {
+                groupId: result.id
+            }
+        })
+    });
+});
+
+/**
+ * Set a rule using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name createRuleFixture
+ * @function
+ * @param {String} endpoint - API endpoint for the request
+ * @param {Object} [options={}] - Options concerning deletion
+ */
+Cypress.Commands.add('createRuleFixture', (userData, shippingMethodName = 'Standard') => {
+    const fixture = new RuleBuilderFixture();
+
+    return cy.fixture('rule-builder-shipping-payment.json').then((result) => {
+        return Cypress._.merge(result, userData);
+    }).then((data) => {
+        return fixture.setRuleFixture(data, shippingMethodName);
+    })
+});
+
+/**
+ * Add role with Permissions, to be used after Administration was fully loaded once
+ * @memberOf Cypress.Chainable#
+ * @name loginAsUserWithPermissions
+ * @function
+ * @param {Array} permissions - The permissions for the role
+ */
+Cypress.Commands.add('loginAsUserWithPermissions', {
+    prevSubject: false,
+}, (permissions) => {
+    cy.window().then(($w) => {
+        const roleID = 'ef68f039468d4788a9ee87db9b3b94de';
+        const localeId = $w.Shopware.State.get('session').currentUser.localeId;
+        let headers = {
+            Accept: 'application/vnd.api+json',
+            Authorization: `Bearer ${$w.Shopware.Context.api.authToken.access}`,
+            'Content-Type': 'application/json',
+        };
+
+        cy.request({
+            url: '/api/oauth/token',
+            method: 'POST',
+            headers: headers,
+            body: {
+                grant_type: 'password',
+                client_id: 'administration',
+                scope: 'user-verified',
+                username: 'admin',
+                password: 'shopware',
+            },
+        }).then(response => {
+            // overwrite headers with new scope
+            headers = {
+                Accept: 'application/vnd.api+json',
+                Authorization: `Bearer ${response.body.access_token}`,
+                'Content-Type': 'application/json',
+            };
+
+            return cy.request({
+                url: '/api/acl-role',
+                method: 'POST',
+                headers: headers,
+                body: {
+                    id: roleID,
+                    name: 'e2eRole',
+                    privileges: (() => {
+                        const privilegesService = $w.Shopware.Service('privileges');
+
+                        const adminPrivileges = permissions.map(({ key, role }) => `${key}.${role}`);
+                        return privilegesService.getPrivilegesForAdminPrivilegeKeys(adminPrivileges);
+                    })(),
+                },
+            });
+        }).then(() => {
+            // save user
+            cy.request({
+                url: '/api/user',
+                method: 'POST',
+                headers: headers,
+                body: {
+                    aclRoles: [{ id: roleID }],
+                    admin: false,
+                    email: 'max@muster.com',
+                    firstName: 'Max',
+                    id: 'b7fb49e9d86d4e5b9b03c9d6f929e36b',
+                    lastName: 'Muster',
+                    localeId: localeId,
+                    password: 'Passw0rd!',
+                    username: 'maxmuster',
+                },
+            });
+        });
+
+        // logout
+        cy.get('.sw-admin-menu__user-actions-toggle').click();
+        cy.clearCookies();
+        cy.get('.sw-admin-menu__logout-action').click();
+        cy.get('.sw-login__container').should('be.visible');
+        cy.reload().then(() => {
+            cy.get('.sw-login__container').should('be.visible');
+
+            // login
+            cy.get('#sw-field--username').type('maxmuster');
+            cy.get('#sw-field--password').type('Passw0rd!');
+            cy.get('.sw-login__login-action').click();
+            cy.contains('Max Muster');
+        });
+    });
+});
+
+/**
+ * Create a review using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name createReviewFixture
+ * @function
+ */
+Cypress.Commands.add('createReviewFixture', () => {
+    // TODO move into e2e-testsuite-platform and use own service completely
+
+    let reviewJson = null;
+    let productId = '';
+    let customerId = '';
+    let salesChannelId = '';
+
+    return cy.fixture('product-review').then((data) => {
+        reviewJson = data;
+
+        return cy.getCookie('bearerAuth');
+    }).then((result) => {
+        const headers = {
+            Accept: 'application/vnd.api+json',
+            Authorization: `Bearer ${JSON.parse(result.value).access}`,
+            'Content-Type': 'application/json',
+        };
+
+        cy.createProductFixture().then(() => {
+            return cy.createCustomerFixture();
+        }).then((data) => {
+            customerId = data.id;
+
+            return cy.searchViaAdminApi({
+                endpoint: 'product',
+                data: {
+                    field: 'name',
+                    value: 'Product name',
+                },
+            });
+        }).then((data) => {
+            productId = data.id;
+
+            return cy.searchViaAdminApi({
+                endpoint: 'sales-channel',
+                data: {
+                    field: 'name',
+                    value: 'Storefront',
+                },
+            });
+        })
+            .then((data) => {
+                salesChannelId = data.id;
+
+                return cy.searchViaAdminApi({
+                    endpoint: 'language',
+                    data: {
+                        field: 'name',
+                        value: 'English',
+                    },
+                });
+            })
+            .then((data) => {
+                cy.request({
+                    url: '/api/product-review',
+                    method: 'POST',
+                    headers: headers,
+                    body: Cypress._.merge(reviewJson, {
+                        customerId: customerId,
+                        languageId: data.id,
+                        productId: productId,
+                        salesChannelId: salesChannelId,
+                    }),
+                });
+            });
+    });
+});
+
+/**
+ * Sets the specific shipping method as default in sales channel
+ * @memberOf Cypress.Chainable#
+ * @name setShippingMethodInSalesChannel
+ * @param {String} name - Name of the shipping method
+ * @param {String} [salesChannel = Storefront]  - Name of the sales channel
+ * @function
+ */
+Cypress.Commands.add('setShippingMethodInSalesChannel', (name, salesChannel = 'Storefront') => {
+    let salesChannelId;
+
+    // We need to assume that we're already logged in, so make sure to use loginViaApi command first
+    return cy.searchViaAdminApi({
+        endpoint: 'sales-channel',
+        data: {
+            field: 'name',
+            value: salesChannel,
+        },
+    }).then((data) => {
+        salesChannelId = data.id;
+
+        return cy.searchViaAdminApi({
+            endpoint: 'shipping-method',
+            data: {
+                field: 'name',
+                value: name,
+            },
+        });
+    }).then((data) => {
+        return cy.updateViaAdminApi('sales-channel', salesChannelId, {
+            data: {
+                shippingMethodId: data.id,
+            },
+        });
+    });
+});
+
+/**
+ * Creates a variant product based on given fixtures "product-variants.json", 'tax,json" and "property.json"
+ * with minor customisation
+ * @memberOf Cypress.Chainable#
+ * @name createProductVariantFixture
+ * @function
+ */
+Cypress.Commands.add('createProductVariantFixture', () => {
+    return cy.createDefaultFixture('tax', {
+        id: '91b5324352dc4ee58ec320df5dcf2bf4',
+    }).then(() => {
+        return cy.createPropertyFixture({
+            options: [{
+                id: '15532b3fd3ea4c1dbef6e9e9816e0715',
+                name: 'Red',
+            }, {
+                id: '98432def39fc4624b33213a56b8c944f',
+                name: 'Green',
+            }],
+        });
+    }).then(() => {
+        return cy.createPropertyFixture({
+            name: 'Size',
+            options: [{ name: 'S' }, { name: 'M' }, { name: 'L' }],
+        });
+    }).then(() => {
+        return cy.searchViaAdminApi({
+            data: {
+                field: 'name',
+                value: 'Storefront',
+            },
+            endpoint: 'sales-channel',
+        });
+    })
+        .then((saleschannel) => {
+            cy.createDefaultFixture('product', {
+                visibilities: [{
+                    visibility: 30,
+                    salesChannelId: saleschannel.id,
+                }],
+            }, 'product-variants.json');
+        });
+});
+
+/**
+ * Set customer group using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name setCustomerGroup
+ * @function
+ * @param {String} customerNumber - Customer number
+ * @param {Object} [customerGroupData={}] - Options concerning deletion
+ */
+Cypress.Commands.add('setCustomerGroup', (customerNumber, customerGroupData = {}) => {
+    let customer = '';
+
+    return cy.fixture('customer-group').then((json) => {
+        return cy.createViaAdminApi({
+            endpoint: 'customer-group',
+            data: customerGroupData
+        });
+    }).then(() => {
+        return cy.searchViaAdminApi({
+            endpoint: 'customer',
+            data: {
+                field: 'customerNumber',
+                value: customerNumber
+            }
+        });
+    }).then((result) => {
+        customer = result;
+
+        return cy.searchViaAdminApi({
+            endpoint: 'customer-group',
+            data: {
+                field: 'name',
+                value: customerGroupData.name
+            }
+        });
+    }).then((result) => {
+        return cy.updateViaAdminApi('customer', customer.id, {
+            data: {
+                groupId: result.id
+            }
+        })
     });
 });
