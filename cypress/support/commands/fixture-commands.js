@@ -8,6 +8,7 @@ const CmsFixture = require('../service/administration/fixture/cms.fixture');
 const OrderFixture = require('../service/saleschannel/fixture/order.fixture');
 const OrderAdminFixture = require('../service/administration/fixture/order.fixture');
 const AdminSalesChannelFixture= require('../service/administration/fixture/sales-channel.fixture');
+const RuleBuilderFixture = require('../service/fixture/rule-builder.fixture');
 const Fixture = require('../service/administration/fixture.service');
 
 /**
