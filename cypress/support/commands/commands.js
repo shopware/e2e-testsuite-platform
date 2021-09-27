@@ -692,23 +692,48 @@ Cypress.Commands.add(
 );
 
 /**
+ * @memberOf Cypress.Chainable#
  * @name featureIsActive
- * @function
- * @param {window} win - Browser window object
- * @param {string} feature - The feature name
- * @return {boolean}
+ * @param {String} feature
  */
-function featureIsActive(win, feature) {
-    if (
-        win !== undefined &&
-        win.Shopware !== undefined &&
-        win.Shopware.Feature !== undefined
-    ) {
-        return win.Shopware.Feature.isActive(feature);
-    }
+ Cypress.Commands.add('featureIsActive', (feature) => {
+    cy.window().then((win) =>{
+        // Check directly if admin is already loaded
+        if (
+            win !== undefined &&
+            win.Shopware !== undefined &&
+            win.Shopware.Feature !== undefined &&
+            typeof win.Shopware.Feature.isActive === 'function'
+        ) {
+            return cy.wrap(win.Shopware.Feature.isActive(feature));
+        }
 
-    return false;
-}
+        // Otherwise save current URL
+        // and go to admin and check feature flags
+        cy.url().then(previousUrl => {
+            cy.visit(`${Cypress.env('admin')}#/login`);
+            cy.get('#app').should('exist');
+
+            cy.window().then(win => {
+                let isActive = false;
+
+                if (
+                    win !== undefined &&
+                    win.Shopware !== undefined &&
+                    win.Shopware.Feature !== undefined
+                ) {
+                    isActive = win.Shopware.Feature.isActive(feature);
+                } else {
+                    isActive = false;
+                }
+
+                win.location.href = previousUrl;
+
+                return cy.wrap(isActive);
+            })
+        })
+    })
+});
 
 /**
  * Skip test on active feature
@@ -719,9 +744,7 @@ function featureIsActive(win, feature) {
  * @param {() => void} cb - Optional, run the given callback if the condition passes
  */
 Cypress.Commands.add('skipOnFeature', (feature, cb) => {
-    cy.window().then((win) => {
-        const isActive = featureIsActive(win, feature);
-
+    cy.featureIsActive(feature).then(isActive => {
         if (isActive) {
             cy.log(
                 `Skipping test because feature flag '${feature}' is activated.`
@@ -740,10 +763,8 @@ Cypress.Commands.add('skipOnFeature', (feature, cb) => {
  * @param {String} feature - Skip test if feature is inactive
  * @param {() => void} cb - Optional, run the given callback if the condition passes
  */
-Cypress.Commands.add('onlyOnFeature', (feature, cb) => {
-    cy.window().then((win) => {
-        const isActive = featureIsActive(win, feature);
-
+ Cypress.Commands.add('onlyOnFeature', (feature, cb) => {
+    cy.featureIsActive(feature).then(isActive => {
         if (isActive) {
             cy.log(
                 `Running test because feature flag '${feature}' is activated.`
@@ -751,7 +772,7 @@ Cypress.Commands.add('onlyOnFeature', (feature, cb) => {
         }
 
         cy.onlyOn(isActive, cb);
-    });
+    })
 });
 
 /**
