@@ -1046,3 +1046,35 @@ Cypress.Commands.add('handleModalSnapshot', (title) => {
             cy.get('.sw-modal').should('have.css', 'opacity', '1');
         });
 });
+
+
+/**
+ * Set entity and it own specific search configuration fields to be searchable
+ * @memberOf Cypress.Chainable#
+ * @name setEntitySearchable
+ * @param {String} entity - Name of the entity, should be matched with the one defined at each module
+ * @param {String|Array} fields - Array of the fields that you want to be searchable
+ * @function
+ */
+Cypress.Commands.add('setEntitySearchable', (entity, fields = {}) => {
+    cy.window().then(($w) => {
+        const searchConfigurations = $w.Shopware.Module.getModuleByEntityName(entity).manifest.defaultSearchConfiguration;
+        if (typeof searchConfigurations !== 'object') {
+            return;
+        }
+        searchConfigurations._searchable = true;
+        if (typeof fields === 'string') {
+            searchConfigurations[fields]._searchable = true;
+            return;
+        }
+
+        fields.forEach(field => {
+            let currentField = searchConfigurations;
+            field.split('.').forEach(nestedField => currentField = currentField[nestedField]);
+            if (typeof currentField !== 'object') {
+                return;
+            }
+            currentField._searchable = true;
+        });
+    });
+});
