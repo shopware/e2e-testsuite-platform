@@ -1,5 +1,5 @@
 const sample = require('lodash.sample');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 
 const ProductWishlistFixture = require('../service/fixture/product-wishlist.fixture');
 const RuleBuilderFixture = require('../service/fixture/rule-builder.fixture');
