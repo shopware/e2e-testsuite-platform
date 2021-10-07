@@ -150,6 +150,8 @@ Cypress.Commands.add('createCmsFixture', (userData = {}) => {
                 sections: [data]
             });
         }).then((data) => {
+            return Cypress._.merge(pageJson, userData);
+        }).then((data) => {
             return fixture.setCmsPageFixture(data);
         });
     });

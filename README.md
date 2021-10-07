@@ -347,6 +347,20 @@ npm link
 # Switch to the e2e folder inside your project for example:
 # custom/plugins/customized-product/src/Resources/app/storefront/test/e2e
 
-npm uninstall # removes the remote copy of the package from github
+npm uninstall @shopware-ag/e2e-testsuite-platform # removes the remote copy of the package from github
 npm link @shopware-ag/e2e-testsuite-platform
 ```
+
+### Developing with symlinking issues
+Sometimes, it's possible, that the just mentioned approach does not work with some path links. For that, we suggest to directly and cautiously work in your `node_modules/@shopware-ag/e2e-testsuite-platform` directory to test your changes.
+
+If those changes work as expected, you should still use the normal Pull Request workflow of GitHub to provide your changes. You can execute a final check, if you delete your `package-lock.json` file and `node_modules` folder and provide a direct link to your GitHub Branch via the `package.json` like this:
+```json
+{
+  "dependencies": {
+    "@shopware-ag/e2e-testsuite-platform": "git@github.com:shopware/e2e-testsuite-platform.git#next-123/my-awesome-change"
+  }
+}
+```
+
+After that, `npm install` will do the trick and your pushed changed should appear. But don't forget, that the changes in the `package.json` should only be used until your branch has been merged and released.
