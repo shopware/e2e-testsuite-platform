@@ -41,7 +41,6 @@ Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => 
  * @memberOf Cypress.Chainable#
  * @name createProductFixture
  * @function
- * @param {String} endpoint - API endpoint for the request
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createProductFixture', (userData = {}) => {
@@ -80,7 +79,6 @@ Cypress.Commands.add('createCategoryFixture', (userData = {}) => {
  * @memberOf Cypress.Chainable#
  * @name createSalesChannelFixture
  * @function
- * @param {String} endpoint - API endpoint for the request
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {

@@ -10,6 +10,10 @@ class AdminFixtureService {
         return this.apiClient.post(`/${endpoint}?response=true`, rawData);
     }
 
+    delete(endpoint, id) {
+        return this.apiClient.delete(`/${endpoint}/${id}`);
+    }
+
     update(userData) {
         if (!userData.id) {
             throw new Error('Update fixtures must always contain an id');
