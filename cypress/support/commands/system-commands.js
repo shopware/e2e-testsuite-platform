@@ -23,31 +23,16 @@ Cypress.Commands.add('activateShopwareTheme', () => {
  * @name cleanUpPreviousState
  * @function
  */
-Cypress.Commands.add('legacyCleanUpPreviousState', () => {
+Cypress.Commands.add('cleanUpPreviousState', () => {
     if (Cypress.env('localUsage')) {
-        return cy.exec(`${Cypress.env('projectRoot')}/psh.phar e2e:restore-db`)
-            .its('stdout').should('contain', 'All commands successfully executed!');
+        return cy.exec(`${Cypress.env('shopwareRoot')}/bin/console e2e:restore-db`)
+            .its('code').should('eq', 0);
     }
 
     return cy.request(`http://${new URL(Cypress.config('baseUrl')).hostname}:8005/cleanup`)
         // ToDo: Remove when cypress issue #5150 is released:
         //  https://github.com/cypress-io/cypress/pull/5150/files
         .its('body').should('eq', 'success');
-});
-
-/**
- * Cleans up any previous state by restoring database and clearing caches
- * @memberOf Cypress.Chainable#
- * @name cleanUpPreviousState
- * @function
- */
-Cypress.Commands.add('cleanUpPreviousState', (orig) => {
-    if (Cypress.env('localUsage')) {
-        return cy.exec(`${Cypress.env('shopwareRoot')}/bin/console e2e:restore-db`)
-            .its('code').should('eq', 0);
-    }
-
-    return orig();
 });
 
 /**
