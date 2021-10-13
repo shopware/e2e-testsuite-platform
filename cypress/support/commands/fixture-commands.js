@@ -18,6 +18,7 @@ const Fixture = require('../service/administration/fixture.service');
  * @function
  * @param {String} endpoint - API endpoint for the request
  * @param {Object} [data={}] - Options concerning fixture
+ * @param {String} jsonPath - Path to JSON if it's deviating from endpoint
  */
 Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => {
     return cy.authenticate().then((authInformation) => {
@@ -41,7 +42,6 @@ Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => 
  * @memberOf Cypress.Chainable#
  * @name createProductFixture
  * @function
- * @param {String} endpoint - API endpoint for the request
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createProductFixture', (userData = {}) => {
@@ -80,7 +80,6 @@ Cypress.Commands.add('createCategoryFixture', (userData = {}) => {
  * @memberOf Cypress.Chainable#
  * @name createSalesChannelFixture
  * @function
- * @param {String} endpoint - API endpoint for the request
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {
@@ -411,6 +410,8 @@ Cypress.Commands.add('setToInitialState', () => {
  * @memberOf Cypress.Chainable#
  * @name setProductFixtureVisibility
  * @function
+ * @param {String} productName - The name of the product
+ * @param {String} categoryName - The name of the category the product should be located in
  */
 Cypress.Commands.add('setProductFixtureVisibility', (productName, categoryName) => {
     let salesChannelId = '';
@@ -467,8 +468,8 @@ Cypress.Commands.add('setProductFixtureVisibility', (productName, categoryName) 
  * @memberOf Cypress.Chainable#
  * @name setCustomerGroup
  * @function
- * @param {String} endpoint - API endpoint for the request
- * @param {Object} [options={}] - Options concerning deletion
+ * @param {String} customerNumber
+ * @param {Object} customerGroupData
  */
 Cypress.Commands.add('setCustomerGroup', (customerNumber, customerGroupData) => {
     let customer = '';
@@ -510,8 +511,8 @@ Cypress.Commands.add('setCustomerGroup', (customerNumber, customerGroupData) => 
  * @memberOf Cypress.Chainable#
  * @name createRuleFixture
  * @function
- * @param {String} endpoint - API endpoint for the request
- * @param {Object} [options={}] - Options concerning deletion
+ * @param {Object} userData - Custom data for the request
+ * @param {String} [shippingMethodName=Standard] - Name of the shipping method
  */
 Cypress.Commands.add('createRuleFixture', (userData, shippingMethodName = 'Standard') => {
     const fixture = new RuleBuilderFixture();
@@ -620,7 +621,7 @@ Cypress.Commands.add('loginAsUserWithPermissions', {
  * @function
  */
 Cypress.Commands.add('createReviewFixture', () => {
-    // TODO move into e2e-testsuite-platform and use own service completely
+    // TODO use own service completely
 
     let reviewJson = null;
     let productId = '';
@@ -767,47 +768,4 @@ Cypress.Commands.add('createProductVariantFixture', () => {
                 }],
             }, 'product-variants.json');
         });
-});
-
-/**
- * Set customer group using Shopware API at the given endpoint
- * @memberOf Cypress.Chainable#
- * @name setCustomerGroup
- * @function
- * @param {String} customerNumber - Customer number
- * @param {Object} [customerGroupData={}] - Options concerning deletion
- */
-Cypress.Commands.add('setCustomerGroup', (customerNumber, customerGroupData = {}) => {
-    let customer = '';
-
-    return cy.fixture('customer-group').then((json) => {
-        return cy.createViaAdminApi({
-            endpoint: 'customer-group',
-            data: customerGroupData
-        });
-    }).then(() => {
-        return cy.searchViaAdminApi({
-            endpoint: 'customer',
-            data: {
-                field: 'customerNumber',
-                value: customerNumber
-            }
-        });
-    }).then((result) => {
-        customer = result;
-
-        return cy.searchViaAdminApi({
-            endpoint: 'customer-group',
-            data: {
-                field: 'name',
-                value: customerGroupData.name
-            }
-        });
-    }).then((result) => {
-        return cy.updateViaAdminApi('customer', customer.id, {
-            data: {
-                groupId: result.id
-            }
-        })
-    });
 });

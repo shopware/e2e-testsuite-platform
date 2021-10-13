@@ -88,6 +88,9 @@ Cypress.Commands.add('searchViaAdminApi', (data) => {
  * Handling Admin API requests
  * @memberOf Cypress.Chainable#
  * @name requestAdminApi
+ * @param {String} method
+ * @param {String} url
+ * @param {Object} [requestData={}]
  * @function
  */
 Cypress.Commands.add('requestAdminApi', (method, url, requestData = {}) => {
@@ -130,6 +133,8 @@ Cypress.Commands.add('requestAdminApi', (method, url, requestData = {}) => {
  * Clearing cache via API
  * @memberOf Cypress.Chainable#
  * @name clearCacheAdminApi
+ * @param {String} method
+ * @param {String} url
  * @function
  */
 Cypress.Commands.add('clearCacheAdminApi', (method, url) => {
