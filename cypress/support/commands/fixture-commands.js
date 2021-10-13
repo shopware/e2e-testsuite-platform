@@ -396,9 +396,7 @@ Cypress.Commands.add('createPromotionFixture', (userData = {}) => {
  */
 Cypress.Commands.add('setToInitialState', () => {
     return cy.log('Cleaning, please wait a little bit.').then(() => {
-        return cy.cleanUpPreviousState(() => {
-            return Promise.resolve();
-        });
+        return cy.cleanUpPreviousState();
     }).then(() => {
         return cy.clearCacheAdminApi('DELETE', 'api/_action/cache');
     }).then(() => {
