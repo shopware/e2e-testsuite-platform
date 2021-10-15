@@ -509,6 +509,7 @@ Cypress.Commands.add(
  * @param {String} menuOpenSelector - The message to look for
  * @param {Object} [scope=null] - Options concerning the notification
  * @param {String} [menuButtonText=null] - Text of the menu button
+ * @param {Boolean} [force=false] - Enables force-click
  */
 Cypress.Commands.add(
     'clickContextMenuItem',

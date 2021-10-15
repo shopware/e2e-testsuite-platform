@@ -40,6 +40,7 @@ Cypress.Commands.add('cleanUpPreviousState', () => {
  * @memberOf Cypress.Chainable#
  * @name openInitialPage
  * @function
+ * @param {String} url - Custom data
  */
 Cypress.Commands.add('openInitialPage', (url) => {
     // Request we want to wait for later
@@ -57,6 +58,7 @@ Cypress.Commands.add('openInitialPage', (url) => {
  * @memberOf Cypress.Chainable#
  * @name setLocale
  * @function
+ * @param {Object} [locale=Cypress.env('locale')]
  */
 Cypress.Commands.add('setLocale', (locale = Cypress.env('locale')) => {
     return cy.window().then((win) => {

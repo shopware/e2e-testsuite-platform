@@ -8,6 +8,7 @@ const RuleBuilderFixture = require('../service/fixture/rule-builder.fixture');
  * Sends a POST using the admin api to the server
  * @memberOf Cypress.Chainable#
  * @name createViaAdminApi
+ * @param {Object} [data={}] - Custom data
  * @function
  */
 Cypress.Commands.add('createViaAdminApi', (data) => {
@@ -54,8 +55,8 @@ Cypress.Commands.add('getSalesChannelId', () => {
  * @function
  * @param {string} HTTP-Method
  * @param {string} endpoint name
- * @param {Object} header
- * @param {Object} body
+ * @param {Object} [header={}]
+ * @param {Object} [body={}]
  */
 Cypress.Commands.add('storefrontApiRequest', (method, endpoint, header = {}, body = {}) => {
     return cy.getSalesChannelId().then((salesChannelAccessKey) => {
@@ -202,49 +203,6 @@ Cypress.Commands.add('createCustomerFixtureStorefront', (userData) => {
 });
 
 /**
- * Create a customer group and assign it to a customer
- * @memberOf Cypress.Chainable#
- * @name setCustomerGroup
- * @function
- * @param {String} endpoint - API endpoint for the request
- * @param {Object} [options={}] - Options concerning deletion
- */
-Cypress.Commands.add('setCustomerGroup', (customerNumber, customerGroupData) => {
-    let customer = '';
-
-    return cy.fixture('customer-group').then((json) => {
-        return cy.createViaAdminApi({
-            endpoint: 'customer-group',
-            data: customerGroupData
-        });
-    }).then(() => {
-        return cy.searchViaAdminApi({
-            endpoint: 'customer',
-            data: {
-                field: 'customerNumber',
-                value: customerNumber
-            }
-        });
-    }).then((result) => {
-        customer = result;
-
-        return cy.searchViaAdminApi({
-            endpoint: 'customer-group',
-            data: {
-                field: 'name',
-                value: customerGroupData.name
-            }
-        });
-    }).then((result) => {
-        return cy.updateViaAdminApi('customer', customer.id, {
-            data: {
-                groupId: result.id
-            }
-        })
-    });
-});
-
-/**
  * Creates an entity using Shopware API at the given endpoint
  * @memberOf Cypress.Chainable#
  * @name requestAdminApiStorefront
@@ -266,7 +224,7 @@ Cypress.Commands.add('requestAdminApiStorefront', (data) => {
  * @memberOf Cypress.Chainable#
  * @name createCustomerFixtureStorefront
  * @function
- * @param {Object} [userData={}] - Options concerning creation
+ * @param {Object} userData - Options concerning creation
  */
 Cypress.Commands.add('createCustomerFixtureStorefront', (userData) => {
     const addressId = uuid().replace(/-/g, '');
@@ -417,6 +375,9 @@ Cypress.Commands.add('createRuleFixtureStorefront', (userData = {}, shippingMeth
  * @memberOf Cypress.Chainable#
  * @name setProductWishlist
  * @function
+ * @param {Object} obj - Product information
+ * @param {String} obj.productId - Id of required product
+ * @param {String} obj.customer - Customer of wishlist
  */
 Cypress.Commands.add('setProductWishlist', ({productId, customer}) => {
     const fixture = new ProductWishlistFixture();
@@ -428,6 +389,7 @@ Cypress.Commands.add('setProductWishlist', ({productId, customer}) => {
  * Login by guest account, tailored for Storefront
  * @memberOf Cypress.Chainable#
  * @name loginByGuestAccountViaApi
+ * @param {Object} userData - Custom data
  * @function
  */
 Cypress.Commands.add('loginByGuestAccountViaApi', (userData) => {
