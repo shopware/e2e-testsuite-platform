@@ -159,3 +159,23 @@ Cypress.Commands.add('updateViaAdminApi', (endpoint, id, data) => {
         return responseData;
     });
 });
+
+/**
+ * Delete an existing entity using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name deleteViaAdminApi
+ * @function
+ * @param {String} endpoint - API endpoint for the request
+ * @param {String} name - Id of the entity to be updated
+ */
+Cypress.Commands.add('deleteViaAdminApi', (endpoint, name) => {
+    return cy.searchViaAdminApi({
+        endpoint: endpoint,
+        data: {
+            field: 'name',
+            value: name
+        }
+    }).then((data) => {
+        return cy.requestAdminApi('DELETE', `api/${endpoint}/${data.id}`)
+    });
+})
