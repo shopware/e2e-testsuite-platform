@@ -251,6 +251,13 @@ cy.get('.sw-cms-sidebar__block-preview')
   .dragTo('.sw-cms-section__empty-stage');
 ```
 
+#### Set the entity and default search configurations of its fields to be searchable
+
+```js
+cy.setEntitySearchable('shipping_method', 'name');
+cy.setEntitySearchable('media', ['fileName', 'title']);
+```
+
 ### Skip test if a feature is not activated
 
 ```js
