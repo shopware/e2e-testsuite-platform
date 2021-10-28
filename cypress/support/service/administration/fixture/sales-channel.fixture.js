@@ -1,7 +1,7 @@
 const AdminFixtureService = require('./../fixture.service.js');
 
 class AdminSalesChannelFixture extends AdminFixtureService {
-    setSalesChannelFixture(salesChannelData, userData) {
+    setSalesChannelFixture(userData) {
         // Define the promises needed to get the related data needed for the sales channel
         const findCurrencyId = () => this.search('currency', {
             field: 'name',
@@ -64,7 +64,7 @@ class AdminSalesChannelFixture extends AdminFixtureService {
              shippingMethod,
              currency]) => {
             // Combine the responses of the promises to build the final request creating the sales channel
-            return this.mergeFixtureWithData(salesChannelData, {
+            return this.mergeFixtureWithData({
                 currencyId: currency.id,
                 paymentMethodId: paymentMethod.id,
                 shippingMethodId: shippingMethod.id,
