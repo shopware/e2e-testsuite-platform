@@ -86,7 +86,7 @@ Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {
     return cy.authenticate().then((authInformation) => {
         const fixture = new AdminSalesChannelFixture(authInformation);
 
-        return cy.fixture('product').then((result) => {
+        return cy.fixture('sales-channel').then((result) => {
             return Cypress._.merge(result, userData);
         }).then((data) => {
             return fixture.setSalesChannelFixture(data);
