@@ -966,7 +966,7 @@ Cypress.Commands.add(
 /**
  * Get an element which is attached correctly
  * @memberOf Cypress.Chainable#
- * @name typeMultiSelectAndCheckMultiple
+ * @name getAttached
  * @function
  * @param {String} selector - Desired values of the element
  */
