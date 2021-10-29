@@ -475,7 +475,7 @@ Cypress.Commands.add('typeAndCheckSearchField', {
  * @name awaitAndCheckNotification
  * @function
  * @param {String} message - The message to look for
- * @param {Object}  [options={}] - Options concerning the notification
+ * @param {Object} [options={}] - Options concerning the notification
  */
 Cypress.Commands.add(
     'awaitAndCheckNotification',
@@ -508,7 +508,7 @@ Cypress.Commands.add(
  * @param {String} menuButtonSelector - The message to look for
  * @param {String} menuOpenSelector - The message to look for
  * @param {Object} [scope=null] - Options concerning the notification
- * @param {String} [menuButtonText=null] - Text of the menu button
+ * @param {String} [menuButtonText=""] - Text of the menu button
  * @param {Boolean} [force=false] - Enables force-click
  */
 Cypress.Commands.add(
@@ -590,7 +590,7 @@ Cypress.Commands.add(
  * @memberOf Cypress.Chainable#
  * @name reloadListing
  * @function
- * @param {Object} [reloadSelectors=null] - The message to look for
+ * @param {Object} [reloadSelectors={}] - The message to look for
  * @param {String} reloadSelectors.reloadButtonSelector - The message to look for
  * @param {String} reloadSelectors.loadingIndicatorSelector - The message to look for
  */
@@ -1054,7 +1054,7 @@ Cypress.Commands.add('handleModalSnapshot', (title) => {
  * @memberOf Cypress.Chainable#
  * @name setEntitySearchable
  * @param {String} entity - Name of the entity, should be matched with the one defined at each module
- * @param {String|Array} fields - Array of the fields that you want to be searchable
+ * @param {String|Array} [fields={}] - Array of the fields that you want to be searchable
  * @function
  */
 Cypress.Commands.add('setEntitySearchable', (entity, fields = {}) => {

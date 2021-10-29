@@ -8,7 +8,7 @@ const RuleBuilderFixture = require('../service/fixture/rule-builder.fixture');
  * Sends a POST using the admin api to the server
  * @memberOf Cypress.Chainable#
  * @name createViaAdminApi
- * @param {Object} [data={}] - Custom data
+ * @param {Object} data - Custom data
  * @function
  */
 Cypress.Commands.add('createViaAdminApi', (data) => {
@@ -53,7 +53,7 @@ Cypress.Commands.add('getSalesChannelId', () => {
  * @memberOf Cypress.Chainable#
  * @name storefrontApiRequest
  * @function
- * @param {string} HTTP-Method
+ * @param {string} method HTTP-Method
  * @param {string} endpoint name
  * @param {Object} [header={}]
  * @param {Object} [body={}]
@@ -104,7 +104,7 @@ Cypress.Commands.add('getRandomProductInformationForCheckout', () => {
  * @memberOf Cypress.Chainable#
  * @name createCustomerFixtureStorefront
  * @function
- * @param {Object} [userData={}] - Custom data for the customer to be created
+ * @param {Object} userData - Custom data for the customer to be created
  */
 Cypress.Commands.add('createCustomerFixtureStorefront', (userData) => {
     const addressId = uuid().replace(/-/g, '');
@@ -356,7 +356,7 @@ Cypress.Commands.add('setAnalyticsFixtureToSalesChannel', (state) => {
  * @name loginByGuestAccountViaApi
  * @function
  * @param {Object} [userData={}] - Options concerning creation
- * @param {Object} [String="Standard"] - NAme of the shipping method
+ * @param {String} [shippingMethodName="Standard"] - NAme of the shipping method
  */
 Cypress.Commands.add('createRuleFixtureStorefront', (userData = {}, shippingMethodName = 'Standard') => {
     return cy.authenticate().then((authInformation) => {

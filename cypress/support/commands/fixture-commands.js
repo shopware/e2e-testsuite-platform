@@ -272,7 +272,6 @@ Cypress.Commands.add('createNewsletterRecipientFixture', (recipient = {}) => {
  * @memberOf Cypress.Chainable#
  * @name createSnippetFixture
  * @function
- * @param {Object} [options={}] - Options concerning creation
  */
 Cypress.Commands.add('createSnippetFixture', () => {
     return cy.authenticate().then((authInformation) => {
@@ -694,7 +693,7 @@ Cypress.Commands.add('createReviewFixture', () => {
  * @memberOf Cypress.Chainable#
  * @name setShippingMethodInSalesChannel
  * @param {String} name - Name of the shipping method
- * @param {String} [salesChannel = Storefront]  - Name of the sales channel
+ * @param {String} [salesChannel=Storefront]  - Name of the sales channel
  * @function
  */
 Cypress.Commands.add('setShippingMethodInSalesChannel', (name, salesChannel = 'Storefront') => {
