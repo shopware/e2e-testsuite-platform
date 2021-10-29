@@ -10,8 +10,8 @@ module.exports = class AdminApiService extends ApiService {
     /**
      * Renders an header to stdout including information about the available flags.
      *
-     * @param {String} username
-     * @param {String} password
+     * @param {String} [username="admin"]
+     * @param {String} [password="shopware"]
      * @returns {Object}
      */
     loginByUserName(username = 'admin', password = 'shopware') {
