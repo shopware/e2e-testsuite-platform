@@ -12,10 +12,12 @@
 // the project's config changing)
 
 require('@babel/register');
-const selectTestsWithGrep = require('cypress-grep/src/plugin');
 
 module.exports = (on, config) => {
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
-    on('file:preprocessor', selectTestsWithGrep(config));
+
+    require('cypress-grep/src/plugin')(config);
+
+    return config;
 };
