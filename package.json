@@ -24,17 +24,16 @@
     "cypress-file-upload": "^5.0.8",
     "cypress-grep": "^2.5.2",
     "cypress-log-to-output": "^1.1.2",
-    "cypress-select-tests": "^1.7.1",
     "lodash": "4.17.21",
     "lodash.sample": "4.2.1",
     "uuid": "8.3.2"
-  },
-  "peerDependencies": {
-    "cypress": "8.4.1"
   },
   "engines": {
     "node": ">= 8.10.0",
     "npm": ">= 6.5.0"
   },
-  "repository": "git://github.com/shopware/e2e-testsuite-platform.git"
+  "repository": "git://github.com/shopware/e2e-testsuite-platform.git",
+  "devDependencies": {
+    "cypress": "^8.4.1"
+  }
 }
