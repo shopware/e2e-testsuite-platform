@@ -510,6 +510,7 @@ Cypress.Commands.add(
  * @param {Object} [scope=null] - Options concerning the notification
  * @param {String} [menuButtonText=""] - Text of the menu button
  * @param {Boolean} [force=false] - Enables force-click
+ * @param {String|Boolean} [scrollBehavior="top"] - Viewport position to which an element should be scrolled before click. false disables scrolling
  */
 Cypress.Commands.add(
     'clickContextMenuItem',
@@ -518,7 +519,8 @@ Cypress.Commands.add(
         menuOpenSelector,
         scope = null,
         menuButtonText = "",
-        force = false
+        force = false,
+        scrollBehavior = 'top'
     ) => {
         const contextMenuCssSelector = '.sw-context-menu';
         const activeContextButtonCssSelector = '.is--active';
@@ -530,7 +532,7 @@ Cypress.Commands.add(
                 cy.get(`${scope} ${menuOpenSelector}`).should('be.visible');
             }
 
-            cy.get(`${scope} ${menuOpenSelector}`).click({force});
+            cy.get(`${scope} ${menuOpenSelector}`).click({ force, scrollBehavior });
 
             if (scope.includes('row')) {
                 cy.get(
@@ -540,7 +542,7 @@ Cypress.Commands.add(
         } else {
             cy.get(menuOpenSelector)
                 .should('be.visible')
-                .click({force});
+                .click({ force, scrollBehavior });
         }
 
         cy.get(contextMenuCssSelector).should('be.visible');
@@ -548,7 +550,7 @@ Cypress.Commands.add(
         if (menuButtonText !== "") {
             element = element.contains(menuButtonText);
         }
-        element.click();
+        element.click({ scrollBehavior });
         cy.get(contextMenuCssSelector).should('not.exist');
     }
 );
