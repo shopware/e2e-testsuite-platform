@@ -4,7 +4,7 @@ on: push
 
 jobs:
   publish:
-    if: ${{ github.event.repository.default_branch }} == 'refs/heads/main'
+    if: github.ref == 'refs/heads/3.x'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
