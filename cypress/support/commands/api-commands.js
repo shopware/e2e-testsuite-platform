@@ -9,13 +9,13 @@ const Fixture = require('../service/administration/fixture.service');
 Cypress.Commands.add('authenticate', () => {
     return cy.getCookie('_apiAuth').then((cookie) => {
         if (cookie) {
-            return cy.log('cached /api/oauth/token')
+            return cy.log(`cached /api/oauth/token`)
                 .then(() => JSON.parse(cookie.value));
         }
 
         return cy.request(
             'POST',
-            '/api/oauth/token',
+            `${Cypress.env('apiPath')}/oauth/token`,
             {
                 grant_type: Cypress.env('grant') ? Cypress.env('grant') : 'password',
                 client_id: Cypress.env('client_id') ? Cypress.env('client_id') : 'administration',
