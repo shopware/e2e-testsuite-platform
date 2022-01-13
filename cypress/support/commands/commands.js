@@ -288,7 +288,7 @@ Cypress.Commands.add(
 
         // type in the search term if available
         if (value) {
-            cy.get('.sw-select-result-list').should('be.visible');
+            cy.get('.sw-select-result-list').should('exist');
             cy.get(`${selector} ${inputCssSelector}`).clear();
             cy.get(`${selector} ${inputCssSelector}`).type(value);
             cy.get(`${selector} ${inputCssSelector}`).should(
