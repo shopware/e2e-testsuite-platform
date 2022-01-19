@@ -34,29 +34,38 @@ const { v4: uuid } = require('uuid');
  * @function
  * @param {Object} userType - The type of the user logging in
  */
-Cypress.Commands.add('login', (userType) => {
-    const types = {
-        admin: {
-            name: 'admin',
-            pass: 'shopware',
-        },
-    };
+ Cypress.Commands.add('login', (userType = 'admin') => {
+    cy.intercept({
+        url: `/api/_admin/snippets?locale=${Cypress.env('locale')}`,
+        method: 'get'
+    }).as('snippets').then(() => {
+        const types = {
+            admin: {
+                name: 'admin',
+                pass: 'shopware',
+            },
+        };
 
-    const user = types[userType];
+        const user = types[userType];
 
-    cy.visit('/admin');
+        cy.visit('/admin');
 
-    cy.contains('Username');
-    cy.contains("Password");
+        cy.contains(/Username|Benutzername/);
+        cy.contains(/Password|Passwort/);
 
-    cy.get('#sw-field--username')
-        .type(user.name)
-        .should('have.value', user.name);
-    cy.get('#sw-field--password')
-        .type(user.pass)
-        .should('have.value', user.pass);
-    cy.get('.sw-login-login').submit();
-    cy.contains('Dashboard');
+        cy.get('#sw-field--username')
+            .type(user.name)
+            .should('have.value', user.name);
+        cy.get('#sw-field--password')
+            .type(user.pass)
+            .should('have.value', user.pass);
+        cy.get('.sw-login-login').submit();
+        cy.contains('Dashboard');
+
+        // the snippets are replaced after this has finished.
+        // If we don't wait for this, it'll happen at a random point in time and might trigger a detached dom error.
+        return cy.wait('@snippets');
+    });
 });
 
 /**
