@@ -533,6 +533,8 @@ Cypress.Commands.add('createRuleFixture', (userData, shippingMethodName = 'Stand
 Cypress.Commands.add('loginAsUserWithPermissions', {
     prevSubject: false,
 }, (permissions) => {
+    cy.setCookie('refreshBearerAuth', 'DELETE');
+
     cy.window().then(($w) => {
         const roleID = 'ef68f039468d4788a9ee87db9b3b94de';
         const localeId = $w.Shopware.State.get('session').currentUser.localeId;
