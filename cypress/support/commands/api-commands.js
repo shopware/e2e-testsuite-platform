@@ -6,39 +6,71 @@ const Fixture = require('../service/administration/fixture.service');
  * @name authenticate
  * @function
  */
-Cypress.Commands.add('authenticate', () => {
-    return cy.getCookie('_apiAuth').then((cookie) => {
-        if (cookie) {
-            return cy.log('cached /api/oauth/token')
-                .then(() => JSON.parse(cookie.value));
+ Cypress.Commands.add('authenticate', () => {
+    return cy.getCookie('refreshBearerAuth').then((refreshBearerAuthCookie) => {
+        if (refreshBearerAuthCookie) {
+            cy.log('Delete existing bearerAuth because it is not admin')
+            cy.clearCookie('bearerAuth')
+            cy.clearCookie('refreshBearerAuth')
+        } else {
+            cy.log('Existing bearerAuth is admin')
         }
 
-        return cy.request(
-            'POST',
-            '/api/oauth/token',
-            {
-                grant_type: Cypress.env('grant') ? Cypress.env('grant') : 'password',
-                client_id: Cypress.env('client_id') ? Cypress.env('client_id') : 'administration',
-                scopes: Cypress.env('scope') ? Cypress.env('scope') : 'write',
-                username: Cypress.env('username') || Cypress.env('user') || 'admin',
-                password: Cypress.env('password') || Cypress.env('pass') || 'shopware'
-            }
-        ).then((responseData) => {
-            let result = responseData.body;
-            result.access = result.access_token;
-            result.refresh = result.refresh_token;
-            result.expiry = Math.round(+new Date() / 1000) + responseData.body.expires_in;
+        return cy.getCookie('bearerAuth').then((cookie) => {
+            const cookieValue = JSON.parse(decodeURIComponent(cookie && cookie.value));
 
-            cy.log('request /api/oauth/token')
+            return cy.request({
+                method: 'GET',
+                url: '/api/_info/version',
+                failOnStatusCode: false,
+                headers: {
+                    Authorization: `Bearer ${cookieValue && cookieValue.access}`
+                },
+            }).then((response) => {
+                // when token is valid
+                if (response.status === 200) {
+                    return cy.log('cached /api/oauth/token')
+                        .then(() => cookieValue);
+                }
 
-            // auth token needs to have at least x seconds of lifetime left
-            const minimumLifetime = Cypress.env('minAuthTokenLifetime') || 60;
-            return cy.setCookie(
-                '_apiAuth',
-                JSON.stringify(result),
-                { expiry: result.expiry - minimumLifetime}
-            ).then(() => result)
-        });
+                // delete existing cookies
+                cy.clearCookie('bearerAuth')
+                cy.clearCookie('refreshBearerAuth')
+
+                // request new token when it is invalid
+                return cy.request(
+                    'POST',
+                    '/api/oauth/token',
+                    {
+                        grant_type: Cypress.env('grant') ? Cypress.env('grant') : 'password',
+                        client_id: Cypress.env('client_id') ? Cypress.env('client_id') : 'administration',
+                        scopes: Cypress.env('scope') ? Cypress.env('scope') : 'write',
+                        username: Cypress.env('username') || Cypress.env('user') || 'admin',
+                        password: Cypress.env('password') || Cypress.env('pass') || 'shopware'
+                    }
+                ).then((responseData) => {
+                    let result = responseData.body;
+                    result.access = result.access_token;
+                    result.refresh = result.refresh_token;
+                    result.expiry = Math.round(+new Date() / 1000) + responseData.body.expires_in;
+
+                    cy.log('request /api/oauth/token')
+
+                    // auth token needs to have at least x seconds of lifetime left
+                    const minimumLifetime = Cypress.env('minAuthTokenLifetime') || 60;
+
+                    return cy.setCookie(
+                        'bearerAuth',
+                        JSON.stringify(result),
+                        {
+                            expiry: result.expiry - minimumLifetime,
+                            path: Cypress.env('admin'),
+                            sameSite: "strict"
+                        }
+                    ).then(() => result)
+                });
+            })
+        })
     })
 });
 
