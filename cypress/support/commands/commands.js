@@ -48,6 +48,9 @@ const { v4: uuid } = require('uuid');
 
         const user = types[userType];
 
+        cy.clearCookie('bearerAuth');
+        cy.clearCookie('refreshBearerAuth');
+
         cy.visit('/admin');
 
         cy.contains(/Username|Benutzername/);
