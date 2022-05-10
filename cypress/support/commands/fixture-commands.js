@@ -601,6 +601,8 @@ Cypress.Commands.add('loginAsUserWithPermissions', {
         // logout
         cy.get('.sw-admin-menu__user-actions-toggle').click();
         cy.clearCookies();
+        cy.clearCookie('bearerAuth');
+        cy.clearCookie('refreshBearerAuth');
         cy.get('.sw-admin-menu__logout-action').click();
         cy.get('.sw-login__container').should('be.visible');
         cy.reload().then(() => {
