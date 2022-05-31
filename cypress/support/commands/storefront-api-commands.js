@@ -483,18 +483,6 @@ Cypress.Commands.add('loginByGuestAccountViaApi', (userData) => {
     }).then((result) => {
         return Cypress._.merge(result, finalAddressRawData);
     }).then((result) => {
-        cy.getSalesChannelId().then((salesChannelAccessKey) => {
-            const requestConfig = {
-                headers: {
-                    'SW-Access-Key': salesChannelAccessKey,
-                    'cookie': 'csrf[frontend.store-api.proxy]=1b4dfebfc2584cf58b63c72c20d521d0frontend.store-api.proxy#'
-                },
-                body: result,
-                method: 'POST',
-                url: `_proxy/store-api?path=store-api/account/register&response=true`
-            };
-
-            cy.request(requestConfig);
-        });
+        cy.storefrontApiRequest('POST', '/account/register&response=true', {}, result);
     });
 });
