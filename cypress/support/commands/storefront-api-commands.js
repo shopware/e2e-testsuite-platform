@@ -483,6 +483,8 @@ Cypress.Commands.add('loginByGuestAccountViaApi', (userData) => {
     }).then((result) => {
         return Cypress._.merge(result, finalAddressRawData);
     }).then((result) => {
-        cy.storefrontApiRequest('POST', '/account/register&response=true', {}, result);
+        cy.storefrontApiRequest('POST', 'account/register?response=true', {
+            "sw-context-token": uuid().replace(/-/g, '')
+        }, result);
     });
 });
