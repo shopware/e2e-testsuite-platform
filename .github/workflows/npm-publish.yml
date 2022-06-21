@@ -4,7 +4,7 @@ on: push
 
 jobs:
   publish:
-    if: github.ref == 'refs/heads/3.x'
+    if: github.ref == 'refs/heads/4.x'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
