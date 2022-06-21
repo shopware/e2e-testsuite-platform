@@ -615,7 +615,7 @@ Cypress.Commands.add(
     (
         reloadSelectors = {
             reloadButtonSelector:
-                '.sw-sidebar-navigation-item .icon--default-arrow-360-left',
+                '.sw-sidebar-navigation-item .icon--regular-undo',
             loadingIndicatorSelector: 'sw-data-grid-skeleton',
         }
     ) => {
@@ -635,7 +635,7 @@ Cypress.Commands.add('openUserActionMenu', () => {
     cy.get('.sw-admin-menu__user-actions-toggle').should('be.visible');
 
     cy.get('.sw-admin-menu__user-actions-indicator').then(($btn) => {
-        if ($btn.hasClass('icon--small-arrow-medium-up')) {
+        if ($btn.hasClass('icon--regular-chevron-up-xs')) {
             cy.get('.sw-admin-menu__user-actions-toggle').click();
             cy.get('.sw-admin-menu__logout-action').should('be.visible');
         }
@@ -842,8 +842,8 @@ Cypress.Commands.add('sortAndCheckListingAscViaColumn', (
 
     // Assertions to make sure sorting was applied
     cy.get('.sw-data-grid__sort-indicator').should('be.visible');
-    cy.get('.icon--small-arrow-small-down').should('not.exist');
-    cy.get('.icon--small-arrow-small-up').should('be.visible');
+    cy.get('.icon--regular-chevron-down-xxs').should('not.exist');
+    cy.get('.icon--regular-chevron-up-xxs').should('be.visible');
     cy.get(rowZeroSelector).should('be.visible');
     cy.contains(rowZeroSelector, firstEntry).should('be.visible');
 });
@@ -883,10 +883,10 @@ Cypress.Commands.add('testListing', ({ searchTerm, sorting = {
     let iconClass;
     switch (sorting.sortDirection) {
         case 'ASC':
-            iconClass = '.icon--small-arrow-small-up';
+            iconClass = '.icon--regular-chevron-up-xxs';
             break;
         case 'DESC':
-            iconClass = '.icon--small-arrow-small-down';
+            iconClass = '.icon--regular-chevron-down-xxs';
             break;
         default:
             throw new Error(`${sorting.sortDirection} is not a valid sorting direction`);
