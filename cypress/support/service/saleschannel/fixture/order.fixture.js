@@ -13,7 +13,7 @@ class OrderFixtureService extends SalesChannelFixtureService {
                 }));
             })
             .then((response) => {
-                return this.apiClient.setContextToken(response.data.contextToken);
+                return this.apiClient.setContextToken(response.headers['sw-context-token']);
             })
             .then(() => {
                 return this.apiClient.post('/checkout/cart/line-item', {
