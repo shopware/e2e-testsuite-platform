@@ -230,11 +230,7 @@ Cypress.Commands.add(
     },
     (subject, values) => {
         // Request we want to wait for later
-        cy.server();
-        cy.route({
-            url: `${Cypress.env("apiPath")}/search/*`,
-            method: "post",
-        }).as("filteredResultCall");
+        cy.intercept('POST', `${Cypress.env("apiPath")}/search/*`).as('filteredResultCall');
 
         cy.wrap(subject)
             .scrollIntoView() // try to make it visible so it does not error out if it is not in view
@@ -927,11 +923,7 @@ Cypress.Commands.add(
     },
     (subject, values) => {
         // Request we want to wait for later
-        cy.server();
-        cy.route({
-            url: `${Cypress.env('apiPath')}/search/*`,
-            method: 'post',
-        }).as('filteredResultCall');
+        cy.intercept('POST', `${Cypress.env('apiPath')}/search/*`).as('filteredResultCall');
 
         cy.wrap(subject)
             .scrollIntoView() // try to make it visible so it does not error out if it is not in view

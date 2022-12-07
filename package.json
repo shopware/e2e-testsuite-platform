@@ -1,6 +1,6 @@
 {
   "name": "@shopware-ag/e2e-testsuite-platform",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "E2E Testsuite for Shopware 6 using Cypress.js",
   "keywords": [
     "e2e",
@@ -34,6 +34,6 @@
   },
   "repository": "git://github.com/shopware/e2e-testsuite-platform.git",
   "devDependencies": {
-    "cypress": "^8.4.1"
+    "cypress": "^12.0.1"
   }
 }
