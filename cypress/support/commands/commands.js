@@ -838,8 +838,8 @@ Cypress.Commands.add('sortAndCheckListingAscViaColumn', (
 
     // Assertions to make sure sorting was applied
     cy.get('.sw-data-grid__sort-indicator').should('be.visible');
-    cy.get('.icon--regular-chevron-down-xxs').should('not.exist');
-    cy.get('.icon--regular-chevron-up-xxs').should('be.visible');
+    cy.get('.sw-data-grid__sort-indicator .icon--regular-chevron-down-xxs').should('not.exist');
+    cy.get('.sw-data-grid__sort-indicator .icon--regular-chevron-up-xxs').should('be.visible');
     cy.get(rowZeroSelector).should('be.visible');
     cy.contains(rowZeroSelector, firstEntry).should('be.visible');
 });
