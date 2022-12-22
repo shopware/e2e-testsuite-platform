@@ -48,10 +48,6 @@ Cypress.Commands.add('openInitialPage', (url) => {
 
     cy.log('All preparation done!');
 
-    // TODO: Remove with NEXT-24432
-    cy.visit(`${Cypress.env('admin')}#/sw/dashboard/index`);
-    cy.get('.sw-dashboard-index__welcome-title').should('be.visible');
-
     cy.visit(url);
     cy.wait('@meCall')
         .its('response.statusCode').should('equal', 200);
