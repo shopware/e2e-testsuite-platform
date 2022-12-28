@@ -18,7 +18,6 @@
 
 This package contains the e2e test suite for Shopware 6. The test suite is built on top of [Cypress](https://github.com/cypress-io/cypress) as well as the following Cypress plugins:
 
-- [`cypress-grep`](https://github.com/cypress-io/cypress-grep)
 - [`cypress-log-to-output`](https://github.com/flotwig/cypress-log-to-output)
 - [`cypress-file-upload`](https://github.com/abramenal/cypress-file-upload)
 

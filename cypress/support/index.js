@@ -5,9 +5,6 @@ const { v4: uuid } = require('uuid');
 // Load and register the skip feature
 require('@cypress/skip-test/support');
 
-// Load and register the grep feature
-require('cypress-grep')();
-
 // Import commands.js
 require('./commands/commands');
 
