@@ -317,12 +317,6 @@ cy.openInitialPage();
 cy.authenticate()
 ```
 
-#### Logs in silently using Shopware API
-
-```js
-cy.loginViaApi()
-```
-
 #### Search for an existing entity using Shopware API at the given endpoint
 
 ```js
