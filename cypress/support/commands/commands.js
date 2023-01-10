@@ -341,13 +341,11 @@ Cypress.Commands.add(
         prevSubject: 'element',
     },
     (subject, value, selector) => {
-        cy.get(subject).typeSingleSelect(value, selector);
+        cy.wrap(subject).typeSingleSelect(value, selector);
 
         // expect the placeholder for an empty select field not be shown and search for the value
-        cy.get(
-            `${subject.selector} .sw-select__selection .is--placeholder`
-        ).should("not.exist");
-        cy.get(`${subject.selector} .sw-select__selection`).contains(value);
+        cy.wrap(subject).get(`${selector} .sw-select__selection .is--placeholder`).should("not.exist");
+        cy.wrap(subject).get(`${selector} .sw-select__selection`).contains(value);
     }
 );
 
