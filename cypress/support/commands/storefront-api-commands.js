@@ -28,7 +28,7 @@ Cypress.Commands.add('createViaAdminApi', (data) => {
  * @function
  */
 Cypress.Commands.add('getSalesChannelId', () => {
-    return cy.authenticate().then((result) => {
+    return cy.getBearerAuth().then((result) => {
         const parameters = {
             data: {
                 headers: {
@@ -359,7 +359,7 @@ Cypress.Commands.add('setAnalyticsFixtureToSalesChannel', (state) => {
  * @param {String} [shippingMethodName="Standard"] - NAme of the shipping method
  */
 Cypress.Commands.add('createRuleFixtureStorefront', (userData = {}, shippingMethodName = 'Standard') => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new RuleBuilderFixture(authInformation);
 
         return cy.fixture('rule-builder-shipping-payment.json').then((result) => {

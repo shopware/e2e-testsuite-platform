@@ -21,7 +21,7 @@ const Fixture = require('../service/administration/fixture.service');
  * @param {String} jsonPath - Path to JSON if it's deviating from endpoint
  */
 Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new Fixture(authInformation);
         let finalRawData = {};
 
@@ -45,7 +45,7 @@ Cypress.Commands.add('createDefaultFixture', (endpoint, data = {}, jsonPath) => 
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createProductFixture', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new ProductFixture(authInformation);
 
         return cy.fixture('product').then((result) => {
@@ -64,7 +64,7 @@ Cypress.Commands.add('createProductFixture', (userData = {}) => {
  * @param {object} [userData={}] - Additional category data
  */
 Cypress.Commands.add('createCategoryFixture', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new CategoryFixture(authInformation);
 
         return cy.fixture('category').then((result) => {
@@ -83,7 +83,7 @@ Cypress.Commands.add('createCategoryFixture', (userData = {}) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new AdminSalesChannelFixture(authInformation);
 
         return cy.fixture('sales-channel').then((result) => {
@@ -102,7 +102,7 @@ Cypress.Commands.add('createSalesChannelFixture', (userData = {}) => {
  * @param {String} [salesChannelName=Storefront] - Name of the sales channel to work on
  */
 Cypress.Commands.add('setSalesChannelDomain', (salesChannelName = 'Storefront') => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new AdminSalesChannelFixture(authInformation);
         return fixture.setSalesChannelDomain(salesChannelName)
     });
@@ -116,7 +116,7 @@ Cypress.Commands.add('setSalesChannelDomain', (salesChannelName = 'Storefront') 
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createCustomerFixture', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new CustomerFixture(authInformation);
         let customerJson = null;
 
@@ -137,7 +137,7 @@ Cypress.Commands.add('createCustomerFixture', (userData = {}) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createCmsFixture', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new CmsFixture(authInformation);
         let pageJson = null;
 
@@ -165,7 +165,7 @@ Cypress.Commands.add('createCmsFixture', (userData = {}) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createPropertyFixture', (options = {}, userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         let json = {};
         const fixture = new Fixture(authInformation);
 
@@ -186,7 +186,7 @@ Cypress.Commands.add('createPropertyFixture', (options = {}, userData = {}) => {
  * @function
  */
 Cypress.Commands.add('createLanguageFixture', () => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         let json = {};
         const fixture = new Fixture(authInformation);
 
@@ -218,7 +218,7 @@ Cypress.Commands.add('createLanguageFixture', () => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createShippingFixture', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new ShippingFixture(authInformation);
 
         return cy.fixture('shipping-method').then((result) => {
@@ -237,7 +237,7 @@ Cypress.Commands.add('createShippingFixture', (userData = {}) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createPaymentMethodFixture', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new PaymentMethodFixture(authInformation);
 
         return cy.fixture('payment-method').then((result) => {
@@ -256,7 +256,7 @@ Cypress.Commands.add('createPaymentMethodFixture', (userData = {}) => {
  * @param {Object} [recipient={}] - Options concerning creation
  */
 Cypress.Commands.add('createNewsletterRecipientFixture', (recipient = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new NewsletterRecipientFixture(authInformation);
 
         return cy.fixture('customer').then((result) => {
@@ -274,7 +274,7 @@ Cypress.Commands.add('createNewsletterRecipientFixture', (recipient = {}) => {
  * @function
  */
 Cypress.Commands.add('createSnippetFixture', () => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         let json = {};
         const fixture = new Fixture(authInformation);
 
@@ -317,7 +317,7 @@ Cypress.Commands.add('createSnippetFixture', () => {
  * @param {Object} [customer={}] - Options concerning customer
  */
 Cypress.Commands.add('createOrder', (productId, customer = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new OrderFixture(authInformation);
 
         return fixture.createOrder(productId, customer);
@@ -333,7 +333,7 @@ Cypress.Commands.add('createOrder', (productId, customer = {}) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createGuestOrder', (productId, userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new OrderFixture(authInformation);
 
         return cy.fixture('storefront-customer').then((result) => {
@@ -352,7 +352,7 @@ Cypress.Commands.add('createGuestOrder', (productId, userData = {}) => {
  * @param {Object} [userData={}] - Data proved for this order to be created
  */
 Cypress.Commands.add('createAdminOrder', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new OrderAdminFixture(authInformation);
 
         return cy.fixture('order').then((result) => {
@@ -371,7 +371,7 @@ Cypress.Commands.add('createAdminOrder', (userData = {}) => {
  * @param {Object} [userData={}] - Options concerning creation
  */
 Cypress.Commands.add('createPromotionFixture', (userData = {}) => {
-    return cy.authenticate().then((authInformation) => {
+    return cy.getBearerAuth().then((authInformation) => {
         const fixture = new OrderFixture(authInformation);
         let promotionId = '';
 
