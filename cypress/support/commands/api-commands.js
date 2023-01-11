@@ -51,10 +51,20 @@ Cypress.Commands.add('authenticate', () => {
                         },
                     }).then(() => true);
                 });
-            }
+            },
         }
     );
 
+    return cy.getBearerAuth();
+});
+
+/**
+ * Get current Bearer token
+ * @memberOf Cypress.Chainable#
+ * @name getBearerAuth
+ * @function
+ */
+Cypress.Commands.add('getBearerAuth', () => {
     return cy.getCookie('bearerAuth').then((cookie) => {
         return JSON.parse(decodeURIComponent(cookie && cookie.value));
     });
@@ -68,8 +78,8 @@ Cypress.Commands.add('authenticate', () => {
  * @param {Object} data - Necessary data for the API request
  */
 Cypress.Commands.add('searchViaAdminApi', (data) => {
-    return cy.authenticate().then((authInformation) => {
-        const fixture = new Fixture(authInformation);
+    return cy.getBearerAuth().then((authData) => {
+        const fixture = new Fixture(authData);
 
         return fixture.search(data.endpoint, {
             field: data.data.field,
@@ -89,7 +99,7 @@ Cypress.Commands.add('searchViaAdminApi', (data) => {
  * @function
  */
 Cypress.Commands.add('requestAdminApi', (method, url, requestData = {}) => {
-    return cy.authenticate().then((result) => {
+    return cy.getBearerAuth().then((result) => {
         const requestConfig = {
             headers: {
                 Accept: 'application/vnd.api+json',
@@ -133,17 +143,16 @@ Cypress.Commands.add('requestAdminApi', (method, url, requestData = {}) => {
  * @function
  */
 Cypress.Commands.add('clearCacheAdminApi', (method, url) => {
-    return cy.authenticate().then((result) => {
-        return cy.getCookie('bearerAuth').then((cookie) => {
-            const requestConfig = {
-                headers: {
-                    Authorization: `Bearer ${JSON.parse(cookie.value).access}`
-                },
-                method: method,
-                url: url
-            };
-            return cy.request(requestConfig);
-        })
+    return cy.getBearerAuth().then((bearerToken) => {
+        const requestConfig = {
+            headers: {
+                Authorization: `Bearer ${bearerToken.access}`
+            },
+            method: method,
+            url: url
+        };
+    
+        return cy.request(requestConfig);
     });
 });
 
