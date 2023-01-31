@@ -27,6 +27,15 @@ Cypress.Commands.add('authenticate', () => {
 
                 cy.log('request /api/oauth/token')
 
+                cy.setCookie(
+                    'lastActivity',
+                    `${Math.round(+new Date() / 1000)}`,
+                    {
+                        path: Cypress.env('admin'),
+                        sameSite: "strict"
+                    }
+                );
+
                 return cy.setCookie(
                     'bearerAuth',
                     JSON.stringify(result),
