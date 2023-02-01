@@ -24,6 +24,7 @@ Cypress.Commands.add('authenticate', () => {
                 let result = responseData.body;
                 result.access = result.access_token;
                 result.refresh = result.refresh_token;
+                result.expiry = Math.round(+new Date() / 1000) + result.expires_in;
 
                 cy.log('request /api/oauth/token')
 

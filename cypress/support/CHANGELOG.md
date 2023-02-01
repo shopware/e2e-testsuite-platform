@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.3] - 01.02.2023
+
+### Added
+- Added correct expiry value with same calculation as in the administration
+
 ## [7.0.0] - 10.01.2023
 
 ### Changed
