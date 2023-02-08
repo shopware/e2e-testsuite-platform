@@ -50,6 +50,8 @@ class OrderFixture extends AdminFixtureService {
             }
 
             return Object.assign({}, {
+                itemRounding: {"decimals": 2, "interval": 0.01, "roundForNet": true},
+                totalRounding: {"decimals": 2, "interval": 0.01, "roundForNet": true},
                 currencyId: currency.id,
                 currencyFactor: currency.attributes.factor,
                 stateId: state.id,
