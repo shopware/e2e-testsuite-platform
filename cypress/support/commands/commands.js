@@ -1128,7 +1128,7 @@ Cypress.Commands.add('createDefaultSalesChannel', (data = {}) => {
             return cy.searchViaAdminApi({
                 endpoint: 'country',
                 data: {
-                    field: 'name',
+                    field: 'iso3',
                     value: 'USA',
                 },
             });
