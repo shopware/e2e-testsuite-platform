@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.6] - 16.11.2023
+
+### Changed
+- Added auto close to the `typeAndCheckSearchField` command
+
 ## [7.0.3] - 01.02.2023
 
 ### Added

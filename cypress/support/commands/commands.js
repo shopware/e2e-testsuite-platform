@@ -475,6 +475,7 @@ Cypress.Commands.add('typeAndCheckSearchField', {
     cy.wait('@searchResultCall')
         .its('response.statusCode').should('equal', 200);
     cy.url().should('include', encodeURI(value));
+    cy.wrap(subject).type('{esc}');
 });
 
 /**
