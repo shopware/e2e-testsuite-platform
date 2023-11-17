@@ -555,11 +555,11 @@ Cypress.Commands.add(
         }
 
         cy.get(contextMenuCssSelector).should('be.visible');
-        let element = cy.get(menuButtonSelector);
         if (menuButtonText !== "") {
-            element = element.contains(menuButtonText);
+            cy.get(menuButtonSelector).contains(menuButtonText).click({ scrollBehavior });
+        } else {
+            cy.get(menuButtonSelector).click({ scrollBehavior });
         }
-        element.click({ scrollBehavior });
         cy.get(contextMenuCssSelector).should('not.exist');
     }
 );
