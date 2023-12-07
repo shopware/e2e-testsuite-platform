@@ -25,11 +25,12 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           access: "public"
-      - name: Build Changelog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.github_token }}
+          output-file: "false"
       - name: Create Release
         if: steps.publish.outputs.type != 'none'
         id: create_release
@@ -39,6 +40,6 @@ jobs:
         with:
           tag_name: ${{ steps.publish.outputs.version }}
           release_name: Release ${{ steps.publish.outputs.version }}
-          body: ${{ steps.build_changelog.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
           draft: false
           prerelease: false
