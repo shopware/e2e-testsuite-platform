@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.0.0] - 07.12.2023
+
+### Breaking changes
+- Replaced URIEncoding in `typeAndCheckSearchField` command with Vue3 compatible encoding
+
 ## [7.0.6] - 16.11.2023
 
 ### Changed

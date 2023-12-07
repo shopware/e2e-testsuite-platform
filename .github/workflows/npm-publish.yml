@@ -4,7 +4,7 @@ on: push
 
 jobs:
   publish:
-    if: github.ref == 'refs/heads/7.x'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,6 +25,11 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           access: "public"
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Release
         if: steps.publish.outputs.type != 'none'
         id: create_release
@@ -34,6 +39,6 @@ jobs:
         with:
           tag_name: ${{ steps.publish.outputs.version }}
           release_name: Release ${{ steps.publish.outputs.version }}
-          body: ${{ steps.publish.outputs.version }}
+          body: ${{ steps.build_changelog.outputs.changelog }}
           draft: false
           prerelease: false
