@@ -33,6 +33,6 @@
   },
   "repository": "git://github.com/shopware/e2e-testsuite-platform.git",
   "devDependencies": {
-    "cypress": "^12.2.0"
+    "cypress": "^13.6.3"
   }
 }
