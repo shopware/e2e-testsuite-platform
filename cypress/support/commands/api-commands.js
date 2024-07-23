@@ -18,13 +18,13 @@ Cypress.Commands.add('authenticate', () => {
                     client_id: Cypress.env('client_id') ? Cypress.env('client_id') : 'administration',
                     scopes: Cypress.env('scope') ? Cypress.env('scope') : 'write',
                     username: Cypress.env('username') || Cypress.env('user') || 'admin',
-                    password: Cypress.env('password') || Cypress.env('pass') || 'shopware'
+                    password: Cypress.env('password') || Cypress.env('pass') || 'shopware',
                 }
             ).then((responseData) => {
                 let result = responseData.body;
                 result.access = result.access_token;
                 result.refresh = result.refresh_token;
-                result.expiry = Math.round(+new Date() / 1000) + result.expires_in;
+                result.expiry = Math.round(Date.now() + (result.expires_in * 1000));
 
                 cy.log('request /api/oauth/token')
 
